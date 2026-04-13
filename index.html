@@ -504,42 +504,32 @@
       padding: 3rem 0;
       align-items: start;
     }
-    /* ── Process — compact horizontal cards ── */
-    .proc-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 1px; background: var(--border);
-      border: 1px solid var(--border); border-radius: var(--r);
-      overflow: hidden; margin-top: 3rem;
+    /* ── Process — numbered prose list ── */
+    .proc-list {
+      display: flex; flex-direction: column;
+      gap: 0; margin-top: 3rem;
+      border-top: 1px solid var(--border);
     }
-    .proc-card {
-      background: var(--bg-card); padding: 2rem 1.75rem;
-      display: flex; flex-direction: column; gap: 1rem;
-      transition: background 0.22s;
+    .proc-item {
+      display: flex; align-items: baseline; gap: 1.75rem;
+      padding: 1.625rem 0; border-bottom: 1px solid var(--border);
+      transition: background 0.18s;
     }
-    .proc-card:hover { background: var(--bg-subtle); }
-    .proc-card-num {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--accent);
+    .proc-item:hover .proc-item-text { color: var(--text); }
+    .proc-item-num {
+      font-family: 'Courier New', monospace; font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.08em; color: var(--accent);
+      flex-shrink: 0; width: 20px; padding-top: 0.15rem;
     }
-    .proc-card-icon { font-size: 1.5rem; line-height: 1; }
-    .proc-card-title {
-      font-size: 1.125rem; font-weight: 700;
-      letter-spacing: -0.02em; line-height: 1.2;
+    .proc-item-text {
+      font-size: clamp(1rem, 1.8vw, 1.125rem); font-weight: 600;
+      line-height: 1.45; color: var(--text-secondary);
+      transition: color 0.18s; letter-spacing: -0.01em;
     }
-    .proc-card-desc {
-      font-size: 0.875rem; color: var(--text-secondary);
-      line-height: 1.65; flex: 1;
+    .proc-item-text em {
+      font-style: normal; color: var(--text);
     }
-    .proc-card-tags {
-      display: flex; flex-wrap: wrap; gap: 0.375rem; margin-top: 0.25rem;
-    }
-    .proc-tag {
-      font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 100px;
-      background: rgba(156,70,36,0.08); border: 1px solid rgba(156,70,36,0.15);
-      color: var(--text-secondary);
-    }
-    @media (max-width: 768px) { .proc-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 480px) { .proc-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .proc-item { gap: 1.25rem; } }
 
     /* ─── TOOLS ─── */
     .tools-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
@@ -705,7 +695,6 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width:1100px) {
-      .proc-grid { grid-template-columns: repeat(2,1fr); }
       .tools-grid { grid-template-columns: repeat(4,1fr); }
     }
     @media (max-width:900px) {
@@ -723,7 +712,6 @@
       .card.wide { grid-column: span 1; }
       .card.wide .card-img { aspect-ratio: 16/9; }
       .tools-grid { grid-template-columns: repeat(3,1fr); }
-      .proc-grid { grid-template-columns: 1fr; }
     }
     @media (max-width:540px) {
       .hero-actions { flex-direction: column; }
@@ -2138,50 +2126,22 @@
       <p class="sec-desc r d2">Research first, always. Every decision is traceable to a user need or a business outcome — never just a preference.</p>
     </div>
 
-    <div class="proc-grid r d3">
-      <div class="proc-card">
-        <span class="proc-card-num">01</span>
-        <div class="proc-card-icon">🔍</div>
-        <h3 class="proc-card-title">Discover</h3>
-        <p class="proc-card-desc">Interviews, analytics, competitive audits. I listen before I draw — the right solution rarely comes from the first guess.</p>
-        <div class="proc-card-tags">
-          <span class="proc-tag">User interviews</span>
-          <span class="proc-tag">Analytics</span>
-          <span class="proc-tag">Competitive audit</span>
-        </div>
+    <div class="proc-list r d3">
+      <div class="proc-item">
+        <span class="proc-item-num">01</span>
+        <p class="proc-item-text">I research until the <em>constraint</em> is clear, not until the solution is obvious — the right answer rarely comes from the first frame.</p>
       </div>
-      <div class="proc-card">
-        <span class="proc-card-num">02</span>
-        <div class="proc-card-icon">💡</div>
-        <h3 class="proc-card-title">Define</h3>
-        <p class="proc-card-desc">Sharp problem statements, user flows, and design principles. Assumptions stress-tested before a single frame is drawn.</p>
-        <div class="proc-card-tags">
-          <span class="proc-tag">Problem framing</span>
-          <span class="proc-tag">User flows</span>
-          <span class="proc-tag">Principles</span>
-        </div>
+      <div class="proc-item">
+        <span class="proc-item-num">02</span>
+        <p class="proc-item-text">I frame the <em>problem before I touch a tool</em> — sharp problem statements and stress-tested assumptions save more time than any shortcut.</p>
       </div>
-      <div class="proc-card">
-        <span class="proc-card-num">03</span>
-        <div class="proc-card-icon">✏️</div>
-        <h3 class="proc-card-title">Design</h3>
-        <p class="proc-card-desc">Lo-fi to hi-fi, tested with real users at each stage. Creative energy spent on decisions that require taste — not busywork.</p>
-        <div class="proc-card-tags">
-          <span class="proc-tag">Wireframes</span>
-          <span class="proc-tag">Prototypes</span>
-          <span class="proc-tag">Usability testing</span>
-        </div>
+      <div class="proc-item">
+        <span class="proc-item-num">03</span>
+        <p class="proc-item-text">I prototype early and test with <em>real users at every stage</em> — creative energy goes to decisions that require taste, not busywork.</p>
       </div>
-      <div class="proc-card">
-        <span class="proc-card-num">04</span>
-        <div class="proc-card-icon">🚀</div>
-        <h3 class="proc-card-title">Deliver</h3>
-        <p class="proc-card-desc">Developer-ready specs, annotated components, and a designer who stays in the loop through build. Nothing gets lost in handoff.</p>
-        <div class="proc-card-tags">
-          <span class="proc-tag">Dev specs</span>
-          <span class="proc-tag">Design system</span>
-          <span class="proc-tag">QA support</span>
-        </div>
+      <div class="proc-item">
+        <span class="proc-item-num">04</span>
+        <p class="proc-item-text">I write specs my engineers <em>don't need to ask questions about</em>, and stay in the loop through build — nothing gets lost in handoff.</p>
       </div>
     </div>
   </div>
