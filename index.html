@@ -1220,17 +1220,19 @@
       right: clamp(1rem, 5vw, 5rem);
       top: 50%;
       transform: translateY(-50%);
-      width: clamp(260px, 38vw, 520px);
+      width: clamp(280px, 38vw, 520px);
       aspect-ratio: 4 / 3;
       border-radius: 12px;
       overflow: hidden;
       z-index: 2;
       pointer-events: auto;
+      background: rgba(10,8,6,0.55); /* visible while model loads */
     }
+    /* Let Three.js own the canvas dimensions entirely */
     .hero-room canvas {
-      width: 100% !important;
-      height: 100% !important;
       display: block;
+      position: absolute;
+      top: 0; left: 0;
     }
     #room-loader {
       position: absolute; inset: 0;
@@ -2975,154 +2977,106 @@
   })();
 </script>
 
-<!-- ─── THREE.JS SCENE (procedural — no external assets) ─── -->
+<!-- ─── THREE.JS ROOM (GLB) ─── -->
 <script type="module">
-  // jsDelivr mirrors unpkg but with better global CDN performance
   import * as THREE        from 'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js';
   import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+  import { GLTFLoader }    from 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
 
-  const container = document.getElementById('hero-room');
-  const loading   = document.getElementById('room-loader');
-  const canvas    = container ? container.querySelector('canvas') : null;
-  if (!canvas) return;
-
-  const sizes = { w: container.clientWidth, h: container.clientHeight };
-
-  // ── Scene
-  const scene  = new THREE.Scene();
-
-  // ── Camera
-  const camera = new THREE.PerspectiveCamera(38, sizes.w / sizes.h, 0.1, 60);
-  camera.position.set(0, 1.2, 6.5);
-  scene.add(camera);
-
-  // ── Renderer — alpha so hero bg shows through
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setSize(sizes.w, sizes.h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // ── Lights
-  scene.add(new THREE.AmbientLight(0xfff0e8, 0.5));
-
-  const warmLight = new THREE.PointLight(0xd97757, 6, 14);
-  warmLight.position.set(3.5, 3, 3);
-  scene.add(warmLight);
-
-  const coolLight = new THREE.PointLight(0x6688bb, 3, 10);
-  coolLight.position.set(-4, -1, 2);
-  scene.add(coolLight);
-
-  const rimLight = new THREE.DirectionalLight(0xffeedd, 0.6);
-  rimLight.position.set(-2, 4, -3);
-  scene.add(rimLight);
-
-  // ── Materials
-  const matSolid = new THREE.MeshStandardMaterial({ color: 0x1a1614, roughness: 0.35, metalness: 0.65 });
-  const matAccent = new THREE.MeshStandardMaterial({ color: 0xd97757, roughness: 0.18, metalness: 0.82 });
-  const matEdge   = new THREE.LineBasicMaterial({ color: 0xd97757, transparent: true, opacity: 0.55 });
-  const matWire   = new THREE.MeshBasicMaterial({ color: 0xd97757, wireframe: true, transparent: true, opacity: 0.22 });
-
-  // ── Root group (everything rotates together)
-  const root = new THREE.Group();
-  scene.add(root);
-
-  // Central artboard — dark flat canvas
-  const boardGeo  = new THREE.BoxGeometry(3.2, 2.1, 0.07);
-  const board     = new THREE.Mesh(boardGeo, matSolid);
-  board.rotation.y = 0.22;
-  root.add(board);
-
-  // Orange edge highlight on the board
-  const edgeLines = new THREE.LineSegments(new THREE.EdgesGeometry(boardGeo), matEdge);
-  edgeLines.rotation.copy(board.rotation);
-  root.add(edgeLines);
-
-  // Small accent dot grid on the board face (3×3)
-  const dotGeo = new THREE.SphereGeometry(0.04, 6, 6);
-  for (let r = 0; r < 3; r++) {
-    for (let c = 0; c < 3; c++) {
-      const dot = new THREE.Mesh(dotGeo, matAccent);
-      dot.position.set(-0.5 + c * 0.5, 0.5 - r * 0.5, 0.065);
-      board.add(dot);
-    }
+  // Wait for full layout paint — module scripts are deferred but
+  // clientWidth can still be 0 before the first browser layout pass
+  function ready(fn) {
+    if (document.readyState === 'complete') { requestAnimationFrame(fn); }
+    else { window.addEventListener('load', () => requestAnimationFrame(fn)); }
   }
 
-  // Floating icosahedron gem — top right
-  const gem = new THREE.Mesh(new THREE.IcosahedronGeometry(0.38, 1), matAccent);
-  gem.position.set(2.4, 0.9, 0.4);
-  root.add(gem);
+  ready(() => {
+    const container = document.getElementById('hero-room');
+    const loading   = document.getElementById('room-loader');
+    const canvas    = container?.querySelector('canvas');
+    if (!container || !canvas) return;
 
-  // Wireframe sphere — bottom left
-  const wSphere = new THREE.Mesh(new THREE.IcosahedronGeometry(0.28, 2), matWire);
-  wSphere.position.set(-2.3, -0.8, 0.5);
-  root.add(wSphere);
+    const W = container.clientWidth;
+    const H = container.clientHeight;
+    if (!W || !H) return; // container not in layout yet — bail
 
-  // Torus ring
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(0.5, 0.038, 8, 48), matAccent);
-  ring.position.set(-2.1, 0.5, 0.5);
-  ring.rotation.x = Math.PI / 2.8;
-  root.add(ring);
+    // ── Scene
+    const scene         = new THREE.Scene();
+    const textureLoader = new THREE.TextureLoader();
 
-  // Small floating cubes
-  [
-    [1.9, -0.85, 0.45],
-    [-1.7, -0.4, 0.8],
-    [0.6,  1.3,  0.7],
-  ].forEach(([x, y, z], i) => {
-    const s = 0.13 + i * 0.035;
-    const cube = new THREE.Mesh(new THREE.BoxGeometry(s, s, s), i === 1 ? matWire : matAccent);
-    cube.position.set(x, y, z);
-    cube.rotation.set(0.5 + i, 0.8 + i * 0.4, 0.3);
-    root.add(cube);
-  });
+    // ── Camera (original values)
+    const camera = new THREE.PerspectiveCamera(10, W / H, 0.1, 100);
+    camera.position.set(8, 4, 15);
+    scene.add(camera);
 
-  // Hide loader — scene is ready immediately
-  if (loading) loading.style.display = 'none';
+    // ── Controls (OrbitControls imported — not THREE.OrbitControls)
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping  = true;
+    controls.enableZoom     = true;
+    controls.enablePan      = true;
+    controls.minDistance    = 21;
+    controls.maxDistance    = 50;
+    controls.minPolarAngle  = Math.PI / 5;
+    controls.maxPolarAngle  = Math.PI / 2;
 
-  // ── OrbitControls
-  const controls = new OrbitControls(camera, canvas);
-  controls.enableDamping  = true;
-  controls.enableZoom     = false;
-  controls.enablePan      = false;
-  controls.autoRotate     = true;
-  controls.autoRotateSpeed = 1.0;
-  controls.minPolarAngle  = Math.PI / 3.5;
-  controls.maxPolarAngle  = Math.PI / 1.9;
+    // ── Renderer
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(W, H);          // sets canvas.width/height + style.width/height
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
-  // ── Resize
-  function onResize() {
-    sizes.w = container.clientWidth;
-    sizes.h = container.clientHeight;
-    camera.aspect = sizes.w / sizes.h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(sizes.w, sizes.h);
-  }
-  new ResizeObserver(onResize).observe(container);
+    // ── Texture + material
+    const bakedTexture = textureLoader.load(
+      'https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/baked.jpg'
+    );
+    bakedTexture.flipY    = false;
+    bakedTexture.encoding = THREE.sRGBEncoding;
+    const bakedMaterial   = new THREE.MeshBasicMaterial({ map: bakedTexture });
 
-  // ── Pause render when hero is off-screen
-  let visible = true;
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(container);
+    // ── Load GLB
+    new GLTFLoader().load(
+      'https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/model.glb',
+      (gltf) => {
+        gltf.scene.traverse(child => { child.material = bakedMaterial; });
+        scene.add(gltf.scene);
+        scene.position.set(0, 0.2, 0);
+        if (loading) loading.style.display = 'none';
+      },
+      (xhr) => {
+        if (loading && xhr.total)
+          loading.textContent = Math.round(xhr.loaded / xhr.total * 100) + '%';
+      },
+      (err) => { console.warn('[room GLB]', err); }
+    );
 
-  // ── Resume auto-rotate after 3s idle
-  let idleTimer;
-  canvas.addEventListener('pointerdown', () => { controls.autoRotate = false; clearTimeout(idleTimer); });
-  canvas.addEventListener('pointerup',   () => { idleTimer = setTimeout(() => { controls.autoRotate = true; }, 3000); });
+    // ── Resize — track container, not window
+    new ResizeObserver(() => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (!w || !h) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    }).observe(container);
 
-  // ── Animate
-  const clock = new THREE.Clock();
-  (function tick() {
-    const t = clock.getElapsedTime();
-    if (visible) {
-      gem.rotation.y     = t * 0.7;
-      gem.rotation.z     = t * 0.3;
-      wSphere.rotation.y = t * 0.4;
-      ring.rotation.z    = t * 0.35;
-      root.position.y    = Math.sin(t * 0.55) * 0.06; // subtle float
+    // ── Pan clamp
+    const minPan = new THREE.Vector3(-2, -0.5, -2);
+    const maxPan = new THREE.Vector3( 2,  0.5,  2);
+
+    // ── Pause when hero scrolled out of view
+    let visible = true;
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(container);
+
+    // ── Tick
+    const tick = () => {
       controls.update();
-      renderer.render(scene, camera);
-    }
-    requestAnimationFrame(tick);
-  })();
+      controls.target.clamp(minPan, maxPan);
+      if (visible) renderer.render(scene, camera);
+      requestAnimationFrame(tick);
+    };
+    tick();
+  });
 </script>
 
 <!-- ─── SMOKY BUTTON ─── -->
