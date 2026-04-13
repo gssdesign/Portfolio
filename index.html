@@ -38,7 +38,7 @@
       --r-sm:         6px;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
     /* Eliminate 300ms tap delay on interactive elements + crisper mobile taps */
     a, button, [role="button"], .card, .hamburger, .mob-link,
     .btn-primary, .btn-secondary, .btn-nav, .theme-btn {
@@ -145,6 +145,7 @@
     }
 
     #wave-canvas {
+      display: none; /* removed — replaced by Three.js room */
       position: absolute; inset: 0; width: 100%; height: 100%;
       pointer-events: none; display: block;
       opacity: 0; animation: fadeIn 1.8s 0.5s ease forwards;
@@ -1213,290 +1214,35 @@
       animation: pulse 2.2s ease-in-out infinite;
     }
 
-    /* TV — light mode */
-    [data-theme="light"] .retro-tv {
-      filter:
-        drop-shadow(0 22px 40px rgba(0,0,0,0.45))
-        drop-shadow(0 0 50px rgba(0,180,50,0.20));
-    }
-    [data-theme="light"] .tv-body {
-      background: linear-gradient(160deg, #e8e4c8 0%, #d8d4b8 40%, #c8c4a8 100%);
-      border: 2px solid #f0ecda;
-      box-shadow:
-        inset 0 2px 6px rgba(255,255,255,0.55),
-        inset 0 -3px 8px rgba(0,0,0,0.18),
-        0 5px 0 #a8a490,
-        0 8px 0 #888870;
-    }
-    [data-theme="light"] .tv-knob {
-      background: radial-gradient(circle at 35% 35%, #b8b498, #787860);
-    }
-    [data-theme="light"] .tv-brand { color: #7a7860; }
-    [data-theme="light"] .tv-sl {
-      background: repeating-linear-gradient(
-        90deg, #a8a488 0px, #a8a488 2px, #c8c4a8 2px, #c8c4a8 5px
-      );
-    }
-
-    /* ── RETRO CRT TV ── */
-    .retro-tv {
+    /* ── HERO 3-D ROOM ── */
+    .hero-room {
       position: absolute;
-      right: clamp(1.5rem, 7vw, 7rem);
+      right: clamp(1rem, 5vw, 5rem);
       top: 50%;
-      transform: translateY(-52%) perspective(1000px) rotateY(-8deg) rotateX(2deg);
-      width: clamp(220px, 26vw, 370px);
-      pointer-events: none;
+      transform: translateY(-50%);
+      width: clamp(260px, 38vw, 520px);
+      aspect-ratio: 4 / 3;
+      border-radius: 12px;
+      overflow: hidden;
       z-index: 2;
-      opacity: 1;
-      filter:
-        drop-shadow(0 28px 55px rgba(0,0,0,0.85))
-        drop-shadow(0 0 60px rgba(0,220,60,0.22))
-        drop-shadow(0 0 20px rgba(0,255,80,0.15));
-      animation: tvFloat 8s ease-in-out infinite;
+      pointer-events: auto;
     }
-    @keyframes tvFloat {
-      0%,100% { transform: translateY(-52%) perspective(1000px) rotateY(-8deg) rotateX(2deg); }
-      50%     { transform: translateY(-56%) perspective(1000px) rotateY(-8deg) rotateX(2deg); }
+    .hero-room canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
     }
-    /* tablet */
-    @media (max-width: 999px) {
-      .retro-tv {
-        width: clamp(150px, 32vw, 230px);
-        right: clamp(0.5rem, 2vw, 1.5rem);
-        top: 50%;
-        transform: translateY(-50%) perspective(600px) rotateY(-5deg) rotateX(1deg);
-        animation: tvFloatSm 8s ease-in-out infinite;
-      }
-      @keyframes tvFloatSm {
-        0%,100% { transform: translateY(-50%) perspective(600px) rotateY(-5deg) rotateX(1deg); }
-        50%     { transform: translateY(-54%) perspective(600px) rotateY(-5deg) rotateX(1deg); }
-      }
-    }
-    /* mobile — hide TV, not enough space */
-    @media (max-width: 640px) {
-      .retro-tv { display: none; }
-    }
-
-    /* ── Illustration Character (above TV) ── */
-    .hero-char {
-      position: absolute;
-      right: clamp(2.5rem, 9vw, 9rem);
-      top: 50%;
-      transform: translateY(-185%);
-      width: clamp(110px, 13vw, 190px);
-      pointer-events: none;
-      z-index: 3;
-      animation: charFloat 4s ease-in-out infinite;
-      filter: drop-shadow(0 18px 24px rgba(0,0,0,0.45));
-    }
-    @keyframes charFloat {
-      0%,100% { transform: translateY(-185%); }
-      50%      { transform: translateY(-196%); }
-    }
-    /* Arms wave independently */
-    .char-arm-l {
-      transform-origin: 38% 35%;
-      animation: armWaveL 2.2s ease-in-out infinite;
-    }
-    .char-arm-r {
-      transform-origin: 62% 35%;
-      animation: armWaveR 2.2s ease-in-out infinite;
-    }
-    @keyframes armWaveL {
-      0%,100% { transform: rotate(0deg); }
-      40%     { transform: rotate(-14deg); }
-      70%     { transform: rotate(8deg); }
-    }
-    @keyframes armWaveR {
-      0%,100% { transform: rotate(0deg); }
-      40%     { transform: rotate(14deg); }
-      70%     { transform: rotate(-8deg); }
-    }
-    /* Body gentle sway */
-    .char-body {
-      transform-origin: 50% 70%;
-      animation: bodySway 4s ease-in-out infinite;
-    }
-    @keyframes bodySway {
-      0%,100% { transform: rotate(0deg); }
-      25%     { transform: rotate(1.5deg); }
-      75%     { transform: rotate(-1.5deg); }
+    #room-loader {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-family: 'Courier New', monospace;
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.35);
+      z-index: 3; pointer-events: none;
     }
     @media (max-width: 999px) {
-      .hero-char {
-        right: clamp(0.8rem, 4vw, 2rem);
-        width: clamp(80px, 11vw, 130px);
-      }
+      .hero-room { width: clamp(180px, 40vw, 300px); }
     }
-    @media (max-width: 640px) {
-      .hero-char { display: none; }
-    }
-
-    .tv-body {
-      background: linear-gradient(160deg, #c8c4a8 0%, #b8b498 40%, #a8a488 100%);
-      border-radius: 18px 18px 10px 10px;
-      padding: clamp(14px,2.5vw,22px) clamp(14px,2.5vw,22px) clamp(10px,1.8vw,16px);
-      box-shadow:
-        inset 0 2px 6px rgba(255,255,255,0.35),
-        inset 0 -3px 8px rgba(0,0,0,0.35),
-        0 5px 0 #7a7860,
-        0 8px 0 #5a5840;
-      border: 2px solid #d8d4b8;
-    }
-
-    .tv-screen-bezel {
-      background: #1a1a10;
-      border-radius: 10px;
-      padding: 8px;
-      box-shadow: inset 0 0 16px rgba(0,0,0,0.95), 0 0 0 2px #333320;
-      margin-bottom: clamp(8px,1.5vw,14px);
-    }
-
-    .tv-screen {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #000e04;
-      border-radius: 6px;
-      overflow: hidden;
-      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
-    }
-
-    /* phosphor glow behind everything */
-    .tv-crt-glow {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 80% 65% at 50% 50%, rgba(0,220,60,0.13) 0%, transparent 70%);
-      z-index: 1;
-      pointer-events: none;
-    }
-
-    /* noise canvas */
-    #tv-noise-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.07;
-      z-index: 2;
-    }
-
-    /* scrolling marquee */
-    .tv-marquee {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      overflow: hidden;
-      z-index: 3;
-    }
-    .tv-marquee-track {
-      display: flex;
-      align-items: center;
-      gap: 2.4em;
-      white-space: nowrap;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: clamp(13px, 1.8vw, 20px);
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      color: #00e840;
-      text-shadow: 0 0 8px #00ff50, 0 0 20px #00e84066;
-      animation: tvScroll 9s linear infinite;
-    }
-    .tv-sep { color: #00cc35; opacity: 0.6; margin: 0 0.5em; }
-    @keyframes tvScroll {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-
-    /* CRT scanlines */
-    .tv-scanlines {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(0,0,0,0) 0px,
-        rgba(0,0,0,0) 2px,
-        rgba(0,0,0,0.28) 2px,
-        rgba(0,0,0,0.28) 4px
-      );
-      animation: scanRoll 9s linear infinite;
-    }
-    @keyframes scanRoll {
-      from { background-position: 0 0; }
-      to   { background-position: 0 40px; }
-    }
-
-    /* glitch layers */
-    .tv-glitch-r, .tv-glitch-c {
-      position: absolute;
-      inset: 0;
-      z-index: 5;
-      pointer-events: none;
-      opacity: 0;
-    }
-    .tv-glitch-r { background: rgba(255,0,60,0.18); mix-blend-mode: screen; }
-    .tv-glitch-c { background: rgba(0,220,255,0.18); mix-blend-mode: screen; }
-
-    /* glass reflection */
-    .tv-reflection {
-      position: absolute;
-      inset: 0;
-      z-index: 6;
-      pointer-events: none;
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.06) 0%,
-        transparent 40%,
-        rgba(255,255,255,0.03) 80%,
-        transparent 100%
-      );
-      border-radius: 6px;
-    }
-
-    /* controls row */
-    .tv-controls {
-      display: flex;
-      align-items: center;
-      gap: clamp(8px,1.5vw,14px);
-      padding: 0 4px;
-    }
-    .tv-knob {
-      width: clamp(16px,2vw,24px);
-      height: clamp(16px,2vw,24px);
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #9a9880, #5a5840);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,255,255,0.2);
-      flex-shrink: 0;
-    }
-    .tv-speaker-grille {
-      flex: 1;
-      display: flex;
-      gap: 3px;
-      height: clamp(14px,1.8vw,20px);
-      align-items: center;
-    }
-    .tv-sl {
-      flex: 1;
-      height: 100%;
-      background: repeating-linear-gradient(
-        90deg,
-        #1a1a12 0px, #1a1a12 2px,
-        #2e2e22 2px, #2e2e22 5px
-      );
-      border-radius: 2px;
-      opacity: 0.7;
-    }
-    .tv-brand {
-      font-family: 'Courier New', monospace;
-      font-size: clamp(7px,0.8vw,10px);
-      letter-spacing: 0.18em;
-      color: #4a4a38;
-      text-transform: uppercase;
-      flex-shrink: 0;
-    }
+    @media (max-width: 640px) { .hero-room { display: none; } }
 
 
     /* ─── AGENT WIDGET ─── */
@@ -1715,39 +1461,11 @@
 <section class="hero" id="home">
   <div class="hero-glow"></div>
   <div class="hero-grid" aria-hidden="true"></div>
-  <canvas id="wave-canvas"></canvas>
 
-  <!-- ─── RETRO CRT TV ─── -->
-  <div class="retro-tv" id="retro-tv" aria-hidden="true">
-    <div class="tv-body">
-      <div class="tv-screen-bezel">
-        <div class="tv-screen" id="tv-screen">
-          <div class="tv-crt-glow"></div>
-          <canvas id="tv-noise-canvas"></canvas>
-          <div class="tv-marquee">
-            <div class="tv-marquee-track" id="tv-track">
-              <span>Long Live Design</span><span class="tv-sep">✦</span>
-              <span>Long Live Design</span><span class="tv-sep">✦</span>
-              <span>Long Live Design</span><span class="tv-sep">✦</span>
-              <span>Long Live Design</span><span class="tv-sep">✦</span>
-            </div>
-          </div>
-          <div class="tv-glitch-r" id="tv-gr"></div>
-          <div class="tv-glitch-c" id="tv-gc"></div>
-          <div class="tv-scanlines"></div>
-          <div class="tv-reflection"></div>
-        </div>
-      </div>
-      <div class="tv-controls">
-        <div class="tv-knob"></div>
-        <div class="tv-knob"></div>
-        <div class="tv-speaker-grille">
-          <div class="tv-sl"></div><div class="tv-sl"></div><div class="tv-sl"></div>
-        </div>
-        <span class="tv-brand">RETROVID</span>
-        <div class="tv-knob"></div>
-      </div>
-    </div>
+  <!-- ─── 3-D ROOM ─── -->
+  <div class="hero-room" id="hero-room" aria-label="Interactive 3D design room">
+    <div id="room-loader">LOADING…</div>
+    <canvas class="webgl-room"></canvas>
   </div>
 
   <div class="hero-inner">
@@ -2561,148 +2279,6 @@
     }
   }, { passive: true });
 
-  // ── Hero Wave Canvas
-  (function() {
-    const canvas = document.getElementById('wave-canvas');
-    const ctx    = canvas.getContext('2d');
-    const hero   = canvas.closest('.hero');
-
-    // Mouse state — starts off-screen so no distortion until cursor enters
-    const mouse  = { x: -2000, y: -2000 };
-    const smooth = { x: -2000, y: -2000 };
-    let   W = 0, H = 0, dpr = 1, raf;
-
-    // Wave definitions — varied so they feel organic
-    const WAVES = Array.from({ length: 11 }, (_, i) => ({
-      yRatio:    0.12 + i * 0.075,           // vertical spread across hero
-      amplitude: 14  + Math.random() * 28,
-      freq:      0.0018 + Math.random() * 0.0032,
-      speed:     0.18 + Math.random() * 0.55,
-      phase:     Math.random() * Math.PI * 2,
-      opacity:   0.028 + Math.random() * 0.055,
-      lineW:     0.6  + Math.random() * 1.1,
-    }));
-
-    function resize() {
-      dpr    = Math.min(window.devicePixelRatio || 1, 2);
-      W      = hero.offsetWidth;
-      H      = hero.offsetHeight;
-      canvas.width  = W * dpr;
-      canvas.height = H * dpr;
-      ctx.scale(dpr, dpr);
-    }
-
-    let t = 0;
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-
-      // Lerp mouse for silky smoothness
-      smooth.x += (mouse.x - smooth.x) * 0.055;
-      smooth.y += (mouse.y - smooth.y) * 0.055;
-
-      const mx = smooth.x, my = smooth.y;
-
-      WAVES.forEach(w => {
-        ctx.beginPath();
-        const baseY = H * w.yRatio;
-
-        for (let x = 0; x <= W; x += 4) {
-          // Base sine
-          const base = Math.sin(x * w.freq + t * w.speed + w.phase) * w.amplitude
-                     + Math.sin(x * w.freq * 1.7 + t * w.speed * 0.6 + w.phase) * (w.amplitude * 0.4);
-
-          // Mouse ripple — proximity creates a localised wave push
-          const dx   = x  - mx;
-          const dy   = baseY - my;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const pull = Math.max(0, 1 - dist / 260);
-          // Standing-wave distortion: amplitude grows, peaks travel outward
-          const ripple = pull * pull * 62 * Math.sin(dist * 0.038 - t * 0.12);
-
-          // Gentle vertical pull toward cursor y when very close
-          const yPull  = pull * (my - baseY) * 0.18;
-
-          const y = baseY + base + ripple + yPull;
-
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-
-        ctx.strokeStyle = `rgba(217,119,87,${w.opacity})`;
-        ctx.lineWidth   = w.lineW;
-        ctx.stroke();
-      });
-
-      // Extra bright "focus" wave that intensifies near cursor
-      const focusY = H * 0.45;
-      const focusDist = Math.abs(focusY - my);
-      if (focusDist < 260) {
-        const strength = Math.max(0, 1 - focusDist / 260);
-        ctx.beginPath();
-        for (let x = 0; x <= W; x += 3) {
-          const dx   = x - mx;
-          const dy   = focusY - my;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const pull = Math.max(0, 1 - dist / 200);
-          const y = focusY
-            + Math.sin(x * 0.003 + t * 0.25) * 18
-            + pull * pull * 50 * Math.sin(dist * 0.04 - t * 0.14);
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = `rgba(217,119,87,${0.12 * strength})`;
-        ctx.lineWidth   = 1.4;
-        ctx.stroke();
-      }
-
-      t += 0.55;
-      raf = requestAnimationFrame(draw);
-    }
-
-    // Track mouse only inside hero
-    hero.addEventListener('mousemove', e => {
-      const rect  = hero.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
-    }, { passive: true });
-
-    hero.addEventListener('mouseleave', () => {
-      // Slowly drift off-screen — waves settle back
-      mouse.x = -2000;
-      mouse.y = -2000;
-    });
-
-    // Click — spawn visible ripple rings
-    hero.addEventListener('click', e => {
-      const rect = hero.getBoundingClientRect();
-      const cx   = e.clientX - rect.left;
-      const cy   = e.clientY - rect.top;
-      [80, 140, 210].forEach((size, i) => {
-        const ring = document.createElement('div');
-        ring.className = 'ripple-ring';
-        ring.style.cssText = `
-          left:${cx}px; top:${cy}px;
-          width:${size}px; height:${size}px;
-          animation-delay:${i * 0.12}s;
-          animation-duration:${0.9 + i * 0.18}s;
-        `;
-        hero.appendChild(ring);
-        ring.addEventListener('animationend', () => ring.remove());
-      });
-    });
-
-    // Pause when tab hidden, resume when visible
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) cancelAnimationFrame(raf);
-      else draw();
-    });
-
-    window.addEventListener('resize', () => { resize(); }, { passive: true });
-
-    // Respect reduced-motion
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      resize();
-      draw();
-    }
-  })();
 
   // ════════════════════════════════════════════════════════════
   //  FEATURE ENHANCEMENTS
@@ -3024,19 +2600,7 @@
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 
-  // ── 6. GLITCH TITLE ─────────────────────────────────────
-  (function () {
-    // Periodically re-trigger the glitch animation so it fires on a random interval
-    const title = document.querySelector('.hero-title.glitch');
-    if (!title || noMotion) return;
-    function triggerGlitch() {
-      title.style.animation = 'none';
-      void title.offsetWidth; // reflow
-      title.style.animation = '';
-      setTimeout(triggerGlitch, 4000 + Math.random() * 6000);
-    }
-    setTimeout(triggerGlitch, 3000);
-  })();
+  // ── 6. GLITCH TITLE — pure CSS infinite animations on ::before/::after, no JS needed
 
   // ── 7. LIGHT / DARK THEME TOGGLE ─────────────────────────
   (function () {
@@ -3084,102 +2648,6 @@
     bars.forEach(b => obs.observe(b));
   })();
 
-  /* ── RETRO CRT TV ── */
-  (function () {
-    const noiseCanvas = document.getElementById('tv-noise-canvas');
-    const screen      = document.getElementById('tv-screen');
-    const gr          = document.getElementById('tv-gr');
-    const gc          = document.getElementById('tv-gc');
-    if (!noiseCanvas || !screen || noMotion) return;
-
-    /* --- pixel noise --- */
-    const nCtx = noiseCanvas.getContext('2d');
-    function resizeNoise() {
-      noiseCanvas.width  = screen.offsetWidth;
-      noiseCanvas.height = screen.offsetHeight;
-    }
-    resizeNoise();
-    new ResizeObserver(resizeNoise).observe(screen);
-
-    function drawNoise() {
-      const W = noiseCanvas.width, H = noiseCanvas.height;
-      if (!W || !H) { requestAnimationFrame(drawNoise); return; }
-      const img  = nCtx.createImageData(W, H);
-      const data = img.data;
-      for (let i = 0; i < data.length; i += 4) {
-        const v = Math.random() > 0.5 ? 255 : 0;
-        data[i] = data[i+1] = data[i+2] = v;
-        data[i+3] = 255;
-      }
-      nCtx.putImageData(img, 0, 0);
-      requestAnimationFrame(drawNoise);
-    }
-    drawNoise();
-
-    /* --- glitch sequences --- */
-    function glitchBurst() {
-      /* colour-channel slice burst */
-      const slices = 4 + Math.floor(Math.random() * 5);
-      let t = 0;
-      function step() {
-        if (t >= slices) {
-          gr.style.opacity = gc.style.opacity = '0';
-          gr.style.transform = gc.style.transform = '';
-          screen.style.filter = '';
-          return;
-        }
-        const dx = (Math.random() - 0.5) * 14;
-        const dy = (Math.random() - 0.5) * 6;
-        const pct1 = Math.random() * 70, pct2 = pct1 + 5 + Math.random() * 20;
-        const clip = `polygon(0 ${pct1}%,100% ${pct1}%,100% ${pct2}%,0 ${pct2}%)`;
-        gr.style.opacity   = (0.3 + Math.random() * 0.5).toString();
-        gr.style.transform = `translateX(${dx}px) translateY(${dy}px)`;
-        gr.style.clipPath  = clip;
-        gc.style.opacity   = (0.3 + Math.random() * 0.5).toString();
-        gc.style.transform = `translateX(${-dx * 0.7}px) translateY(${-dy * 0.5}px)`;
-        gc.style.clipPath  = clip;
-        screen.style.filter = `brightness(${1.1 + Math.random() * 0.3}) contrast(${1.1 + Math.random() * 0.2})`;
-        t++;
-        setTimeout(step, 55 + Math.random() * 60);
-      }
-      step();
-    }
-
-    function glitchShimmer() {
-      /* blur + brightness flicker */
-      let count = 0, max = 3 + Math.floor(Math.random() * 4);
-      function tick() {
-        if (count >= max) { screen.style.filter = ''; return; }
-        screen.style.filter = `blur(${Math.random() * 2}px) brightness(${0.85 + Math.random() * 0.4})`;
-        count++;
-        setTimeout(tick, 80 + Math.random() * 100);
-      }
-      tick();
-    }
-
-    function glitchStrobe() {
-      /* rapid on/off */
-      let count = 0, max = 6 + Math.floor(Math.random() * 6);
-      function tick() {
-        if (count >= max) { screen.style.filter = ''; return; }
-        screen.style.filter = count % 2 === 0 ? 'brightness(2.2) saturate(0)' : 'brightness(0.4)';
-        count++;
-        setTimeout(tick, 35 + Math.random() * 50);
-      }
-      tick();
-    }
-
-    const sequences = [glitchBurst, glitchShimmer, glitchStrobe];
-
-    function scheduleGlitch() {
-      const delay = 2200 + Math.random() * 4000;
-      setTimeout(() => {
-        sequences[Math.floor(Math.random() * sequences.length)]();
-        scheduleGlitch();
-      }, delay);
-    }
-    scheduleGlitch();
-  })();
 </script>
 
 <!-- ─── AGENT WIDGET ─── -->
@@ -3504,6 +2972,110 @@
       btn.classList.toggle('visible', window.scrollY > 400);
     }, { passive: true });
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  })();
+</script>
+
+<!-- ─── THREE.JS ROOM ─── -->
+<script type="module">
+  import * as THREE from 'https://unpkg.com/three@0.128.0/build/three.module.js';
+  import { OrbitControls } from 'https://unpkg.com/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+  import { GLTFLoader }    from 'https://unpkg.com/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
+
+  const container = document.getElementById('hero-room');
+  const loading   = document.getElementById('room-loader');
+  const canvas    = container.querySelector('canvas');
+  if (!container || !canvas) return;
+
+  const scene  = new THREE.Scene();
+  const sizes  = { width: container.clientWidth, height: container.clientHeight };
+
+  // Camera
+  const camera = new THREE.PerspectiveCamera(10, sizes.width / sizes.height, 0.1, 100);
+  camera.position.set(8, 4, 15);
+  scene.add(camera);
+
+  // Controls — constrained so the room stays centred
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping  = true;
+  controls.enableZoom     = true;
+  controls.enablePan      = false;
+  controls.minDistance    = 21;
+  controls.maxDistance    = 50;
+  controls.minPolarAngle  = Math.PI / 5;
+  controls.maxPolarAngle  = Math.PI / 2;
+  controls.autoRotate     = true;
+  controls.autoRotateSpeed = 0.4;
+
+  // Renderer
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  // Texture + material
+  const textureLoader  = new THREE.TextureLoader();
+  const bakedTexture   = textureLoader.load(
+    'https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/baked.jpg'
+  );
+  bakedTexture.flipY    = false;
+  bakedTexture.encoding = THREE.sRGBEncoding;
+  const bakedMaterial   = new THREE.MeshBasicMaterial({ map: bakedTexture });
+
+  // Load model
+  new GLTFLoader().load(
+    'https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/model.glb',
+    (gltf) => {
+      gltf.scene.traverse(child => { child.material = bakedMaterial; });
+      gltf.scene.position.set(0, 0.2, 0);
+      scene.add(gltf.scene);
+      if (loading) loading.style.display = 'none';
+    },
+    (xhr) => {
+      if (loading) loading.textContent = Math.round(xhr.loaded / xhr.total * 100) + '%';
+    },
+    (err) => {
+      console.warn('[room] model load failed:', err);
+      if (loading) loading.textContent = '';
+    }
+  );
+
+  // Pan clamp
+  const minPan = new THREE.Vector3(-2, -0.5, -2);
+  const maxPan = new THREE.Vector3( 2,  0.5,  2);
+
+  // Resize
+  function onResize() {
+    sizes.width  = container.clientWidth;
+    sizes.height = container.clientHeight;
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  }
+  new ResizeObserver(onResize).observe(container);
+
+  // Pause when not visible
+  let visible = true;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(container);
+
+  // Stop auto-rotate on user interaction, resume after 3s idle
+  let idleTimer;
+  canvas.addEventListener('pointerdown', () => {
+    controls.autoRotate = false;
+    clearTimeout(idleTimer);
+  });
+  canvas.addEventListener('pointerup', () => {
+    idleTimer = setTimeout(() => { controls.autoRotate = true; }, 3000);
+  });
+
+  // Tick
+  (function tick() {
+    if (visible) {
+      controls.target.clamp(minPan, maxPan);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(tick);
   })();
 </script>
 
