@@ -134,7 +134,7 @@
     .hero {
       min-height: 100vh; position: relative; overflow: hidden;
       display: flex; flex-direction: column; justify-content: center;
-      padding: calc(var(--nav-h) + 5rem) clamp(1.5rem, 5vw, 4rem) 6rem;
+      padding: calc(var(--nav-h) + 3rem) clamp(1.5rem, 5vw, 4rem) 6rem;
     }
     .hero-glow {
       position: absolute; inset: 0; pointer-events: none;
@@ -1070,9 +1070,16 @@
     [data-theme="light"] .ds-section::after { display: none; }
     .ds-section .inner { position: relative; z-index: 1; }
 
-    /* Header */
-    .ds-header { max-width: 720px; margin-bottom: 2.5rem; }
+    /* Header layout — 2-col with illustration */
+    .ds-layout {
+      display: grid; grid-template-columns: 1fr 300px;
+      gap: 4rem; align-items: center; margin-bottom: 3rem;
+    }
+    .ds-header { max-width: 100%; }
     .ds-header .sec-desc { max-width: 100%; }
+    .ds-illus { width: 300px; flex-shrink: 0; opacity: 0.88; }
+    .ds-illus svg { width: 100%; height: auto; display: block; }
+    @media (max-width: 900px) { .ds-layout { grid-template-columns: 1fr; } .ds-illus { display: none; } }
 
     /* Where it was built — company tags */
     .ds-companies {
@@ -1115,54 +1122,6 @@
     }
     .ds-m-label { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
 
-    /* Contribution cards grid */
-    .ds-contrib-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1px; background: var(--border);
-      border: 1px solid var(--border); border-radius: var(--r);
-      overflow: hidden;
-    }
-    .ds-contrib-card {
-      background: var(--bg-card); padding: 2rem 1.75rem;
-      display: flex; flex-direction: column; gap: 1.25rem;
-      position: relative;
-    }
-    .ds-contrib-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
-    }
-    .ds-contrib-head {
-      display: flex; align-items: flex-start;
-      justify-content: space-between; gap: 1rem;
-    }
-    .ds-contrib-co {
-      font-size: 0.9375rem; font-weight: 700; color: var(--text); line-height: 1.2;
-    }
-    .ds-contrib-period {
-      font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;
-    }
-    .ds-contrib-badge {
-      font-size: 1.625rem; font-weight: 800; color: var(--accent);
-      letter-spacing: -0.04em; white-space: nowrap; flex-shrink: 0;
-      line-height: 1; text-align: right;
-    }
-    .ds-contrib-badge span {
-      font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--text-muted); display: block;
-      margin-top: 0.2rem;
-    }
-    .ds-contrib-list {
-      list-style: none; margin: 0; padding: 0;
-      display: flex; flex-direction: column; gap: 0.6rem;
-    }
-    .ds-contrib-list li {
-      font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6;
-      padding-left: 1.125rem; position: relative;
-    }
-    .ds-contrib-list li::before {
-      content: '→'; position: absolute; left: 0;
-      color: var(--accent); font-size: 0.7rem; top: 0.18rem;
-    }
 
     @media (max-width: 1024px) {
       .ds-metrics { grid-template-columns: repeat(2, 1fr); }
@@ -1171,7 +1130,6 @@
       .ds-metric:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
     }
     @media (max-width: 640px) {
-      .ds-contrib-grid { grid-template-columns: 1fr; }
       .ds-metrics { grid-template-columns: repeat(2, 1fr); }
       .ds-metric:nth-child(2) { border-right: none; }
       .ds-metric:nth-child(3) { border-top: 1px solid var(--border); }
@@ -1191,12 +1149,6 @@
     .skill-row:hover .skill-dot { transform: scale(1.9); }
     .skill-dot { transition: transform 0.18s; }
 
-    /* DS specialist highlight */
-    .skill-row.ds-skill {
-      background: rgba(196,112,78,0.06); border: 1px solid rgba(196,112,78,0.15);
-      padding: 0.5rem 0.75rem;
-    }
-    .skill-row.ds-skill .skill-dot { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
     .ds-badge {
       margin-left: auto; font-size: 0.6rem; font-weight: 700;
       letter-spacing: 0.08em; text-transform: uppercase;
@@ -1961,14 +1913,74 @@
 <section class="ds-section" id="design-systems">
   <div class="inner">
 
-    <!-- Header -->
-    <div class="ds-header">
-      <span class="label r">Design Systems</span>
-      <h2 class="sec-title r d1">From fragmentation<br>to <em>foundation.</em></h2>
-      <p class="sec-desc r d2">At Home Credit India and BuildSupply I identified fragmentation, established token architecture, built 200+ production components, and drove adoption across engineering and product squads — delivering a 60% improvement in design-to-dev velocity.</p>
-      <div class="ds-companies r d2">
-        <span class="ds-company-tag"><span class="ct-dot"></span>Home Credit India · 2021–Present</span>
-        <span class="ds-company-tag"><span class="ct-dot"></span>BuildSupply · 2018–2021</span>
+    <!-- Header + Illustration -->
+    <div class="ds-layout">
+      <div class="ds-header">
+        <span class="label r">Design Systems</span>
+        <h2 class="sec-title r d1">From fragmentation<br>to <em>foundation.</em></h2>
+        <p class="sec-desc r d2">At Home Credit India and BuildSupply I identified fragmentation, established token architecture, built 200+ production components, and drove adoption across engineering and product squads — delivering a 60% improvement in design-to-dev velocity.</p>
+        <div class="ds-companies r d2">
+          <span class="ds-company-tag"><span class="ct-dot"></span>Home Credit India · 2021–Present</span>
+          <span class="ds-company-tag"><span class="ct-dot"></span>BuildSupply · 2018–2021</span>
+        </div>
+      </div>
+
+      <!-- Minimal DS illustration -->
+      <div class="ds-illus r d3">
+        <svg viewBox="0 0 280 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Row label: PRIMITIVES -->
+          <text x="0" y="13" font-size="7" font-weight="700" letter-spacing="2" font-family="'Courier New',monospace" fill="var(--text-muted)">PRIMITIVES</text>
+          <line x1="0" y1="19" x2="280" y2="19" stroke="var(--border)" stroke-width="0.75"/>
+          <!-- Color swatches -->
+          <circle cx="18" cy="43" r="13" fill="#1A6FD4"/>
+          <circle cx="54" cy="43" r="13" fill="#D97757"/>
+          <circle cx="90" cy="43" r="13" fill="#22C55E"/>
+          <circle cx="126" cy="43" r="13" fill="#8892A4"/>
+          <!-- Type bars -->
+          <rect x="155" y="33" width="88" height="5" rx="2.5" fill="var(--text)" opacity="0.85"/>
+          <rect x="155" y="43" width="68" height="4" rx="2" fill="var(--text-secondary)" opacity="0.6"/>
+          <rect x="155" y="52" width="50" height="3" rx="1.5" fill="var(--text-muted)" opacity="0.45"/>
+          <rect x="155" y="60" width="36" height="2.5" rx="1.25" fill="var(--text-muted)" opacity="0.3"/>
+          <!-- Connector lines down -->
+          <line x1="18" y1="58" x2="18" y2="84" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="54" y1="58" x2="54" y2="84" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="90" y1="58" x2="90" y2="84" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="126" y1="58" x2="126" y2="84" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="199" y1="64" x2="199" y2="84" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.35"/>
+          <!-- Row label: SEMANTIC TOKENS -->
+          <text x="0" y="83" font-size="7" font-weight="700" letter-spacing="2" font-family="'Courier New',monospace" fill="var(--text-muted)">SEMANTIC TOKENS</text>
+          <line x1="0" y1="89" x2="280" y2="89" stroke="var(--border)" stroke-width="0.75"/>
+          <!-- Token chips -->
+          <rect x="0" y="97" width="60" height="18" rx="4" fill="rgba(26,111,212,0.12)" stroke="rgba(26,111,212,0.28)" stroke-width="0.75"/>
+          <text x="5" y="109" font-size="6.5" font-family="'Courier New',monospace" fill="#1A6FD4">action.primary</text>
+          <rect x="66" y="97" width="56" height="18" rx="4" fill="rgba(217,119,87,0.12)" stroke="rgba(217,119,87,0.28)" stroke-width="0.75"/>
+          <text x="71" y="109" font-size="6.5" font-family="'Courier New',monospace" fill="#D97757">brand.accent</text>
+          <rect x="128" y="97" width="50" height="18" rx="4" fill="rgba(34,197,94,0.1)" stroke="rgba(34,197,94,0.25)" stroke-width="0.75"/>
+          <text x="133" y="109" font-size="6.5" font-family="'Courier New',monospace" fill="#22C55E">status.success</text>
+          <rect x="184" y="97" width="44" height="18" rx="4" fill="rgba(136,146,164,0.1)" stroke="rgba(136,146,164,0.22)" stroke-width="0.75"/>
+          <text x="189" y="109" font-size="6.5" font-family="'Courier New',monospace" fill="#8892A4">text.muted</text>
+          <!-- Connector lines down -->
+          <line x1="30" y1="116" x2="30" y2="142" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="94" y1="116" x2="94" y2="142" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="153" y1="116" x2="153" y2="142" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <line x1="206" y1="116" x2="206" y2="142" stroke="var(--accent)" stroke-width="0.75" stroke-dasharray="3 3" opacity="0.45"/>
+          <!-- Row label: COMPONENTS -->
+          <text x="0" y="141" font-size="7" font-weight="700" letter-spacing="2" font-family="'Courier New',monospace" fill="var(--text-muted)">COMPONENTS</text>
+          <text x="232" y="141" font-size="7" font-weight="700" font-family="'Courier New',monospace" fill="var(--accent)">200+</text>
+          <line x1="0" y1="147" x2="280" y2="147" stroke="var(--border)" stroke-width="0.75"/>
+          <!-- Button component -->
+          <rect x="0" y="158" width="90" height="28" rx="6" fill="#1A6FD4"/>
+          <text x="45" y="176" text-anchor="middle" font-size="9" font-weight="600" font-family="system-ui,sans-serif" fill="white">Primary CTA</text>
+          <!-- Input component -->
+          <rect x="98" y="158" width="90" height="28" rx="6" fill="var(--bg-subtle)" stroke="var(--border)" stroke-width="1"/>
+          <text x="108" y="176" font-size="8" font-family="system-ui,sans-serif" fill="var(--text-muted)">Input field...</text>
+          <!-- Card component -->
+          <rect x="196" y="158" width="84" height="44" rx="6" fill="var(--bg-card)" stroke="var(--border)" stroke-width="1"/>
+          <rect x="204" y="167" width="38" height="5" rx="2.5" fill="var(--text)" opacity="0.75"/>
+          <rect x="204" y="177" width="56" height="3" rx="1.5" fill="var(--text-secondary)" opacity="0.4"/>
+          <rect x="204" y="184" width="44" height="3" rx="1.5" fill="var(--text-secondary)" opacity="0.3"/>
+          <rect x="204" y="193" width="30" height="6" rx="3" fill="var(--accent)" opacity="0.7"/>
+        </svg>
       </div>
     </div>
 
@@ -1990,43 +2002,6 @@
         <div class="ds-m-text">6 squads</div>
         <div class="ds-m-label">Cross-team adoption</div>
       </div>
-    </div>
-
-    <!-- 2-column contribution cards -->
-    <div class="ds-contrib-grid r d4">
-
-      <!-- Card 1: Home Credit India -->
-      <div class="ds-contrib-card">
-        <div class="ds-contrib-head">
-          <div>
-            <div class="ds-contrib-co">Home Credit India</div>
-            <div class="ds-contrib-period">Jul 2021 – Present</div>
-          </div>
-          <div class="ds-contrib-badge">120<sup style="font-size:0.55em;vertical-align:super">+</sup><span>components</span></div>
-        </div>
-        <ul class="ds-contrib-list">
-          <li>Rebuilt the enterprise design system for regulatory compliance — new token architecture, component standards, and interaction guidelines adopted across all product teams</li>
-          <li>Established a shared token layer covering color, spacing, elevation, and typography, reducing design inconsistency across web and mobile surfaces</li>
-          <li>Drove cross-squad adoption with documentation, Figma libraries, and onboarding — contributing to a 60% improvement in design-to-dev velocity</li>
-        </ul>
-      </div>
-
-      <!-- Card 2: BuildSupply -->
-      <div class="ds-contrib-card">
-        <div class="ds-contrib-head">
-          <div>
-            <div class="ds-contrib-co">BuildSupply</div>
-            <div class="ds-contrib-period">May 2018 – Jul 2021</div>
-          </div>
-          <div class="ds-contrib-badge">80<sup style="font-size:0.55em;vertical-align:super">+</sup><span>components</span></div>
-        </div>
-        <ul class="ds-contrib-list">
-          <li>Built the design system from scratch — color tokens, type scales, spacing system, and 80+ components for a B2B e-commerce platform</li>
-          <li>Enabled consistent UI development across buyer portal, seller dashboard, and internal ops tools</li>
-          <li>Created handoff documentation and Zeplin-based guidelines that reduced design-engineering back-and-forth by a measurable margin</li>
-        </ul>
-      </div>
-
     </div>
 
   </div>
@@ -2068,7 +2043,7 @@
             <div class="skill-row"><span class="skill-dot"></span>UX Research & Strategy</div>
             <div class="skill-row"><span class="skill-dot"></span>UI & Visual Design</div>
             <div class="skill-row"><span class="skill-dot"></span>Interaction Design</div>
-            <div class="skill-row ds-skill"><span class="skill-dot"></span>Design Systems</div>
+            <div class="skill-row"><span class="skill-dot"></span>Design Systems</div>
             <div class="skill-row"><span class="skill-dot"></span>Prototyping & Testing</div>
             <div class="skill-row"><span class="skill-dot"></span>Mobile & Web Design</div>
             <div class="skill-row"><span class="skill-dot"></span>Stakeholder Management</div>
@@ -2178,7 +2153,7 @@
   <div class="inner">
     <div class="testi-head">
       <span class="label r">Testimonials</span>
-      <h2 class="sec-title r d1">What people <em>say.</em></h2>
+      <h2 class="sec-title r d1">What colleagues <em>say.</em></h2>
     </div>
     <div class="testi-grid">
       <div class="testi-card r">
