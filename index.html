@@ -4,7 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GS Sandhu — Product Designer</title>
-  <meta name="description" content="Product Designer with 9+ years crafting digital experiences that balance beauty and usability.">
+  <meta name="description" content="Senior Product Designer with 9+ years crafting digital experiences across fintech, B2B SaaS, and enterprise platforms. Currently Senior Manager of Product Design at Home Credit India.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="GS Sandhu — Senior Product Designer">
+  <meta property="og:description" content="9+ years of UX/UI design across fintech and B2B SaaS. 200+ components. 60% faster delivery. Based in Gurugram, India.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sandhufugazy.github.io/portfolio">
+  <meta property="og:image" content="https://sandhufugazy.github.io/portfolio/og-image.png">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GS Sandhu — Senior Product Designer">
+  <meta name="twitter:description" content="9+ years of UX/UI design across fintech and B2B SaaS. Based in Gurugram, India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -589,6 +599,13 @@
     }
     .testi-name { font-size: 0.9375rem; font-weight: 600; }
     .testi-role { font-size: 0.8125rem; color: var(--text-muted); }
+    .testi-li-link {
+      display: inline-block; margin-top: 1rem;
+      font-size: 0.75rem; color: var(--accent); text-decoration: none;
+      font-weight: 600; letter-spacing: 0.02em;
+      transition: opacity 0.2s;
+    }
+    .testi-li-link:hover { opacity: 0.75; }
 
     /* ─── CONTACT ─── */
     .contact-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
@@ -666,6 +683,20 @@
     .foot-links a { font-size: 0.875rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
     .foot-links a:hover { color: var(--accent); }
     .foot-copy { font-size: 0.8125rem; color: var(--text-muted); }
+
+    /* Back to top */
+    #back-to-top {
+      position: fixed; bottom: 2rem; left: 2rem; z-index: 900;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text-secondary); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(12px);
+      transition: opacity 0.3s, transform 0.3s, border-color 0.2s;
+      pointer-events: none;
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #back-to-top:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ─── SCROLL REVEAL ─── */
     .r {
@@ -978,11 +1009,11 @@
       --bg:             #f4efe8;
       --bg-card:        #ece7df;
       --bg-subtle:      #f0ebe3;
-      --accent:         #b85a34;
-      --accent-hover:   #c4704e;
+      --accent:         #9c4624; /* darkened for WCAG AA 5.1:1 on bg */
+      --accent-hover:   #b85a34;
       --text:           #1a1816;
-      --text-secondary: #5c5855;
-      --text-muted:     #9a9591;
+      --text-secondary: #5c5855; /* 6.1:1 on bg ✓ */
+      --text-muted:     #6b6560; /* darkened for WCAG AA 4.5:1 on bg */
       --border:         rgba(26,24,22,.10);
       --border-hover:   rgba(26,24,22,.18);
     }
@@ -1848,20 +1879,20 @@
     </div>
     <div class="hero-stats">
       <div class="stat">
-        <div class="stat-num" data-target="8" data-suffix="+">8<sup>+</sup></div>
+        <div class="stat-num" data-target="9" data-suffix="+">9<sup>+</sup></div>
         <div class="stat-label">Years Experience</div>
       </div>
       <div class="stat">
         <div class="stat-num" data-target="40" data-suffix="+">40<sup>+</sup></div>
-        <div class="stat-label">Projects Shipped</div>
+        <div class="stat-label">Products Designed</div>
       </div>
       <div class="stat">
         <div class="stat-num" data-target="15" data-suffix="+">15<sup>+</sup></div>
-        <div class="stat-label">Happy Clients</div>
+        <div class="stat-label">Stakeholders Engaged</div>
       </div>
       <div class="stat">
         <div class="stat-num" data-target="3" data-suffix="x">3<sup>x</sup></div>
-        <div class="stat-label">Avg. Conversion Boost</div>
+        <div class="stat-label">Avg. Conversion Uplift</div>
       </div>
     </div>
   </div>
@@ -1892,7 +1923,7 @@
     <div class="work-head">
       <div>
         <span class="label r">Selected Work</span>
-        <h2 class="sec-title r d1">Work that <em>ships,</em><br>converts, and scales.</h2>
+        <h2 class="sec-title r d1">Work that <em>solves,</em><br>converts, and scales.</h2>
       </div>
       <p class="sec-desc r d2">From enterprise SaaS to consumer apps — every project driven by real user problems and measured outcomes.</p>
     </div>
@@ -1922,14 +1953,14 @@
             <span class="tag">Product Design</span>
             <span class="tag">Design System</span>
           </div>
-          <h3 class="card-title">Enterprise Analytics Dashboard — Reimagining data for 50K+ users</h3>
+          <h3 class="card-title">Loan Journey Redesign — 30% drop-off reduction</h3>
           <p class="card-desc">Led the end-to-end redesign of a complex analytics platform, reducing task completion time by 40% while building a scalable design system with 200+ components.</p>
           <div class="card-meta">
             <div><span class="cm-lbl">Role</span><span class="cm-val">Lead Product Designer</span></div>
             <div><span class="cm-lbl">Timeline</span><span class="cm-val">16 weeks</span></div>
           </div>
           <div class="card-foot">
-            <span class="card-co">FinTech Company · 2023</span>
+            <span class="card-co">Home Credit India · 2023</span>
             <div class="arrow-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
           </div>
         </div>
@@ -2285,16 +2316,7 @@
         <div class="proc-step-body">
           <div class="proc-step-icon">💡</div>
           <h3 class="proc-step-title">Define</h3>
-          <p class="proc-step-desc">Turn findings into sharp problem statements, user flows, and design principles. AI stress-tests assumptions and surfaces blind spots before a single frame is drawn.</p>
-          <div class="proc-ai-row">
-            <span class="proc-ai-label-inline">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              AI here:
-            </span>
-            <span class="proc-ai-chip">Hypothesis refinement</span>
-            <span class="proc-ai-chip">Persona generation</span>
-            <span class="proc-ai-chip">Journey map synthesis</span>
-          </div>
+          <p class="proc-step-desc">Turn findings into sharp problem statements, user flows, and design principles. Stress-test assumptions and surface blind spots before a single frame is drawn.</p>
         </div>
       </div>
 
@@ -2328,16 +2350,7 @@
         <div class="proc-step-body">
           <div class="proc-step-icon">🚀</div>
           <h3 class="proc-step-title">Deliver</h3>
-          <p class="proc-step-desc">Developer-ready specs, a living design system, and a designer who stays in the loop through build. AI auto-generates documentation so nothing gets lost in handoff.</p>
-          <div class="proc-ai-row">
-            <span class="proc-ai-label-inline">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              AI here:
-            </span>
-            <span class="proc-ai-chip">Spec documentation</span>
-            <span class="proc-ai-chip">Handoff notes</span>
-            <span class="proc-ai-chip">QA flagging</span>
-          </div>
+          <p class="proc-step-desc">Developer-ready specs, a living design system, and a designer who stays in the loop through build. Nothing gets lost in handoff.</p>
         </div>
       </div>
 
@@ -2388,7 +2401,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="quote-mark">"</div>
-        <p class="testi-text">Gurpreet brings a user-centered approach to everything he designs. Working alongside him I was impressed by his ability to take complex UX challenges and deliver elegant, intuitive solutions. He was instrumental in shaping our shared design system and always brought clear thinking and solid rationale to every design decision.</p>
+        <p class="testi-text">Gurpreet takes complex UX challenges and delivers elegant, intuitive solutions. He was instrumental in shaping our shared design system and always brought clear thinking and solid rationale to every design decision.</p>
         <div class="testi-author">
           <div class="testi-av">DS</div>
           <div>
@@ -2396,6 +2409,7 @@
             <div class="testi-role">UX Consultant · Digital Banking Professional</div>
           </div>
         </div>
+        <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
       </div>
       <div class="testi-card r d1">
         <div class="testi-stars">
@@ -2406,7 +2420,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="quote-mark">"</div>
-        <p class="testi-text">Gurpreet demonstrated exceptional skills and dedication throughout our collaboration. His ability to support his design concepts with comprehensive, well-prepared documentation made him stand out — he clearly communicates the "why" behind every decision.</p>
+        <p class="testi-text">His ability to support design concepts with comprehensive, well-prepared documentation made him stand out — he clearly communicates the "why" behind every decision.</p>
         <div class="testi-author">
           <div class="testi-av">JG</div>
           <div>
@@ -2414,6 +2428,7 @@
             <div class="testi-role">UX Designer · EmbedIT</div>
           </div>
         </div>
+        <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
       </div>
       <div class="testi-card r d2">
         <div class="testi-stars">
@@ -2424,7 +2439,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="quote-mark">"</div>
-        <p class="testi-text">Gurpreet's mockups are always crystal clear and production-ready. He bridges design and development effortlessly — his handoffs are thorough, his specs are precise, and his design thinking is always rooted in real user needs. A must-have designer!</p>
+        <p class="testi-text">Gurpreet's mockups are always crystal clear and production-ready. His handoffs are thorough, his specs are precise, and his design thinking is always rooted in real user needs. A must-have designer!</p>
         <div class="testi-author">
           <div class="testi-av">BR</div>
           <div>
@@ -2432,6 +2447,7 @@
             <div class="testi-role">Senior Design Lead · HSBC PayMe</div>
           </div>
         </div>
+        <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
       </div>
     </div>
   </div>
@@ -2444,8 +2460,8 @@
       <div class="contact-info">
         <div>
           <span class="label r">Get in Touch</span>
-          <h2 class="sec-title r d1">Have a project?<br>Let's <em>talk.</em></h2>
-          <p class="sec-desc r d2">Whether you need a full design partner from strategy to handoff, or just a sharp second opinion — I'm open to the right work.</p>
+          <h2 class="sec-title r d1">Open to new roles.<br>Let's <em>talk.</em></h2>
+          <p class="sec-desc r d2">Currently open to Senior / Lead Product Designer roles. Whether it's a full-time opportunity or a sharp conversation about design — I'm here.</p>
         </div>
         <div class="contact-links r d2">
           <a href="mailto:gssandhu1990@gmail.com" class="c-link">
@@ -2478,7 +2494,7 @@
         </div>
         <div class="f-group" id="grp-email">
           <label class="f-label" for="email">Email</label>
-          <input id="email" type="email" class="f-input" placeholder="jane@company.com" autocomplete="email">
+          <input id="email" type="email" class="f-input" placeholder="your@email.com" autocomplete="email">
           <span class="f-error" id="err-email">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
             Enter a valid email address
@@ -2517,6 +2533,11 @@
   </div>
 </section>
 
+<!-- ─── BACK TO TOP ─── -->
+<button id="back-to-top" aria-label="Back to top" title="Back to top">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 13V3M4 7l4-4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="foot-inner">
@@ -2528,9 +2549,9 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="foot-avail">
-      <span class="foot-avail-dot"></span>Available for new projects
+      <span class="foot-avail-dot"></span>Open to full-time roles
     </div>
-    <div class="foot-copy">© 2025 GS Sandhu. All rights reserved.</div>
+    <div class="foot-copy">© 2026 GS Sandhu. All rights reserved.</div>
   </div>
 </footer>
 
@@ -3007,7 +3028,7 @@
   const PROJECTS = [
     {
       title: 'Enterprise Analytics <em>Dashboard</em>',
-      company: 'FinTech Company · 2023',
+      company: 'Home Credit India · 2023',
       tags: ['UX Strategy', 'Product Design', 'Design System'],
       grad: 'g1',
       role: 'Lead Product Designer',
@@ -3323,8 +3344,9 @@
     const SUN  = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><line x1="8" y1="1" x2="8" y2="3"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="1" y1="8" x2="3" y2="8"/><line x1="13" y1="8" x2="15" y2="8"/><line x1="2.93" y1="2.93" x2="4.34" y2="4.34"/><line x1="11.66" y1="11.66" x2="13.07" y2="13.07"/><line x1="2.93" y1="13.07" x2="4.34" y2="11.66"/><line x1="11.66" y1="4.34" x2="13.07" y2="2.93"/></svg>`;
     const MOON = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 9A5.5 5.5 0 0 1 7 2.5c0-.2.01-.39.03-.58A5.75 5.75 0 1 0 14.08 9c-.19.01-.38.02-.58.02z"/></svg>`;
 
-    // Load saved or default dark
-    const saved = localStorage.getItem('gs-theme') || 'dark';
+    // Load saved preference, fall back to system preference, default light
+    const systemPrefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const saved = localStorage.getItem('gs-theme') || systemPrefers;
     html.setAttribute('data-theme', saved);
     updateIcon(saved);
 
@@ -3769,6 +3791,16 @@
         el.style.animationPlayState = 'paused';
       });
     }
+  })();
+
+  // ── Back to top ──────────────────────────────────────────────────────────
+  (() => {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+    window.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', window.scrollY > 400);
+    }, { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   })();
 </script>
 </body>
