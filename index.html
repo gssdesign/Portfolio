@@ -212,12 +212,31 @@
       padding: 0.875rem 2rem; border-radius: var(--r-sm);
       font-size: 0.9375rem; font-weight: 600; letter-spacing: 0.01em;
       text-decoration: none; border: none; cursor: pointer;
-      font-family: inherit;
+      font-family: inherit; position: relative; overflow: hidden;
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      isolation: isolate;
     }
     .btn-primary:hover {
       background: var(--accent-hover); transform: translateY(-2px);
       box-shadow: 0 10px 35px rgba(217,119,87,0.38);
+    }
+    /* Smoky canvas sits behind button text */
+    .btn-primary canvas.smoke-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border-radius: inherit;
+      opacity: 0; transition: opacity 0.5s ease;
+      z-index: -1; pointer-events: none;
+    }
+    .btn-primary.smoke-ready canvas.smoke-canvas { opacity: 1; }
+    .btn-primary.smoke-ready { background: transparent !important; }
+    .btn-primary .btn-label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; }
+    /* Light theme & reduced-motion: no smoke */
+    [data-theme="light"] .btn-primary canvas.smoke-canvas { display: none; }
+    [data-theme="light"] .btn-primary.smoke-ready { background: var(--accent) !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-primary canvas.smoke-canvas { display: none; }
+      .btn-primary.smoke-ready { background: var(--accent) !important; }
     }
     .btn-secondary {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -1742,9 +1761,12 @@
       9+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
     </p>
     <div class="hero-actions">
-      <a href="#work" class="btn-primary">
-        View My Work
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <a href="#work" class="btn-primary" id="hero-cta">
+        <canvas class="smoke-canvas" id="smoke-canvas" aria-hidden="true"></canvas>
+        <span class="btn-label">
+          View My Work
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
       </a>
       <a href="#contact" class="btn-secondary">Get in Touch</a>
     </div>
@@ -3483,6 +3505,142 @@
     }, { passive: true });
     btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   })();
+</script>
+
+<!-- ─── SMOKY BUTTON ─── -->
+<script type="module">
+  // Skip on light theme or reduced-motion
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isLight = () => document.documentElement.getAttribute('data-theme') === 'light';
+  if (prefersReduced || isLight()) {
+    // Watch for theme changes in case user switches to dark later
+    if (!prefersReduced) {
+      const obs = new MutationObserver(() => { if (!isLight()) initSmoke(); obs.disconnect(); });
+      obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    }
+  } else {
+    initSmoke();
+  }
+
+  async function initSmoke() {
+    // Bail on low-memory / mobile devices (heuristic: < 4 logical CPUs)
+    if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) return;
+
+    const { default: FragmentCanvas } = await import('https://esm.sh/fragment-canvas@1.0.7');
+
+    // Adapted color palette — burnt orange / warm smoke theme
+    const fragmentShader = `
+      precision mediump float;
+
+      uniform vec2 iResolution;
+      uniform float iTime;
+
+      float random(vec2 pos) {
+        return fract(sin(dot(pos, vec2(12.9898, 78.233))) * 43758.5453);
+      }
+
+      float noise(vec2 pos) {
+        vec2 i = floor(pos);
+        vec2 f = fract(pos);
+        float a = random(i + vec2(0.0, 0.0));
+        float b = random(i + vec2(1.0, 0.0));
+        float c = random(i + vec2(0.0, 1.0));
+        float d = random(i + vec2(1.0, 1.0));
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+      }
+
+      float fbm(vec2 pos) {
+        float v = 0.0;
+        float a = 0.5;
+        vec2 shift = vec2(20.0);
+        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+        for (int i = 0; i < 6; i++) {
+          v += a * noise(pos);
+          pos = rot * pos * 2.0 + shift;
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main(void) {
+        vec2 uv = (gl_FragCoord.xy - 0.5 * iResolution.xy) / iResolution.y;
+        uv *= 0.6;
+
+        vec2 q = vec2(
+          fbm(uv + 0.18 * iTime),
+          fbm(uv + vec2(5.0, 1.0))
+        );
+        vec2 r = vec2(
+          fbm(uv + 3.0 * q + vec2(1.2, 3.2) + 0.18 * iTime),
+          fbm(uv + 3.0 * q + vec2(8.8, 2.8) + 0.18 * iTime)
+        );
+
+        float f = fbm(uv + r);
+
+        // Deep burnt sienna base
+        vec3 color = mix(
+          vec3(0.08, 0.02, 0.01),
+          vec3(0.55, 0.18, 0.05),
+          clamp((f * f) * 5.0, 0.0, 1.0)
+        );
+
+        // Our accent orange in the turbulent mid-tones
+        color = mix(
+          color,
+          vec3(0.85, 0.47, 0.22),
+          clamp(length(q) * length(q), 0.0, 1.0)
+        );
+
+        // Warm cream highlight on the hot tips
+        color = mix(
+          color,
+          vec3(1.0, 0.90, 0.78),
+          clamp(length(r.x), 0.0, 0.12)
+        );
+
+        // Warm dark base tint
+        color = vec3(0.10, 0.04, 0.01) + (f * f * f + 0.6 * f * f + 0.5 * f) * color;
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    const canvas = document.getElementById('smoke-canvas');
+    const btn = document.getElementById('hero-cta');
+    if (!canvas || !btn) return;
+
+    // Size canvas to button's physical pixels
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width  = btn.offsetWidth  * dpr;
+      canvas.height = btn.offsetHeight * dpr;
+    }
+    resize();
+
+    try {
+      new FragmentCanvas(canvas, { fragmentShader });
+      btn.classList.add('smoke-ready');
+
+      // Keep canvas sized to button on any layout change
+      const ro = new ResizeObserver(resize);
+      ro.observe(btn);
+
+      // Disable smoke if user switches to light theme
+      const themeObs = new MutationObserver(() => {
+        if (isLight()) {
+          btn.classList.remove('smoke-ready');
+          ro.disconnect();
+          themeObs.disconnect();
+        }
+      });
+      themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+    } catch (e) {
+      // WebGL not supported — button stays as solid accent color, no change needed
+      console.warn('Smoke effect unavailable:', e.message);
+    }
+  }
 </script>
 </body>
 </html>
