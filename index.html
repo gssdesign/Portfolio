@@ -435,18 +435,12 @@
       overflow: hidden; display: flex; align-items: center; justify-content: center;
     }
     .avatar-inner {
-      width: 100%; height: 100%; display: flex; align-items: center;
-      justify-content: center;
-      background: linear-gradient(160deg, #1e1e22 0%, #26262b 100%);
+      width: 100%; height: 100%;
     }
-    .avatar-initials {
-      font-size: clamp(4rem, 10vw, 7rem); font-weight: 800;
-      letter-spacing: -0.05em; color: var(--accent); opacity: 0.35;
+    .avatar-inner img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      display: block;
     }
-
-    /* Replace avatar with actual photo by setting background-image on .avatar-inner */
-    /* .avatar-inner { background-image: url('your-photo.jpg'); background-size: cover; background-position: center; } */
-    /* .avatar-initials { display: none; } */
 
     .avatar-chip {
       position: absolute; bottom: -1.5rem; right: -1.5rem;
@@ -510,56 +504,42 @@
       padding: 3rem 0;
       align-items: start;
     }
-    .proc-step-num {
-      font-size: 5rem; font-weight: 800; letter-spacing: -0.06em;
-      color: var(--text); opacity: 0.07; line-height: 1;
-      font-variant-numeric: tabular-nums;
-      align-self: start; padding-top: 0.15rem;
-      transition: opacity 0.3s;
+    /* ── Process — compact horizontal cards ── */
+    .proc-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--r);
+      overflow: hidden; margin-top: 3rem;
     }
-    .proc-step:hover .proc-step-num { opacity: 0.12; }
-    .proc-step-body { display: flex; flex-direction: column; gap: 0.875rem; }
-    .proc-step-icon { font-size: 1.625rem; line-height: 1; }
-    .proc-step-title {
-      font-size: clamp(1.375rem, 2.5vw, 1.75rem); font-weight: 700;
-      letter-spacing: -0.025em; line-height: 1.1;
+    .proc-card {
+      background: var(--bg-card); padding: 2rem 1.75rem;
+      display: flex; flex-direction: column; gap: 1rem;
+      transition: background 0.22s;
     }
-    .proc-step-desc {
-      font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.72;
-      max-width: 600px;
+    .proc-card:hover { background: var(--bg-subtle); }
+    .proc-card-num {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--accent);
     }
-    .proc-ai-row {
-      display: flex; align-items: center; gap: 0.5rem;
-      flex-wrap: wrap; margin-top: 0.25rem;
+    .proc-card-icon { font-size: 1.5rem; line-height: 1; }
+    .proc-card-title {
+      font-size: 1.125rem; font-weight: 700;
+      letter-spacing: -0.02em; line-height: 1.2;
     }
-    .proc-ai-label-inline {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); opacity: 0.85;
-      white-space: nowrap; display: flex; align-items: center; gap: 0.3rem;
-      padding-right: 0.25rem;
+    .proc-card-desc {
+      font-size: 0.875rem; color: var(--text-secondary);
+      line-height: 1.65; flex: 1;
     }
-    .proc-ai-chip {
-      font-size: 0.7rem; font-weight: 500;
-      padding: 0.2rem 0.6rem; border-radius: 100px;
-      background: rgba(196,112,78,0.07);
-      border: 1px solid rgba(196,112,78,0.18);
+    .proc-card-tags {
+      display: flex; flex-wrap: wrap; gap: 0.375rem; margin-top: 0.25rem;
+    }
+    .proc-tag {
+      font-size: 0.7rem; padding: 0.2rem 0.55rem; border-radius: 100px;
+      background: rgba(156,70,36,0.08); border: 1px solid rgba(156,70,36,0.15);
       color: var(--text-secondary);
-      transition: color 0.2s, background 0.2s, border-color 0.2s;
     }
-    .proc-step:hover .proc-ai-chip {
-      background: rgba(196,112,78,0.13);
-      border-color: rgba(196,112,78,0.3);
-      color: var(--text);
-    }
-    .proc-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-
-    @media (max-width: 640px) {
-      .proc-step {
-        grid-template-columns: 56px 1fr;
-        gap: 1rem; padding: 2.25rem 0;
-      }
-      .proc-step-num { font-size: 3.5rem; }
-    }
+    @media (max-width: 768px) { .proc-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .proc-grid { grid-template-columns: 1fr; } }
 
     /* ─── TOOLS ─── */
     .tools-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
@@ -596,8 +576,8 @@
       background: rgba(217,119,87,0.15); display: flex; align-items: center;
       justify-content: center; font-size: 0.875rem; font-weight: 700; color: var(--accent);
     }
-    .testi-name { font-size: 0.9375rem; font-weight: 600; }
-    .testi-role { font-size: 0.8125rem; color: var(--text-muted); }
+    .testi-name { font-size: 0.9375rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .testi-role { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.4; }
     .testi-li-link {
       display: inline-block; margin-top: 1rem;
       font-size: 0.75rem; color: var(--accent); text-decoration: none;
@@ -626,7 +606,12 @@
     .c-arr { font-size: 1rem; color: var(--text-muted); opacity: 0; transform: translateX(-6px); transition: all 0.2s; }
     .c-link:hover .c-arr { opacity: 1; transform: translateX(0); }
 
-    .form { display: flex; flex-direction: column; gap: 1.125rem; }
+    .form {
+      display: flex; flex-direction: column; gap: 1.125rem;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 2rem;
+    }
+    @media (max-width: 640px) { .form { padding: 1.25rem; } }
     .f-group { display: flex; flex-direction: column; gap: 0.5rem; }
     .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .f-label { font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); }
@@ -1117,34 +1102,6 @@
       background: var(--accent); flex-shrink: 0;
     }
 
-    /* Process strip */
-    .ds-process {
-      display: flex; align-items: center; gap: 0;
-      margin-bottom: 3rem; overflow-x: auto;
-      scrollbar-width: none; -ms-overflow-style: none;
-      border: 1px solid var(--border); border-radius: var(--r);
-      background: var(--bg-card);
-    }
-    .ds-process::-webkit-scrollbar { display: none; }
-    .ds-step {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 0.3rem; padding: 1rem 1.25rem; flex: 1; min-width: 110px;
-      position: relative;
-    }
-    .ds-step + .ds-step::before {
-      content: '→';
-      position: absolute; left: -0.6rem; top: 50%; transform: translateY(-50%);
-      color: var(--accent); font-size: 0.8rem; opacity: 0.7;
-    }
-    .ds-step-num {
-      font-family: 'Courier New', monospace; font-size: 0.65rem;
-      color: var(--accent); font-weight: 700; letter-spacing: 0.06em;
-    }
-    .ds-step-label {
-      font-size: 0.775rem; font-weight: 600; color: var(--text-secondary);
-      text-align: center; white-space: nowrap;
-    }
-
     /* Metrics row — 4 columns */
     .ds-metrics {
       display: grid; grid-template-columns: repeat(4, 1fr);
@@ -1170,137 +1127,67 @@
     }
     .ds-m-label { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
 
-    /* 3-panel visual grid */
-    .ds-panels {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem; margin-bottom: 1.5rem;
-    }
-
-    /* Token preview cards */
-    .ds-token-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.5rem 1.75rem;
-      position: relative; overflow: hidden;
-      transition: border-color 0.25s, transform 0.28s;
-    }
-    .ds-token-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
-    .ds-token-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent) 0%, transparent 70%);
-    }
-    .ds-token-header {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem;
-      display: flex; align-items: center; gap: 0.625rem;
-    }
-    .ds-token-header::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .ds-card-context {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      font-size: 0.65rem; color: var(--accent); font-weight: 600;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      margin-bottom: 1rem; opacity: 0.8;
-    }
-
-    /* Token architecture panel */
-    .ds-tok-labels {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.25rem; margin-bottom: 0.5rem;
-    }
-    .ds-tok-labels span {
-      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--text-muted);
-    }
-    .ds-tok-row {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.25rem; align-items: center;
-      padding: 0.45rem 0; border-bottom: 1px solid var(--border);
-    }
-    .ds-tok-row:last-child { border-bottom: none; }
-    .ds-tok-prim {
-      display: flex; align-items: center; gap: 0.4rem;
-      font-family: 'Courier New', monospace; font-size: 0.6rem;
-      color: var(--text-secondary);
-    }
-    .ds-tok-prim i {
-      width: 10px; height: 10px; border-radius: 3px;
-      flex-shrink: 0; display: block;
-    }
-    .ds-tok-sem {
-      font-family: 'Courier New', monospace; font-size: 0.6rem;
-      color: var(--accent);
-    }
-    .ds-tok-use {
-      font-size: 0.65rem; color: var(--text-muted);
-    }
-
-    /* Type scale panel */
-    .ds-type-rows { display: flex; flex-direction: column; }
-    .ds-type-row {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 0.575rem 0; border-bottom: 1px solid var(--border);
-    }
-    .ds-type-row:last-child { border-bottom: none; }
-    .ds-type-px {
-      font-family: 'Courier New', monospace; font-size: 0.65rem;
-      color: var(--accent); width: 26px; flex-shrink: 0; font-weight: 700;
-    }
-    .ds-type-preview {
-      flex: 1; color: var(--text-secondary); overflow: hidden;
-      white-space: nowrap; text-overflow: ellipsis; font-weight: 600;
-    }
-
-    /* Component inventory */
-    .ds-comp-row {
-      display: flex; align-items: center; gap: 1rem;
-      padding: 0.575rem 0; border-bottom: 1px solid var(--border);
-    }
-    .ds-comp-row:last-child { border-bottom: none; }
-    .ds-comp-name { font-size: 0.8125rem; color: var(--text-secondary); width: 90px; flex-shrink: 0; }
-    .ds-comp-track {
-      flex: 1; height: 3px; background: rgba(240,237,232,0.06);
-      border-radius: 2px; overflow: hidden;
-    }
-    .ds-comp-bar {
-      height: 100%; background: var(--accent); border-radius: 2px;
-      width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
-    }
-    .ds-comp-count {
-      font-size: 0.75rem; color: var(--text-muted);
-      font-family: 'Courier New', monospace; width: 24px; text-align: right;
-    }
-
-    /* Bottom CTA strip */
-    .ds-cta {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 2rem; padding: 1.75rem 2rem;
+    /* Contribution cards grid */
+    .ds-contrib-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
       border: 1px solid var(--border); border-radius: var(--r);
-      background: var(--bg-card);
+      overflow: hidden;
     }
-    .ds-cta-left { flex: 1; }
-    .ds-cta-tag {
-      display: inline-block; font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 0.5rem;
+    .ds-contrib-card {
+      background: var(--bg-card); padding: 2rem 1.75rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+      position: relative;
     }
-    .ds-cta-text {
-      font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin: 0;
+    .ds-contrib-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent) 0%, transparent 60%);
+    }
+    .ds-contrib-head {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 1rem;
+    }
+    .ds-contrib-co {
+      font-size: 0.9375rem; font-weight: 700; color: var(--text); line-height: 1.2;
+    }
+    .ds-contrib-period {
+      font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;
+    }
+    .ds-contrib-badge {
+      font-size: 1.625rem; font-weight: 800; color: var(--accent);
+      letter-spacing: -0.04em; white-space: nowrap; flex-shrink: 0;
+      line-height: 1; text-align: right;
+    }
+    .ds-contrib-badge span {
+      font-size: 0.6rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--text-muted); display: block;
+      margin-top: 0.2rem;
+    }
+    .ds-contrib-list {
+      list-style: none; margin: 0; padding: 0;
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .ds-contrib-list li {
+      font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.6;
+      padding-left: 1.125rem; position: relative;
+    }
+    .ds-contrib-list li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent); font-size: 0.7rem; top: 0.18rem;
     }
 
     @media (max-width: 1024px) {
-      .ds-panels { grid-template-columns: 1fr 1fr; }
       .ds-metrics { grid-template-columns: repeat(2, 1fr); }
       .ds-metric:nth-child(2) { border-right: none; }
       .ds-metric:nth-child(3) { border-top: 1px solid var(--border); }
       .ds-metric:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
     }
     @media (max-width: 640px) {
-      .ds-panels { grid-template-columns: 1fr; }
+      .ds-contrib-grid { grid-template-columns: 1fr; }
       .ds-metrics { grid-template-columns: repeat(2, 1fr); }
       .ds-metric:nth-child(2) { border-right: none; }
       .ds-metric:nth-child(3) { border-top: 1px solid var(--border); }
       .ds-metric:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
-      .ds-cta { flex-direction: column; align-items: flex-start; }
-      .ds-process { border-radius: calc(var(--r) / 2); }
     }
 
     /* ─── ENHANCED SKILL ROWS ─── */
@@ -2117,101 +2004,39 @@
       </div>
     </div>
 
-    <!-- 3-panel visual grid -->
-    <div class="ds-panels r d4">
+    <!-- 2-column contribution cards -->
+    <div class="ds-contrib-grid r d4">
 
-      <!-- Panel 1: Token Architecture -->
-      <div class="ds-token-card">
-        <div class="ds-token-header">Token Architecture</div>
-        <div class="ds-tok-labels">
-          <span>Primitive</span>
-          <span>Semantic</span>
-          <span>Usage</span>
+      <!-- Card 1: Home Credit India -->
+      <div class="ds-contrib-card">
+        <div class="ds-contrib-head">
+          <div>
+            <div class="ds-contrib-co">Home Credit India</div>
+            <div class="ds-contrib-period">Jul 2021 – Present</div>
+          </div>
+          <div class="ds-contrib-badge">120<sup style="font-size:0.55em;vertical-align:super">+</sup><span>components</span></div>
         </div>
-        <div class="ds-tok-row">
-          <span class="ds-tok-prim"><i style="background:#1A6FD4"></i>#1A6FD4</span>
-          <span class="ds-tok-sem">action.primary</span>
-          <span class="ds-tok-use">Button, CTA</span>
-        </div>
-        <div class="ds-tok-row">
-          <span class="ds-tok-prim"><i style="background:#FFFFFF"></i>#FFFFFF</span>
-          <span class="ds-tok-sem">text.high</span>
-          <span class="ds-tok-use">Heading, Body</span>
-        </div>
-        <div class="ds-tok-row">
-          <span class="ds-tok-prim"><i style="background:#1C2233;border:1px solid rgba(255,255,255,0.15)"></i>#1C2233</span>
-          <span class="ds-tok-sem">bg.surface</span>
-          <span class="ds-tok-use">Card, Modal</span>
-        </div>
-        <div class="ds-tok-row">
-          <span class="ds-tok-prim"><i style="background:#8892A4"></i>#8892A4</span>
-          <span class="ds-tok-sem">text.muted</span>
-          <span class="ds-tok-use">Caption, Label</span>
-        </div>
-        <div class="ds-tok-row">
-          <span class="ds-tok-prim"><i style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18)"></i>rgba</span>
-          <span class="ds-tok-sem">border.subtle</span>
-          <span class="ds-tok-use">Input, Divider</span>
-        </div>
+        <ul class="ds-contrib-list">
+          <li>Rebuilt the enterprise design system for regulatory compliance — new token architecture, component standards, and interaction guidelines adopted across all product teams</li>
+          <li>Established a shared token layer covering color, spacing, elevation, and typography, reducing design inconsistency across web and mobile surfaces</li>
+          <li>Drove cross-squad adoption with documentation, Figma libraries, and onboarding — contributing to a 60% improvement in design-to-dev velocity</li>
+        </ul>
       </div>
 
-      <!-- Panel 2: Type scale — Home Credit India -->
-      <div class="ds-token-card">
-        <div class="ds-token-header">Type Scale</div>
-        <div class="ds-card-context">↳ Home Credit India</div>
-        <div class="ds-type-rows">
-          <div class="ds-type-row">
-            <span class="ds-type-px">48</span>
-            <span class="ds-type-preview" style="font-size:1.375rem">Display</span>
+      <!-- Card 2: BuildSupply -->
+      <div class="ds-contrib-card">
+        <div class="ds-contrib-head">
+          <div>
+            <div class="ds-contrib-co">BuildSupply</div>
+            <div class="ds-contrib-period">May 2018 – Jul 2021</div>
           </div>
-          <div class="ds-type-row">
-            <span class="ds-type-px">32</span>
-            <span class="ds-type-preview" style="font-size:1.125rem">Heading 1</span>
-          </div>
-          <div class="ds-type-row">
-            <span class="ds-type-px">20</span>
-            <span class="ds-type-preview" style="font-size:0.9375rem">Heading 2</span>
-          </div>
-          <div class="ds-type-row">
-            <span class="ds-type-px">16</span>
-            <span class="ds-type-preview" style="font-size:0.8125rem">Body</span>
-          </div>
-          <div class="ds-type-row">
-            <span class="ds-type-px">12</span>
-            <span class="ds-type-preview" style="font-size:0.6875rem">Caption</span>
-          </div>
+          <div class="ds-contrib-badge">80<sup style="font-size:0.55em;vertical-align:super">+</sup><span>components</span></div>
         </div>
-      </div>
-
-      <!-- Panel 3: Component inventory — BuildSupply -->
-      <div class="ds-token-card">
-        <div class="ds-token-header">Component Inventory</div>
-        <div class="ds-card-context">↳ BuildSupply</div>
-        <div class="ds-comp-row">
-          <span class="ds-comp-name">Navigation</span>
-          <div class="ds-comp-track"><div class="ds-comp-bar" data-w="22"></div></div>
-          <span class="ds-comp-count">24</span>
-        </div>
-        <div class="ds-comp-row">
-          <span class="ds-comp-name">Forms</span>
-          <div class="ds-comp-track"><div class="ds-comp-bar" data-w="38"></div></div>
-          <span class="ds-comp-count">42</span>
-        </div>
-        <div class="ds-comp-row">
-          <span class="ds-comp-name">Data Display</span>
-          <div class="ds-comp-track"><div class="ds-comp-bar" data-w="62"></div></div>
-          <span class="ds-comp-count">68</span>
-        </div>
-        <div class="ds-comp-row">
-          <span class="ds-comp-name">Feedback</span>
-          <div class="ds-comp-track"><div class="ds-comp-bar" data-w="26"></div></div>
-          <span class="ds-comp-count">28</span>
-        </div>
-        <div class="ds-comp-row">
-          <span class="ds-comp-name">Layout</span>
-          <div class="ds-comp-track"><div class="ds-comp-bar" data-w="35"></div></div>
-          <span class="ds-comp-count">38</span>
-        </div>
+        <ul class="ds-contrib-list">
+          <li>Built the design system from scratch — color tokens, type scales, spacing system, and 80+ components for a B2B e-commerce platform</li>
+          <li>Enabled consistent UI development across buyer portal, seller dashboard, and internal ops tools</li>
+          <li>Created handoff documentation and Zeplin-based guidelines that reduced design-engineering back-and-forth by a measurable margin</li>
+        </ul>
       </div>
 
     </div>
@@ -2227,8 +2052,7 @@
       <div class="avatar-wrap r">
         <div class="avatar">
           <div class="avatar-inner">
-            <!-- Replace this with <img src="your-photo.jpg" alt="GS Sandhu" style="width:100%;height:100%;object-fit:cover;"> -->
-            <span class="avatar-initials">GS</span>
+            <img src="profile.jpg" alt="Gurpreet Singh — Senior Product Designer">
           </div>
         </div>
         <div class="avatar-chip">
@@ -2310,85 +2134,55 @@
   <div class="inner">
     <div class="proc-head">
       <span class="label r">How I Work</span>
-      <h2 class="sec-title r d1">Human insight,<br><em>AI-accelerated.</em></h2>
-      <p class="sec-desc r d2" style="margin: 0 auto;">My process isn't a waterfall — it's a loop. AI enters wherever it earns its place: synthesising research, stress-testing ideas, generating variants. I own the judgment; AI compresses the time.</p>
-      <div class="ai-flow-note r d3">
-        <span class="ai-pill">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          AI-augmented workflow
-        </span>
-        Phases overlap — AI helps me move fluidly between them rather than waiting for one to finish.
-      </div>
+      <h2 class="sec-title r d1">Structured thinking.<br><em>Fast execution.</em></h2>
+      <p class="sec-desc r d2">Research first, always. Every decision is traceable to a user need or a business outcome — never just a preference.</p>
     </div>
 
-    <div class="proc-editorial">
-
-      <!-- 01 Discover -->
-      <div class="proc-step r">
-        <div class="proc-step-num">01</div>
-        <div class="proc-step-body">
-          <div class="proc-step-icon">🔍</div>
-          <h3 class="proc-step-title">Discover</h3>
-          <p class="proc-step-desc">User interviews, competitive analysis, analytics deep-dives. I listen hard before I draw a single pixel — because the right solution rarely comes from the first guess.</p>
-          <div class="proc-ai-row">
-            <span class="proc-ai-label-inline">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              AI here:
-            </span>
-            <span class="proc-ai-chip">Interview synthesis</span>
-            <span class="proc-ai-chip">Sentiment analysis</span>
-            <span class="proc-ai-chip">Competitive intel</span>
-            <span class="proc-ai-chip">Pattern recognition</span>
-          </div>
+    <div class="proc-grid r d3">
+      <div class="proc-card">
+        <span class="proc-card-num">01</span>
+        <div class="proc-card-icon">🔍</div>
+        <h3 class="proc-card-title">Discover</h3>
+        <p class="proc-card-desc">Interviews, analytics, competitive audits. I listen before I draw — the right solution rarely comes from the first guess.</p>
+        <div class="proc-card-tags">
+          <span class="proc-tag">User interviews</span>
+          <span class="proc-tag">Analytics</span>
+          <span class="proc-tag">Competitive audit</span>
         </div>
       </div>
-
-      <hr class="proc-divider">
-
-      <!-- 02 Define -->
-      <div class="proc-step r d1">
-        <div class="proc-step-num">02</div>
-        <div class="proc-step-body">
-          <div class="proc-step-icon">💡</div>
-          <h3 class="proc-step-title">Define</h3>
-          <p class="proc-step-desc">Turn findings into sharp problem statements, user flows, and design principles. Stress-test assumptions and surface blind spots before a single frame is drawn.</p>
+      <div class="proc-card">
+        <span class="proc-card-num">02</span>
+        <div class="proc-card-icon">💡</div>
+        <h3 class="proc-card-title">Define</h3>
+        <p class="proc-card-desc">Sharp problem statements, user flows, and design principles. Assumptions stress-tested before a single frame is drawn.</p>
+        <div class="proc-card-tags">
+          <span class="proc-tag">Problem framing</span>
+          <span class="proc-tag">User flows</span>
+          <span class="proc-tag">Principles</span>
         </div>
       </div>
-
-      <hr class="proc-divider">
-
-      <!-- 03 Design -->
-      <div class="proc-step r d1">
-        <div class="proc-step-num">03</div>
-        <div class="proc-step-body">
-          <div class="proc-step-icon">✏️</div>
-          <h3 class="proc-step-title">Design</h3>
-          <p class="proc-step-desc">Lo-fi to hi-fi, tested with real users. AI accelerates variant generation and copy so I can spend creative energy on the decisions that actually require taste.</p>
-          <div class="proc-ai-row">
-            <span class="proc-ai-label-inline">
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              AI here:
-            </span>
-            <span class="proc-ai-chip">Component variants</span>
-            <span class="proc-ai-chip">Copy generation</span>
-            <span class="proc-ai-chip">A11y audits</span>
-            <span class="proc-ai-chip">Design critique</span>
-          </div>
+      <div class="proc-card">
+        <span class="proc-card-num">03</span>
+        <div class="proc-card-icon">✏️</div>
+        <h3 class="proc-card-title">Design</h3>
+        <p class="proc-card-desc">Lo-fi to hi-fi, tested with real users at each stage. Creative energy spent on decisions that require taste — not busywork.</p>
+        <div class="proc-card-tags">
+          <span class="proc-tag">Wireframes</span>
+          <span class="proc-tag">Prototypes</span>
+          <span class="proc-tag">Usability testing</span>
         </div>
       </div>
-
-      <hr class="proc-divider">
-
-      <!-- 04 Deliver -->
-      <div class="proc-step r d2">
-        <div class="proc-step-num">04</div>
-        <div class="proc-step-body">
-          <div class="proc-step-icon">🚀</div>
-          <h3 class="proc-step-title">Deliver</h3>
-          <p class="proc-step-desc">Developer-ready specs, a living design system, and a designer who stays in the loop through build. Nothing gets lost in handoff.</p>
+      <div class="proc-card">
+        <span class="proc-card-num">04</span>
+        <div class="proc-card-icon">🚀</div>
+        <h3 class="proc-card-title">Deliver</h3>
+        <p class="proc-card-desc">Developer-ready specs, annotated components, and a designer who stays in the loop through build. Nothing gets lost in handoff.</p>
+        <div class="proc-card-tags">
+          <span class="proc-tag">Dev specs</span>
+          <span class="proc-tag">Design system</span>
+          <span class="proc-tag">QA support</span>
         </div>
       </div>
-
     </div>
   </div>
 </section>
