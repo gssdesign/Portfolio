@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GS Sandhu — Product Designer</title>
-  <meta name="description" content="Senior Product Designer with 9+ years crafting digital experiences across fintech, B2B SaaS, and enterprise platforms. Currently Senior Manager of Product Design at Home Credit India.">
+  <meta name="description" content="Senior Product Designer with 10+ years crafting digital experiences across fintech, B2B SaaS, and enterprise platforms. Currently Senior Manager of Product Design at Home Credit India.">
   <!-- Open Graph -->
   <meta property="og:title" content="GS Sandhu — Senior Product Designer">
-  <meta property="og:description" content="9+ years of UX/UI design across fintech and B2B SaaS. 200+ components. 60% faster delivery. Based in Gurugram, India.">
+  <meta property="og:description" content="10+ years of UX/UI design across fintech and B2B SaaS. 200+ components. 60% faster delivery. Based in Gurugram, India.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sandhufugazy.github.io/portfolio">
   <meta property="og:image" content="https://sandhufugazy.github.io/portfolio/og-image.png">
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GS Sandhu — Senior Product Designer">
-  <meta name="twitter:description" content="9+ years of UX/UI design across fintech and B2B SaaS. Based in Gurugram, India.">
+  <meta name="twitter:description" content="10+ years of UX/UI design across fintech and B2B SaaS. Based in Gurugram, India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -215,24 +215,34 @@
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
       isolation: isolate;
     }
-    /* ── CTA STAR PARTICLES ── */
-    .star {
+    /* ── CTA GLOW BORDER ── */
+    .btn-primary.glow { position: relative; }
+    .glow-svg {
       position: absolute;
-      top: 50%; left: 50%;
-      width:  calc(var(--size, 3) * 1px);
-      height: calc(var(--size, 3) * 1px);
-      margin-top:  calc(var(--size, 3) * -0.5px);
-      margin-left: calc(var(--size, 3) * -0.5px);
-      border-radius: 50%;
-      background: rgba(255, 230, 190, var(--alpha, 0.7));
-      transform: rotate(calc(var(--angle, 0) * 1deg)) translateX(calc(var(--distance, 60) * 1px));
-      animation: starOrbit calc(var(--duration, 10) * 1s) calc(var(--delay, 0) * -1s) linear infinite;
-      pointer-events: none; z-index: 0;
+      inset: -1px;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      pointer-events: none;
+      overflow: visible;
+      z-index: 0;
     }
-    @keyframes starOrbit {
-      to { transform: rotate(calc(var(--angle, 0) * 1deg + 360deg)) translateX(calc(var(--distance, 60) * 1px)); }
+    .glow-svg rect {
+      fill: none;
+      width: 100%; height: 100%; x: 0; y: 0;
+      stroke: rgba(255, 220, 170, 0.95);
+      stroke-width: 1.5;
+      stroke-dasharray: 14 86;
+      stroke-dashoffset: 0;
+      animation: glowTravel 2.5s linear infinite;
+      filter: drop-shadow(0 0 6px rgba(255, 190, 110, 0.85))
+              drop-shadow(0 0 14px rgba(217, 119, 87, 0.5));
     }
-    @media (prefers-reduced-motion: reduce) { .star { display: none; } }
+    @keyframes glowTravel { to { stroke-dashoffset: -100; } }
+    [data-theme="light"] .glow-svg rect {
+      stroke: rgba(180, 80, 30, 0.85);
+      filter: drop-shadow(0 0 5px rgba(180, 80, 30, 0.55));
+    }
+    @media (prefers-reduced-motion: reduce) { .glow-svg { display: none; } }
     .btn-primary:hover {
       background: var(--accent-hover); transform: translateY(-2px);
       box-shadow: 0 10px 35px rgba(217,119,87,0.38);
@@ -991,27 +1001,27 @@
         linear-gradient(rgba(156,70,36,0.06) 1px, transparent 1px),
         linear-gradient(90deg, rgba(156,70,36,0.06) 1px, transparent 1px);
     }
-    /* ── Glitch effect on hero title ── */
+    /* ── Glitch — shared keyframes & reusable .glitch-em class ── */
     .hero-title { position: relative; }
-    .hero-title.glitch::before,
-    .hero-title.glitch::after {
+    .glitch-em {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch-em::before,
+    .glitch-em::after {
       content: attr(data-text);
       position: absolute; top: 0; left: 0; width: 100%;
-      font-size: inherit; font-weight: inherit;
-      letter-spacing: inherit; line-height: inherit;
-      pointer-events: none;
+      font-style: inherit; font-weight: inherit;
+      font-size: inherit; letter-spacing: inherit;
+      line-height: inherit; pointer-events: none;
     }
-    .hero-title.glitch::before {
-      color: rgba(255, 60, 60, 0.75);
-      clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
-      transform: translateX(-3px);
-      animation: glitch-before 4s 2s infinite;
+    .glitch-em::before {
+      color: rgba(255, 60, 60, 0.8);
+      animation: glitch-before 4s var(--gd, 0s) infinite;
     }
-    .hero-title.glitch::after {
-      color: rgba(60, 180, 255, 0.75);
-      clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
-      transform: translateX(3px);
-      animation: glitch-after 4s 2s infinite;
+    .glitch-em::after {
+      color: rgba(60, 200, 255, 0.8);
+      animation: glitch-after 4s calc(var(--gd, 0s) + 0.6s) infinite;
     }
     @keyframes glitch-before {
       0%,89%,100% { opacity:0; transform:translateX(0); clip-path:polygon(0 0,100% 0,100% 0,0 0); }
@@ -1026,6 +1036,9 @@
       91%          { opacity:1; transform:translateX(-3px); clip-path:polygon(0 20%,100% 20%,100% 40%,0 40%); }
       92%          { opacity:1; transform:translateX(2px);  clip-path:polygon(0 65%,100% 65%,100% 80%,0 80%); }
       93%,100%     { opacity:0; transform:translateX(0); clip-path:polygon(0 0,100% 0,100% 0,0 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .glitch-em::before, .glitch-em::after { display: none; }
     }
 
     /* ── Theme Toggle Button ── */
@@ -1555,19 +1568,16 @@
 
   <div class="hero-inner">
     <div class="hero-badge"><span class="pulse-dot"></span>Open to full-time roles</div>
-    <h1 class="hero-title glitch" data-text="Product Design that moves people.">
-      Product<br>
-      <em>Design</em> that<br>
-      moves people.
+    <h1 class="hero-title">
+      Hi, I'm <span class="glitch-em" data-text="Gurpreet Singh" style="--gd:0s">Gurpreet Singh</span><br>
+      I design, ride,<br>paint &amp; write.
     </h1>
     <p class="hero-sub">
-      9+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
+      10+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
     </p>
     <div class="hero-actions">
-      <a href="#work" class="btn-primary" id="hero-cta">
-        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
-        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
-        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+      <a href="#work" class="btn-primary glow" id="hero-cta">
+        <svg class="glow-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect pathLength="100"/></svg>
         <span class="btn-label">
           View My Work
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1577,7 +1587,7 @@
     </div>
     <div class="hero-stats">
       <div class="stat">
-        <div class="stat-num" data-target="9" data-suffix="+">9<sup>+</sup></div>
+        <div class="stat-num" data-target="10" data-suffix="+">10<sup>+</sup></div>
         <div class="stat-label">Years Experience</div>
       </div>
       <div class="stat">
@@ -1620,7 +1630,7 @@
     <div class="work-head">
       <div>
         <span class="label r">Selected Work</span>
-        <h2 class="sec-title r d1">Work that <em>solves,</em><br>converts, and scales.</h2>
+        <h2 class="sec-title r d1">Work that <em class="glitch-em" data-text="solves," style="--gd:0.5s">solves,</em><br>converts, and scales.</h2>
       </div>
       <p class="sec-desc r d2">From enterprise SaaS to consumer apps — every project driven by real user problems and measured outcomes.</p>
     </div>
@@ -1744,7 +1754,7 @@
     <div class="ds-layout">
       <div class="ds-header">
         <span class="label r">Design Systems</span>
-        <h2 class="sec-title r d1">From fragmentation<br>to <em>foundation.</em></h2>
+        <h2 class="sec-title r d1">From fragmentation<br>to <em class="glitch-em" data-text="foundation." style="--gd:1.2s">foundation.</em></h2>
         <p class="sec-desc r d2">At Home Credit India and BuildSupply I identified fragmentation, established token architecture, built 200+ production components, and drove adoption across engineering and product squads — delivering a 60% improvement in design-to-dev velocity.</p>
         <div class="ds-companies r d2">
           <span class="ds-company-tag"><span class="ct-dot"></span>Home Credit India · 2021–Present</span>
@@ -1854,11 +1864,11 @@
       <div class="about-content">
         <div>
           <span class="label r">About Me</span>
-          <h2 class="sec-title r d1">Curious by nature<br>and <em>creative</em> by practice.</h2>
+          <h2 class="sec-title r d1">Curious by nature<br>and <em class="glitch-em" data-text="creative" style="--gd:0.8s">creative</em> by practice.</h2>
         </div>
 
         <p class="about-bio r d2">
-          I'm <strong>GS Sandhu</strong> — a Product Designer with <strong>9+ years</strong> making digital products that people actually want to use. I care as much about the business case as the pixel — research, strategy, and execution in one package.
+          I'm a self-taught designer driven by curiosity and a passion for building better user experiences. Over time, I've developed my skills in UX/UI and product design through workshops, reading, and real-world projects. I enjoy looking at the bigger picture and love taking products from initial ideas all the way through to development.
         </p>
         <p class="about-bio r d2">
           I've built products for <strong>startups, scale-ups, and enterprises</strong> — from zero-to-one launches to full design system overhauls. I work best at the messy intersection of user insight, business constraint, and technical reality.
@@ -1924,7 +1934,7 @@
   <div class="inner">
     <div class="proc-head">
       <span class="label r">How I Work</span>
-      <h2 class="sec-title r d1">Structured thinking.<br><em>Fast execution.</em></h2>
+      <h2 class="sec-title r d1">Structured thinking.<br><em class="glitch-em" data-text="Fast execution." style="--gd:1.8s">Fast execution.</em></h2>
       <p class="sec-desc r d2">Research first, always. Every decision is traceable to a user need or a business outcome — never just a preference.</p>
     </div>
 
@@ -1955,7 +1965,7 @@
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:0;">
       <div>
         <span class="label r">Toolkit</span>
-        <h2 class="sec-title r d1" style="margin-bottom:0;">Tools of the <em>trade.</em></h2>
+        <h2 class="sec-title r d1" style="margin-bottom:0;">Tools of the <em class="glitch-em" data-text="trade." style="--gd:2.3s">trade.</em></h2>
       </div>
     </div>
     <div class="tools-grid">
@@ -1980,7 +1990,7 @@
   <div class="inner">
     <div class="testi-head">
       <span class="label r">Testimonials</span>
-      <h2 class="sec-title r d1">What colleagues <em>say.</em></h2>
+      <h2 class="sec-title r d1">What colleagues <em class="glitch-em" data-text="say." style="--gd:0.3s">say.</em></h2>
     </div>
     <div class="testi-grid">
       <div class="testi-card r">
@@ -2051,7 +2061,7 @@
       <div class="contact-info">
         <div>
           <span class="label r">Get in Touch</span>
-          <h2 class="sec-title r d1">Open to new roles.<br>Let's <em>talk.</em></h2>
+          <h2 class="sec-title r d1">Open to new roles.<br>Let's <em class="glitch-em" data-text="talk." style="--gd:1.5s">talk.</em></h2>
           <p class="sec-desc r d2">Currently open to Senior / Lead Product Designer roles. Whether it's a full-time opportunity or a sharp conversation about design — I'm here.</p>
         </div>
         <div class="contact-links r d2">
@@ -2115,10 +2125,8 @@
             A message is required
           </span>
         </div>
-        <button type="submit" class="btn-primary" id="submitBtn" style="width:100%;justify-content:center;">
-          <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
-          <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
-          <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+        <button type="submit" class="btn-primary glow" id="submitBtn" style="width:100%;justify-content:center;">
+          <svg class="glow-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect pathLength="100"/></svg>
           Send Message
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -2901,7 +2909,7 @@
 
       // About / identity
       { keys: ['about','tell me about','who is','who are','introduce'],
-        ans:  "Gurpreet Singh is a Digital Product Designer based in Gurugram, India 🇮🇳 with 9+ years of experience across fintech, B2B SaaS, and consumer apps. He's currently Senior Manager of Product Design at Home Credit India." },
+        ans:  "Gurpreet Singh is a Digital Product Designer based in Gurugram, India 🇮🇳 with 10+ years of experience across fintech, B2B SaaS, and consumer apps. He's currently Senior Manager of Product Design at Home Credit India." },
 
       // Current role
       { keys: ['current role','current job','currently working','home credit','what does he do now','where does he work'],
@@ -2913,7 +2921,7 @@
 
       // Experience / years
       { keys: ['experience','years','how long','career','history','timeline','work history'],
-        ans:  "Gurpreet has 9+ years of experience in product design. Career timeline: HCL Infosystem (2015–16) → Appster (2016–18) → BuildSupply (2018–21) → Home Credit India (2021–present). Design-focused since Feb 2016." },
+        ans:  "Gurpreet has 10+ years of experience in product design. Career timeline: HCL Infosystem (2015–16) → Appster (2016–18) → BuildSupply (2018–21) → Home Credit India (2021–present). Design-focused since Feb 2016." },
 
       // Previous companies
       { keys: ['buildsupply','appster','hcl','previous','past company','past role','past job','worked before'],
@@ -3116,19 +3124,14 @@
 })();
 </script>
 
-<!-- ─── CTA STAR PARTICLES ─── -->
+<!-- ─── CTA GLOW BORDER ─── -->
 <script>
 (function () {
-  const RANDOM = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
-  document.querySelectorAll('.btn-primary .star').forEach(function(P) {
-    P.setAttribute('style', [
-      '--angle:'    + RANDOM(0, 360),
-      '--duration:' + RANDOM(6, 20),
-      '--delay:'    + RANDOM(1, 10),
-      '--alpha:'    + (RANDOM(40, 90) / 100),
-      '--size:'     + RANDOM(2, 5),
-      '--distance:' + RANDOM(30, 80),
-    ].join(';'));
+  document.querySelectorAll('.glow').forEach(function(el) {
+    var rx = getComputedStyle(el).borderRadius;
+    el.querySelectorAll('rect').forEach(function(rect) {
+      rect.setAttribute('rx', rx);
+    });
   });
 })();
 </script>
