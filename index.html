@@ -211,26 +211,34 @@
       padding: 0.875rem 2rem; border-radius: var(--r-sm);
       font-size: 0.9375rem; font-weight: 600; letter-spacing: 0.01em;
       text-decoration: none; border: none; cursor: pointer;
-      font-family: inherit; position: relative; overflow: hidden;
+      font-family: inherit; position: relative;
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
       isolation: isolate;
     }
+    /* ── CTA STAR PARTICLES ── */
+    .star {
+      position: absolute;
+      top: 50%; left: 50%;
+      width:  calc(var(--size, 3) * 1px);
+      height: calc(var(--size, 3) * 1px);
+      margin-top:  calc(var(--size, 3) * -0.5px);
+      margin-left: calc(var(--size, 3) * -0.5px);
+      border-radius: 50%;
+      background: rgba(255, 230, 190, var(--alpha, 0.7));
+      transform: rotate(calc(var(--angle, 0) * 1deg)) translateX(calc(var(--distance, 60) * 1px));
+      animation: starOrbit calc(var(--duration, 10) * 1s) calc(var(--delay, 0) * -1s) linear infinite;
+      pointer-events: none; z-index: 0;
+    }
+    @keyframes starOrbit {
+      to { transform: rotate(calc(var(--angle, 0) * 1deg + 360deg)) translateX(calc(var(--distance, 60) * 1px)); }
+    }
+    @media (prefers-reduced-motion: reduce) { .star { display: none; } }
     .btn-primary:hover {
       background: var(--accent-hover); transform: translateY(-2px);
       box-shadow: 0 10px 35px rgba(217,119,87,0.38);
     }
     .btn-primary .btn-label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; }
 
-    /* ── HERO BACKGROUND SMOKE ── */
-    #hero-smoke {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      z-index: 0; pointer-events: none;
-      opacity: 0; transition: opacity 1.2s ease;
-    }
-    #hero-smoke.smoke-visible { opacity: 0.13; }
-    [data-theme="light"] #hero-smoke { display: none; }
-    @media (prefers-reduced-motion: reduce) { #hero-smoke { display: none; } }
     .btn-secondary {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: transparent; color: var(--text);
@@ -1208,7 +1216,7 @@
     .hero-card {
       position: absolute;
       right: clamp(2rem, 6vw, 5rem);
-      top: 50%;
+      top: 42%;
       translate: 0 -50%;
       width: clamp(200px, 26vw, 340px);
       aspect-ratio: 3/4;
@@ -1287,6 +1295,31 @@
         0 0 0 1px rgba(255,255,255,0.14),
         inset 0 0 40px rgba(255,255,255,0.04);
     }
+    /* ── HERO CARD GLITCH ── */
+    .hero-card__img {
+      animation: imgGlitch 6s step-end infinite;
+    }
+    @keyframes imgGlitch {
+      0%, 88%, 100% { clip-path: none; filter: none; transform: none; }
+      89% {
+        clip-path: polygon(0 8%,  100% 8%,  100% 30%, 0 30%);
+        filter: hue-rotate(140deg) saturate(5) brightness(1.2);
+        transform: translateX(-7px);
+      }
+      90% {
+        clip-path: polygon(0 55%, 100% 55%, 100% 78%, 0 78%);
+        filter: hue-rotate(-110deg) saturate(4);
+        transform: translateX(7px);
+      }
+      91% {
+        clip-path: polygon(0 28%, 100% 28%, 100% 48%, 0 48%);
+        filter: brightness(1.6) contrast(1.4);
+        transform: translateX(-3px);
+      }
+      92% { clip-path: none; filter: none; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .hero-card__img { animation: none; } }
+
     @media (max-width: 768px) {
       .hero-card { width: clamp(150px, 30vw, 220px); right: 1rem; }
     }
@@ -1511,9 +1544,6 @@
   <div class="hero-glow"></div>
   <div class="hero-grid" aria-hidden="true"></div>
 
-  <!-- ─── HERO BG SMOKE ─── -->
-  <canvas id="hero-smoke" aria-hidden="true"></canvas>
-
   <!-- ─── HOLO CARD ─── -->
   <div class="hero-card" id="hero-card" aria-hidden="true">
     <div class="hero-card__inner">
@@ -1535,6 +1565,9 @@
     </p>
     <div class="hero-actions">
       <a href="#work" class="btn-primary" id="hero-cta">
+        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+        <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
         <span class="btn-label">
           View My Work
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2083,6 +2116,9 @@
           </span>
         </div>
         <button type="submit" class="btn-primary" id="submitBtn" style="width:100%;justify-content:center;">
+          <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+          <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
+          <i class="star"></i><i class="star"></i><i class="star"></i><i class="star"></i>
           Send Message
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -3080,95 +3116,20 @@
 })();
 </script>
 
-<!-- ─── HERO BG SMOKE ─── -->
+<!-- ─── CTA STAR PARTICLES ─── -->
 <script>
 (function () {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const getTheme = () => document.documentElement.getAttribute('data-theme');
-
-  // Double-rAF after DOMContentLoaded ensures layout is complete before we read offsetWidth
-  function whenReady(fn) {
-    if (document.readyState !== 'loading') requestAnimationFrame(() => requestAnimationFrame(fn));
-    else document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(() => requestAnimationFrame(fn)));
-  }
-  whenReady(initHeroSmoke);
-
-  function initHeroSmoke() {
-    if (getTheme() === 'light') {
-      new MutationObserver((_, obs) => {
-        if (getTheme() !== 'light') { obs.disconnect(); initHeroSmoke(); }
-      }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-      return;
-    }
-
-    const canvas = document.getElementById('hero-smoke');
-    if (!canvas) return;
-
-    import('https://esm.sh/fragment-canvas@1.0.7').then(function(m) {
-      var FragmentCanvas = m.default;
-
-    /* Slow, wide-scale fBm smoke — tuned for a full-section background */
-    const fragmentShader = `
-      precision mediump float;
-      uniform vec2  iResolution;
-      uniform float iTime;
-
-      float random(vec2 p) {
-        return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453);
-      }
-      float noise(vec2 p) {
-        vec2 i = floor(p), f = fract(p);
-        float a = random(i),
-              b = random(i + vec2(1.0, 0.0)),
-              c = random(i + vec2(0.0, 1.0)),
-              d = random(i + vec2(1.0, 1.0));
-        vec2 u = f * f * (3.0 - 2.0 * f);
-        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-      }
-      float fbm(vec2 p) {
-        float v = 0.0, a = 0.5;
-        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-        for (int i = 0; i < 5; i++) {
-          v += a * noise(p);
-          p  = rot * p * 2.0 + vec2(20.0);
-          a *= 0.5;
-        }
-        return v;
-      }
-      void main(void) {
-        /* Slow drift — 0.05 keeps it very subtle for a background */
-        float t = iTime * 0.05;
-        vec2 uv = gl_FragCoord.xy / iResolution.xy;
-        uv.x *= iResolution.x / iResolution.y;
-        uv *= 1.4;
-        vec2 q = vec2(fbm(uv + t), fbm(uv + vec2(4.8, 1.2)));
-        vec2 r = vec2(
-          fbm(uv + 2.5 * q + vec2(1.2, 3.2) + t),
-          fbm(uv + 2.5 * q + vec2(8.8, 2.8) + t)
-        );
-        float f = fbm(uv + r);
-        /* Warm ember palette matching the site accent */
-        vec3 col = mix(vec3(0.05,0.01,0.0), vec3(0.50,0.16,0.04), clamp(f * f * 4.0, 0.0, 1.0));
-        col = mix(col, vec3(0.80,0.40,0.18), clamp(length(q) * 0.8, 0.0, 1.0));
-        col = (f * f * f + 0.5 * f * f + 0.4 * f) * col;
-        gl_FragColor = vec4(col, 1.0);
-      }
-    `;
-
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      canvas.width  = canvas.offsetWidth  * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-    }
-      resize();
-      window.addEventListener('resize', resize, { passive: true });
-
-      try {
-        new FragmentCanvas(canvas, { fragmentShader });
-        canvas.classList.add('smoke-visible');
-      } catch (e) { /* WebGL unavailable */ }
-    }).catch(function() { /* esm.sh unavailable */ });
-  }
+  const RANDOM = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+  document.querySelectorAll('.btn-primary .star').forEach(function(P) {
+    P.setAttribute('style', [
+      '--angle:'    + RANDOM(0, 360),
+      '--duration:' + RANDOM(6, 20),
+      '--delay:'    + RANDOM(1, 10),
+      '--alpha:'    + (RANDOM(40, 90) / 100),
+      '--size:'     + RANDOM(2, 5),
+      '--distance:' + RANDOM(30, 80),
+    ].join(';'));
+  });
 })();
 </script>
 </body>
