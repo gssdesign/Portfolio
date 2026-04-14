@@ -180,7 +180,7 @@
     @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.45; transform:scale(0.75); } }
 
     .hero-title {
-      font-size: clamp(3.25rem, 9vw, 7.5rem); font-weight: 800;
+      font-size: clamp(2.4rem, 5.8vw, 5.25rem); font-weight: 800;
       letter-spacing: -0.04em; line-height: 1.0; margin-bottom: 1.75rem;
       opacity: 0; transform: translateY(24px);
       animation: up 0.75s 0.3s ease forwards;
@@ -215,34 +215,6 @@
       transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
       isolation: isolate;
     }
-    /* ── CTA GLOW BORDER ── */
-    .btn-primary.glow { position: relative; }
-    .glow-svg {
-      position: absolute;
-      inset: -1px;
-      width: calc(100% + 2px);
-      height: calc(100% + 2px);
-      pointer-events: none;
-      overflow: visible;
-      z-index: 0;
-    }
-    .glow-svg rect {
-      fill: none;
-      width: 100%; height: 100%; x: 0; y: 0;
-      stroke: rgba(255, 220, 170, 0.95);
-      stroke-width: 1.5;
-      stroke-dasharray: 14 86;
-      stroke-dashoffset: 0;
-      animation: glowTravel 2.5s linear infinite;
-      filter: drop-shadow(0 0 6px rgba(255, 190, 110, 0.85))
-              drop-shadow(0 0 14px rgba(217, 119, 87, 0.5));
-    }
-    @keyframes glowTravel { to { stroke-dashoffset: -100; } }
-    [data-theme="light"] .glow-svg rect {
-      stroke: rgba(180, 80, 30, 0.85);
-      filter: drop-shadow(0 0 5px rgba(180, 80, 30, 0.55));
-    }
-    @media (prefers-reduced-motion: reduce) { .glow-svg { display: none; } }
     .btn-primary:hover {
       background: var(--accent-hover); transform: translateY(-2px);
       box-shadow: 0 10px 35px rgba(217,119,87,0.38);
@@ -1576,8 +1548,7 @@
       10+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
     </p>
     <div class="hero-actions">
-      <a href="#work" class="btn-primary glow" id="hero-cta">
-        <svg class="glow-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect pathLength="100"/></svg>
+      <a href="#work" class="btn-primary" id="hero-cta">
         <span class="btn-label">
           View My Work
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2125,8 +2096,7 @@
             A message is required
           </span>
         </div>
-        <button type="submit" class="btn-primary glow" id="submitBtn" style="width:100%;justify-content:center;">
-          <svg class="glow-svg" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><rect pathLength="100"/></svg>
+        <button type="submit" class="btn-primary" id="submitBtn" style="width:100%;justify-content:center;">
           Send Message
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -3124,16 +3094,5 @@
 })();
 </script>
 
-<!-- ─── CTA GLOW BORDER ─── -->
-<script>
-(function () {
-  document.querySelectorAll('.glow').forEach(function(el) {
-    var rx = getComputedStyle(el).borderRadius;
-    el.querySelectorAll('rect').forEach(function(rect) {
-      rect.setAttribute('rx', rx);
-    });
-  });
-})();
-</script>
 </body>
 </html>
