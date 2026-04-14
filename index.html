@@ -181,7 +181,7 @@
 
     .hero-title {
       font-size: clamp(2.4rem, 5.8vw, 5.25rem); font-weight: 800;
-      letter-spacing: -0.04em; line-height: 1.18; margin-bottom: 1.75rem;
+      letter-spacing: -0.04em; line-height: 1.35; margin-bottom: 1.75rem;
       opacity: 0; transform: translateY(24px);
       animation: up 0.75s 0.3s ease forwards;
     }
@@ -189,27 +189,11 @@
       font-family: 'Instrument Serif', Georgia, serif;
       font-style: italic; font-weight: 400; color: var(--accent);
     }
-    /* ── Verb pill tags (glorialo-style) ── */
+    /* ── Verb accent words (glorialo-style, no pill) ── */
     .verb-tag {
-      display: inline-flex; align-items: center;
       font-family: 'Instrument Serif', Georgia, serif;
       font-style: italic; font-weight: 400;
-      background: rgba(217,119,87,0.10);
-      border: 1.5px solid rgba(217,119,87,0.30);
-      border-radius: 100px;
-      padding: 0.02em 0.38em 0.06em;
       color: var(--accent);
-      transition: background 0.22s, border-color 0.22s, transform 0.22s;
-      cursor: default;
-    }
-    .verb-tag:hover {
-      background: rgba(217,119,87,0.20);
-      border-color: rgba(217,119,87,0.55);
-      transform: translateY(-2px);
-    }
-    [data-theme="light"] .verb-tag {
-      background: rgba(217,119,87,0.08);
-      border-color: rgba(217,119,87,0.35);
     }
 
     .hero-sub {
