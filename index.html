@@ -181,13 +181,35 @@
 
     .hero-title {
       font-size: clamp(2.4rem, 5.8vw, 5.25rem); font-weight: 800;
-      letter-spacing: -0.04em; line-height: 1.0; margin-bottom: 1.75rem;
+      letter-spacing: -0.04em; line-height: 1.18; margin-bottom: 1.75rem;
       opacity: 0; transform: translateY(24px);
       animation: up 0.75s 0.3s ease forwards;
     }
     .hero-title em {
       font-family: 'Instrument Serif', Georgia, serif;
       font-style: italic; font-weight: 400; color: var(--accent);
+    }
+    /* ── Verb pill tags (glorialo-style) ── */
+    .verb-tag {
+      display: inline-flex; align-items: center;
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic; font-weight: 400;
+      background: rgba(217,119,87,0.10);
+      border: 1.5px solid rgba(217,119,87,0.30);
+      border-radius: 100px;
+      padding: 0.02em 0.38em 0.06em;
+      color: var(--accent);
+      transition: background 0.22s, border-color 0.22s, transform 0.22s;
+      cursor: default;
+    }
+    .verb-tag:hover {
+      background: rgba(217,119,87,0.20);
+      border-color: rgba(217,119,87,0.55);
+      transform: translateY(-2px);
+    }
+    [data-theme="light"] .verb-tag {
+      background: rgba(217,119,87,0.08);
+      border-color: rgba(217,119,87,0.35);
     }
 
     .hero-sub {
@@ -1542,7 +1564,8 @@
     <div class="hero-badge"><span class="pulse-dot"></span>Open to full-time roles</div>
     <h1 class="hero-title">
       Hi, I'm <span class="glitch-em" data-text="Gurpreet Singh" style="--gd:0s">Gurpreet Singh</span><br>
-      I design, ride,<br>paint &amp; write.
+      I <span class="verb-tag">design</span>, <span class="verb-tag">ride</span>,<br>
+      <span class="verb-tag">paint</span> &amp; <span class="verb-tag">write</span>.
     </h1>
     <p class="hero-sub">
       10+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
