@@ -219,24 +219,18 @@
       background: var(--accent-hover); transform: translateY(-2px);
       box-shadow: 0 10px 35px rgba(217,119,87,0.38);
     }
-    /* Smoky canvas sits behind button text */
-    .btn-primary canvas.smoke-canvas {
+    .btn-primary .btn-label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+    /* ── HERO BACKGROUND SMOKE ── */
+    #hero-smoke {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
-      border-radius: inherit;
-      opacity: 0; transition: opacity 0.5s ease;
-      z-index: -1; pointer-events: none;
+      z-index: 0; pointer-events: none;
+      opacity: 0; transition: opacity 1.2s ease;
     }
-    .btn-primary.smoke-ready canvas.smoke-canvas { opacity: 1; }
-    .btn-primary.smoke-ready { background: transparent !important; }
-    .btn-primary .btn-label { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 0.5rem; }
-    /* Light theme & reduced-motion: no smoke */
-    [data-theme="light"] .btn-primary canvas.smoke-canvas { display: none; }
-    [data-theme="light"] .btn-primary.smoke-ready { background: var(--accent) !important; }
-    @media (prefers-reduced-motion: reduce) {
-      .btn-primary canvas.smoke-canvas { display: none; }
-      .btn-primary.smoke-ready { background: var(--accent) !important; }
-    }
+    #hero-smoke.smoke-visible { opacity: 0.13; }
+    [data-theme="light"] #hero-smoke { display: none; }
+    @media (prefers-reduced-motion: reduce) { #hero-smoke { display: none; } }
     .btn-secondary {
       display: inline-flex; align-items: center; gap: 0.5rem;
       background: transparent; color: var(--text);
@@ -1517,6 +1511,9 @@
   <div class="hero-glow"></div>
   <div class="hero-grid" aria-hidden="true"></div>
 
+  <!-- ─── HERO BG SMOKE ─── -->
+  <canvas id="hero-smoke" aria-hidden="true"></canvas>
+
   <!-- ─── HOLO CARD ─── -->
   <div class="hero-card" id="hero-card" aria-hidden="true">
     <div class="hero-card__inner">
@@ -1538,7 +1535,6 @@
     </p>
     <div class="hero-actions">
       <a href="#work" class="btn-primary" id="hero-cta">
-        <canvas class="smoke-canvas" id="smoke-canvas" aria-hidden="true"></canvas>
         <span class="btn-label">
           View My Work
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1825,7 +1821,7 @@
       <div class="about-content">
         <div>
           <span class="label r">About Me</span>
-          <h2 class="sec-title r d1">Curious by nature.<br><em>Rigorous</em> by practice.</h2>
+          <h2 class="sec-title r d1">Curious by nature<br>and <em>rigorous</em> by practice.</h2>
         </div>
 
         <p class="about-bio r d2">
@@ -3084,41 +3080,34 @@
 })();
 </script>
 
-<!-- ─── SMOKY BUTTON ─── -->
-<script type="module">
-  const getTheme  = () => document.documentElement.getAttribute('data-theme');
-  const noMotion  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+<!-- ─── HERO BG SMOKE ─── -->
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const getTheme = () => document.documentElement.getAttribute('data-theme');
 
-  if (noMotion) { /* honour user preference — solid button stays */ }
-  else {
-    // Run after everything is painted so btn.offsetWidth is reliable
-    window.addEventListener('load', () => requestAnimationFrame(trySmoke));
+  // Double-rAF after DOMContentLoaded ensures layout is complete before we read offsetWidth
+  function whenReady(fn) {
+    if (document.readyState !== 'loading') requestAnimationFrame(() => requestAnimationFrame(fn));
+    else document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(() => requestAnimationFrame(fn)));
   }
+  whenReady(initHeroSmoke);
 
-  async function trySmoke() {
+  function initHeroSmoke() {
     if (getTheme() === 'light') {
-      // Watch for a later switch to dark
       new MutationObserver((_, obs) => {
-        if (getTheme() !== 'light') { obs.disconnect(); runSmoke(); }
+        if (getTheme() !== 'light') { obs.disconnect(); initHeroSmoke(); }
       }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       return;
     }
-    runSmoke();
-  }
 
-  async function runSmoke() {
-    const btn    = document.getElementById('hero-cta');
-    const canvas = document.getElementById('smoke-canvas');
-    if (!btn || !canvas) return;
+    const canvas = document.getElementById('hero-smoke');
+    if (!canvas) return;
 
-    let FragmentCanvas;
-    try {
-      ({ default: FragmentCanvas } = await import('https://esm.sh/fragment-canvas@1.0.7'));
-    } catch (e) {
-      console.warn('[smoke] library load failed:', e);
-      return;
-    }
+    import('https://esm.sh/fragment-canvas@1.0.7').then(function(m) {
+      var FragmentCanvas = m.default;
 
+    /* Slow, wide-scale fBm smoke — tuned for a full-section background */
     const fragmentShader = `
       precision mediump float;
       uniform vec2  iResolution;
@@ -3130,69 +3119,57 @@
       float noise(vec2 p) {
         vec2 i = floor(p), f = fract(p);
         float a = random(i),
-              b = random(i+vec2(1,0)),
-              c = random(i+vec2(0,1)),
-              d = random(i+vec2(1,1));
-        vec2 u = f*f*(3.0-2.0*f);
-        return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;
+              b = random(i + vec2(1.0, 0.0)),
+              c = random(i + vec2(0.0, 1.0)),
+              d = random(i + vec2(1.0, 1.0));
+        vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
       }
       float fbm(vec2 p) {
-        float v=0.0, a=0.5;
-        mat2 rot = mat2(cos(0.5),sin(0.5),-sin(0.5),cos(0.5));
-        for(int i=0;i<6;i++){
-          v += a*noise(p);
-          p  = rot*p*2.0+vec2(20.0);
+        float v = 0.0, a = 0.5;
+        mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+        for (int i = 0; i < 5; i++) {
+          v += a * noise(p);
+          p  = rot * p * 2.0 + vec2(20.0);
           a *= 0.5;
         }
         return v;
       }
       void main(void) {
-        vec2 uv = (gl_FragCoord.xy - 0.5*iResolution.xy) / iResolution.y;
-        uv *= 0.6;
-        vec2 q = vec2(fbm(uv+0.18*iTime), fbm(uv+vec2(5.0,1.0)));
+        /* Slow drift — 0.05 keeps it very subtle for a background */
+        float t = iTime * 0.05;
+        vec2 uv = gl_FragCoord.xy / iResolution.xy;
+        uv.x *= iResolution.x / iResolution.y;
+        uv *= 1.4;
+        vec2 q = vec2(fbm(uv + t), fbm(uv + vec2(4.8, 1.2)));
         vec2 r = vec2(
-          fbm(uv+3.0*q+vec2(1.2,3.2)+0.18*iTime),
-          fbm(uv+3.0*q+vec2(8.8,2.8)+0.18*iTime)
+          fbm(uv + 2.5 * q + vec2(1.2, 3.2) + t),
+          fbm(uv + 2.5 * q + vec2(8.8, 2.8) + t)
         );
-        float f = fbm(uv+r);
-        vec3 col = mix(vec3(0.08,0.02,0.01), vec3(0.55,0.18,0.05), clamp(f*f*5.0,0.0,1.0));
-        col = mix(col, vec3(0.85,0.47,0.22), clamp(length(q)*length(q),0.0,1.0));
-        col = mix(col, vec3(1.0,0.90,0.78),  clamp(length(r.x),0.0,0.12));
-        col = vec3(0.10,0.04,0.01) + (f*f*f + 0.6*f*f + 0.5*f)*col;
+        float f = fbm(uv + r);
+        /* Warm ember palette matching the site accent */
+        vec3 col = mix(vec3(0.05,0.01,0.0), vec3(0.50,0.16,0.04), clamp(f * f * 4.0, 0.0, 1.0));
+        col = mix(col, vec3(0.80,0.40,0.18), clamp(length(q) * 0.8, 0.0, 1.0));
+        col = (f * f * f + 0.5 * f * f + 0.4 * f) * col;
         gl_FragColor = vec4(col, 1.0);
       }
     `;
 
     function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width  = btn.offsetWidth  * dpr;
-      canvas.height = btn.offsetHeight * dpr;
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      canvas.width  = canvas.offsetWidth  * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
     }
-    resize();
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
 
-    try {
-      new FragmentCanvas(canvas, { fragmentShader });
-      btn.classList.add('smoke-ready');
-
-      const ro = new ResizeObserver(resize);
-      ro.observe(btn);
-
-      // Switch off smoke if user moves to light theme
-      new MutationObserver(() => {
-        if (getTheme() === 'light') {
-          btn.classList.remove('smoke-ready');
-          ro.disconnect();
-        } else if (!btn.classList.contains('smoke-ready')) {
-          resize();
-          btn.classList.add('smoke-ready');
-          ro.observe(btn);
-        }
-      }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-    } catch (e) {
-      console.warn('[smoke] WebGL init failed:', e);
-    }
+      try {
+        new FragmentCanvas(canvas, { fragmentShader });
+        canvas.classList.add('smoke-visible');
+      } catch (e) { /* WebGL unavailable */ }
+    }).catch(function() { /* esm.sh unavailable */ });
   }
+})();
 </script>
 </body>
 </html>
