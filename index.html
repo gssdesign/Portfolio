@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js"
-    }
-  }
-  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GS Sandhu — Product Designer</title>
@@ -1220,34 +1213,19 @@
     /* ── HERO 3-D ROOM ── */
     .hero-room {
       position: absolute;
-      right: clamp(0.5rem, 3vw, 3rem);
-      top: 50%;
-      transform: translateY(-50%);
-      width: clamp(240px, 30vw, 420px);
-      aspect-ratio: 4 / 3;
-      border-radius: 12px;
-      overflow: hidden;
-      z-index: 2;
+      inset: 0;
+      z-index: 0;
       pointer-events: auto;
-      background: transparent;
     }
-    /* Let Three.js own the canvas dimensions entirely */
     .hero-room canvas {
       display: block;
-      position: absolute;
-      top: 0; left: 0;
+      width: 100% !important;
+      height: 100% !important;
     }
-    #room-loader {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.7rem; font-family: 'Courier New', monospace;
-      letter-spacing: 0.12em; color: rgba(255,255,255,0.35);
-      z-index: 3; pointer-events: none;
-    }
-    @media (max-width: 999px) {
-      .hero-room { width: clamp(180px, 40vw, 300px); }
-    }
-    @media (max-width: 640px) { .hero-room { display: none; } }
+    /* Keep hero text readable above the tubes */
+    .hero-inner { z-index: 1; }
+    /* Tone down on light theme — dark canvas would overpower */
+    [data-theme="light"] .hero-room { opacity: 0.15; mix-blend-mode: multiply; }
 
 
     /* ─── AGENT WIDGET ─── */
@@ -1467,10 +1445,9 @@
   <div class="hero-glow"></div>
   <div class="hero-grid" aria-hidden="true"></div>
 
-  <!-- ─── 3-D ROOM ─── -->
-  <div class="hero-room" id="hero-room" aria-label="Interactive 3D design room">
-    <div id="room-loader">LOADING…</div>
-    <canvas class="webgl-room"></canvas>
+  <!-- ─── TUBES EFFECT ─── -->
+  <div class="hero-room" aria-hidden="true">
+    <canvas id="tubes-canvas"></canvas>
   </div>
 
   <div class="hero-inner">
@@ -2980,106 +2957,29 @@
   })();
 </script>
 
-<!-- ─── THREE.JS ROOM (GLB) ─── -->
+<!-- ─── TUBES CURSOR EFFECT ─── -->
 <script type="module">
-  import * as THREE        from 'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.module.js';
-  import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/controls/OrbitControls.js';
-  import { GLTFLoader }    from 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
+  import TubesCursor from 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js';
 
-  // Wait for full layout paint — module scripts are deferred but
-  // clientWidth can still be 0 before the first browser layout pass
-  function ready(fn) {
-    if (document.readyState === 'complete') { requestAnimationFrame(fn); }
-    else { window.addEventListener('load', () => requestAnimationFrame(fn)); }
+  const canvas = document.getElementById('tubes-canvas');
+  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // No effect — canvas stays blank/transparent
+  } else {
+    try {
+      TubesCursor(canvas, {
+        tubes: {
+          // Portfolio accent palette — burnt orange, warm amber, deep sienna
+          colors: ['#d97757', '#c4704e', '#9c4624'],
+          lights: {
+            intensity: 180,
+            colors: ['#d97757', '#f5c9a8', '#ff6b35', '#8b4513']
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('[tubes]', e.message);
+    }
   }
-
-  ready(() => {
-    const container = document.getElementById('hero-room');
-    const loading   = document.getElementById('room-loader');
-    const canvas    = container?.querySelector('canvas');
-    if (!container || !canvas) return;
-
-    const W = container.clientWidth;
-    const H = container.clientHeight;
-    if (!W || !H) return; // container not in layout yet — bail
-
-    // ── Scene
-    const scene         = new THREE.Scene();
-    const textureLoader = new THREE.TextureLoader();
-
-    // ── Camera (original values)
-    const camera = new THREE.PerspectiveCamera(10, W / H, 0.1, 100);
-    camera.position.set(8, 4, 15);
-    scene.add(camera);
-
-    // ── Controls (OrbitControls imported — not THREE.OrbitControls)
-    const controls = new OrbitControls(camera, canvas);
-    controls.enableDamping  = true;
-    controls.enableZoom     = true;
-    controls.enablePan      = true;
-    controls.minDistance    = 21;
-    controls.maxDistance    = 50;
-    controls.minPolarAngle  = Math.PI / 5;
-    controls.maxPolarAngle  = Math.PI / 2;
-
-    // ── Renderer
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setSize(W, H);          // sets canvas.width/height + style.width/height
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.outputEncoding = THREE.sRGBEncoding;
-
-    // ── Texture + material
-    const bakedTexture = textureLoader.load(
-      'https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/baked.jpg'
-    );
-    bakedTexture.flipY    = false;
-    bakedTexture.encoding = THREE.sRGBEncoding;
-    const bakedMaterial   = new THREE.MeshBasicMaterial({ map: bakedTexture });
-
-    // ── Load GLB
-    new GLTFLoader().load(
-      'https://rawcdn.githack.com/ricardoolivaalonso/ThreeJS-Room13/47b05e2db4e49eec33d63729e920894a906cb693/static/model.glb',
-      (gltf) => {
-        gltf.scene.traverse(child => { child.material = bakedMaterial; });
-        scene.add(gltf.scene);
-        scene.position.set(0, 0.2, 0);
-        if (loading) loading.style.display = 'none';
-      },
-      (xhr) => {
-        if (loading && xhr.total)
-          loading.textContent = Math.round(xhr.loaded / xhr.total * 100) + '%';
-      },
-      (err) => { console.warn('[room GLB]', err); }
-    );
-
-    // ── Resize — track container, not window
-    new ResizeObserver(() => {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      if (!w || !h) return;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    }).observe(container);
-
-    // ── Pan clamp
-    const minPan = new THREE.Vector3(-2, -0.5, -2);
-    const maxPan = new THREE.Vector3( 2,  0.5,  2);
-
-    // ── Pause when hero scrolled out of view
-    let visible = true;
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(container);
-
-    // ── Tick
-    const tick = () => {
-      controls.update();
-      controls.target.clamp(minPan, maxPan);
-      if (visible) renderer.render(scene, camera);
-      requestAnimationFrame(tick);
-    };
-    tick();
-  });
 </script>
 
 <!-- ─── SMOKY BUTTON ─── -->
