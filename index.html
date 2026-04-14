@@ -1210,22 +1210,36 @@
       animation: pulse 2.2s ease-in-out infinite;
     }
 
-    /* ── HERO 3-D ROOM ── */
-    .hero-room {
+    /* ── HERO IMAGE SHADER ── */
+    #stage {
       position: absolute;
       inset: 0;
+      width: 100%;
+      height: 100%;
       z-index: 0;
-      pointer-events: auto;
+      pointer-events: none;
     }
-    .hero-room canvas {
-      display: block;
-      width: 100% !important;
-      height: 100% !important;
+    /* Reference image — hidden visually, drives WebGL mesh position */
+    .tile__image {
+      position: absolute;
+      right: clamp(2rem, 6vw, 6rem);
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(220px, 28vw, 380px);
+      height: auto;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: var(--r);
     }
-    /* Keep hero text readable above the tubes */
+    @media (max-width: 768px) {
+      .tile__image { width: clamp(160px, 32vw, 240px); right: 1rem; }
+    }
+    @media (max-width: 480px) { .tile__image { display: none; } }
+    /* Keep hero text readable above the WebGL canvas */
     .hero-inner { z-index: 1; }
-    /* Tone down on light theme — dark canvas would overpower */
-    [data-theme="light"] .hero-room { opacity: 0.15; mix-blend-mode: multiply; }
 
 
     /* ─── AGENT WIDGET ─── */
@@ -1445,10 +1459,13 @@
   <div class="hero-glow"></div>
   <div class="hero-grid" aria-hidden="true"></div>
 
-  <!-- ─── TUBES EFFECT ─── -->
-  <div class="hero-room" aria-hidden="true">
-    <canvas id="tubes-canvas"></canvas>
-  </div>
+  <!-- ─── SHADER IMAGE EFFECT ─── -->
+  <canvas id="stage" aria-hidden="true"></canvas>
+  <img class="tile__image"
+       src="painting.jpg"
+       data-hover="painting.jpg"
+       alt=""
+       aria-hidden="true">
 
   <div class="hero-inner">
     <div class="hero-badge"><span class="pulse-dot"></span>Open to full-time roles</div>
@@ -2957,29 +2974,238 @@
   })();
 </script>
 
-<!-- ─── TUBES CURSOR EFFECT ─── -->
-<script type="module">
-  import TubesCursor from 'https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js';
+<!-- ─── GSAP (needed for shader mouse lerp) ─── -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 
-  const canvas = document.getElementById('tubes-canvas');
-  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    // No effect — canvas stays blank/transparent
-  } else {
-    try {
-      TubesCursor(canvas, {
-        tubes: {
-          // Portfolio accent palette — burnt orange, warm amber, deep sienna
-          colors: ['#d97757', '#c4704e', '#9c4624'],
-          lights: {
-            intensity: 180,
-            colors: ['#d97757', '#f5c9a8', '#ff6b35', '#8b4513']
-          }
-        }
-      });
-    } catch (e) {
-      console.warn('[tubes]', e.message);
-    }
+<!-- ─── HERO IMAGE SHADER EFFECT ─── -->
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!document.querySelector('.tile__image')) return;
+
+  // THREE.js already available via CDN loaded below — defer init until loaded
+  function waitForThree(cb) {
+    if (window.THREE) { cb(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js';
+    s.onload = cb;
+    document.head.appendChild(s);
   }
+
+  waitForThree(function () {
+    const THREE = window.THREE;
+
+    // ── Figure class — adapted from original ──
+    class Figure {
+      constructor(scene, callback) {
+        this.$image    = document.querySelector('.tile__image');
+        this.scene     = scene;
+        this.callback  = callback;
+        this.loader    = new THREE.TextureLoader();
+        this.mouse     = new THREE.Vector2(0, 0);
+        this.sizes     = new THREE.Vector2(0, 0);
+        this.offset    = new THREE.Vector2(0, 0);
+
+        this.image = this.loader.load(this.$image.src, () => { this.start(); });
+        this.hover = this.loader.load(this.$image.dataset.hover || this.$image.src);
+        this.$image.style.opacity = 0;
+
+        window.addEventListener('pointermove', (e) => { this.onMouseMove(e); });
+        window.addEventListener('resize',      ()  => { this.getSizes();     });
+      }
+
+      start() { this.getSizes(); this.createMesh(); this.callback(); }
+
+      getSizes() {
+        const { width: w, height: h, top: t, left: l } = this.$image.getBoundingClientRect();
+        this.sizes.set(w, h);
+        this.offset.set(
+          l - window.innerWidth  / 2 + w / 2,
+         -t + window.innerHeight / 2 - h / 2
+        );
+        if (this.mesh) {
+          this.mesh.position.set(this.offset.x, this.offset.y, 0);
+          this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
+        }
+      }
+
+      createMesh() {
+        this.uniforms = {
+          u_image:      { type: 't', value: this.image },
+          u_imagehover: { type: 't', value: this.hover },
+          u_mouse:      { value: this.mouse },
+          u_time:       { value: 0 },
+          u_res:        { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
+        };
+
+        const vertexShader = `
+          varying vec2 v_uv;
+          void main() {
+            v_uv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `;
+
+        const fragmentShader = `
+          uniform vec2 u_mouse;
+          uniform vec2 u_res;
+          uniform sampler2D u_image;
+          uniform sampler2D u_imagehover;
+          uniform float u_time;
+          varying vec2 v_uv;
+
+          float circle(in vec2 _st, in float _radius, in float blurriness) {
+            vec2 dist = _st;
+            return 1. - smoothstep(_radius-(_radius*blurriness),
+                                   _radius+(_radius*blurriness),
+                                   dot(dist,dist)*4.0);
+          }
+
+          vec3 mod289(vec3 x) { return x - floor(x*(1./289.))*289.; }
+          vec4 mod289(vec4 x) { return x - floor(x*(1./289.))*289.; }
+          vec4 permute(vec4 x) { return mod289(((x*34.)+1.)*x); }
+          vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314*r; }
+
+          float snoise3(vec3 v) {
+            const vec2  C = vec2(1./6., 1./3.);
+            const vec4  D = vec4(0., 0.5, 1., 2.);
+            vec3 i  = floor(v + dot(v, C.yyy));
+            vec3 x0 =   v - i + dot(i, C.xxx);
+            vec3 g = step(x0.yzx, x0.xyz);
+            vec3 l = 1. - g;
+            vec3 i1 = min(g.xyz, l.zxy);
+            vec3 i2 = max(g.xyz, l.zxy);
+            vec3 x1 = x0 - i1 + C.xxx;
+            vec3 x2 = x0 - i2 + C.yyy;
+            vec3 x3 = x0 - D.yyy;
+            i = mod289(i);
+            vec4 p = permute(permute(permute(
+                       i.z + vec4(0., i1.z, i2.z, 1.))
+                     + i.y + vec4(0., i1.y, i2.y, 1.))
+                     + i.x + vec4(0., i1.x, i2.x, 1.));
+            float n_ = 0.142857142857;
+            vec3  ns = n_ * D.wyz - D.xzx;
+            vec4 j = p - 49. * floor(p * ns.z * ns.z);
+            vec4 x_ = floor(j * ns.z);
+            vec4 y_ = floor(j - 7. * x_);
+            vec4 x = x_ * ns.x + ns.yyyy;
+            vec4 y = y_ * ns.x + ns.yyyy;
+            vec4 h = 1. - abs(x) - abs(y);
+            vec4 b0 = vec4(x.xy, y.xy);
+            vec4 b1 = vec4(x.zw, y.zw);
+            vec4 s0 = floor(b0)*2.+1.;
+            vec4 s1 = floor(b1)*2.+1.;
+            vec4 sh = -step(h, vec4(0.));
+            vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+            vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+            vec3 p0 = vec3(a0.xy, h.x);
+            vec3 p1 = vec3(a0.zw, h.y);
+            vec3 p2 = vec3(a1.xy, h.z);
+            vec3 p3 = vec3(a1.zw, h.w);
+            vec4 norm = taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+            p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+            vec4 m = max(0.6 - vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)), 0.);
+            m = m * m;
+            return 42. * dot(m*m, vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+          }
+
+          // Rounded-rect SDF (uv in [0,1], radius in uv units)
+          float roundedRect(vec2 uv, float r) {
+            vec2 q = abs(uv - 0.5) - (0.5 - r);
+            return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+          }
+
+          void main() {
+            vec2 res = u_res * PR;
+            vec2 st  = gl_FragCoord.xy / res.xy - vec2(0.5);
+            st.y    *= u_res.y / u_res.x;
+            vec2 mouse     = u_mouse * -0.5;
+            vec2 circlePos = st + mouse;
+            float c = circle(circlePos, 0.15, 2.) * 2.5;
+            float offx = v_uv.x + sin(v_uv.y + u_time * .1);
+            float offy = v_uv.y - u_time * 0.1 - cos(u_time * .001) * .01;
+            float n = snoise3(vec3(offx, offy, u_time * .1) * 8.) - 1.;
+            float finalMask = smoothstep(0.4, 0.5, n + pow(c, 2.));
+            vec4 image = texture2D(u_image, v_uv);
+            vec4 hover = texture2D(u_imagehover, v_uv);
+            vec4 col = mix(image, hover, finalMask);
+            // Rounded corners — 0.04 ≈ 12px at 300px wide
+            float rr = roundedRect(v_uv, 0.04);
+            float alpha = 1.0 - smoothstep(-0.002, 0.002, rr);
+            gl_FragColor = vec4(col.rgb, col.a * alpha);
+          }
+        `;
+
+        this.geometry = new THREE.PlaneGeometry(1, 1, 1, 1);
+        this.material = new THREE.ShaderMaterial({
+          uniforms: this.uniforms,
+          vertexShader,
+          fragmentShader,
+          defines: { PR: window.devicePixelRatio.toFixed(1) },
+          transparent: true
+        });
+        this.mesh = new THREE.Mesh(this.geometry, this.material);
+        this.mesh.position.set(this.offset.x, this.offset.y, 0);
+        this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
+        this.scene.add(this.mesh);
+      }
+
+      onMouseMove(e) {
+        if (!window.gsap || !this.mesh) return;
+        gsap.to(this.mouse, {
+          duration: 0.5,
+          x:  (e.clientX / window.innerWidth)  * 2 - 1,
+          y: -(e.clientY / window.innerHeight) * 2 + 1
+        });
+        gsap.to(this.mesh.rotation, {
+          duration: 0.5,
+          x: 0.3 * -this.mouse.y,
+          y: this.mouse.x * (Math.PI / 6)
+        });
+      }
+
+      update() {
+        if (this.uniforms) this.uniforms.u_time.value += 0.01;
+      }
+    }
+
+    // ── Scene ──
+    const stage    = document.getElementById('stage');
+    if (!stage) return;
+
+    const scene    = new THREE.Scene();
+    const renderer = new THREE.WebGLRenderer({ canvas: stage, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    const scene_h = window.innerHeight;
+    const fov     = (2 * Math.atan(scene_h / 2 / 800) * 180) / Math.PI;
+    const camera  = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 1, 1e3);
+    camera.position.set(0, 0, 800);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 2);
+    scene.add(ambient);
+
+    let figure;
+    const fig = new Figure(scene, () => {
+      figure = fig;
+      tick();
+    });
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      if (fig.uniforms) fig.uniforms.u_res.value.set(window.innerWidth, window.innerHeight);
+    });
+
+    function tick() {
+      if (fig) fig.update();
+      renderer.render(scene, camera);
+      requestAnimationFrame(tick);
+    }
+  }); // end waitForThree
+})();
 </script>
 
 <!-- ─── SMOKY BUTTON ─── -->
