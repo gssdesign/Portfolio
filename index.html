@@ -74,7 +74,7 @@
     nav.scrolled { border-bottom-color: rgba(240,237,232,0.14); }
 
     .nav-logo {
-      font-size: 1.125rem; font-weight: 800; letter-spacing: -0.04em;
+      font-size: 1rem; font-weight: 800; letter-spacing: -0.03em;
       color: var(--text); text-decoration: none;
     }
     .nav-logo span { color: var(--accent); }
@@ -1325,180 +1325,6 @@
     .hero-inner { z-index: 1; }
 
 
-    /* ─── AGENT WIDGET ─── */
-    .agent-widget {
-      position: fixed; bottom: 1.75rem; right: 1.75rem;
-      z-index: 10001; display: flex; flex-direction: column;
-      align-items: center; gap: 0.5rem;
-      /* Container must not intercept taps — only its visible children should */
-      pointer-events: none;
-    }
-    /* Re-enable clicks on the actual interactive elements */
-    .agent-char-wrap,
-    .agent-nudge,
-    .agent-chat.open {
-      pointer-events: auto;
-    }
-    /* Character float */
-    @keyframes agentFloat {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
-    }
-    .agent-char-wrap {
-      cursor: pointer;
-      animation: agentFloat 3.2s ease-in-out infinite;
-      transition: filter 0.22s;
-    }
-    .agent-char-wrap:hover {
-      filter: drop-shadow(0 8px 20px rgba(196,112,78,0.55));
-    }
-    .agent-char { width: 78px; height: 92px; display: block; }
-    /* Wave arm */
-    @keyframes waveArm {
-      0%,100% { transform: rotate(0deg); }
-      35%      { transform: rotate(-24deg); }
-      65%      { transform: rotate(14deg); }
-    }
-    .agent-wave-arm { animation: waveArm 2s ease-in-out infinite; }
-    /* Nudge bubble */
-    @keyframes nudgePop {
-      from { opacity:0; transform: scale(.85) translateY(6px); }
-      to   { opacity:1; transform: scale(1)  translateY(0); }
-    }
-    .agent-nudge {
-      background: var(--bg-card); border: 1px solid var(--border-hover);
-      border-radius: 12px; padding: .6rem .95rem;
-      font-size: .8rem; font-weight: 500; color: var(--text);
-      white-space: nowrap; cursor: pointer;
-      box-shadow: 0 8px 28px rgba(0,0,0,.35);
-      position: relative;
-      animation: nudgePop .38s cubic-bezier(.34,1.56,.64,1) forwards;
-    }
-    .agent-nudge::after {
-      content:''; position:absolute; bottom:-6px; left:50%;
-      transform:translateX(-50%);
-      border-left:6px solid transparent; border-right:6px solid transparent;
-      border-top:6px solid var(--border-hover);
-    }
-    .agent-nudge.hidden { display: none; }
-    /* Chat window */
-    .agent-chat {
-      width: 320px; background: var(--bg-card);
-      border: 1px solid var(--border-hover); border-radius: 18px;
-      overflow: hidden; display: flex; flex-direction: column;
-      box-shadow: 0 24px 64px rgba(0,0,0,.55);
-      transform: scale(.9) translateY(16px); opacity: 0;
-      transition: transform .32s cubic-bezier(.34,1.1,.64,1), opacity .26s ease;
-      pointer-events: none;
-    }
-    .agent-chat.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
-    .agent-chat-header {
-      display: flex; align-items: center; gap: .75rem;
-      padding: .9rem 1.1rem; border-bottom: 1px solid var(--border);
-      background: var(--bg-subtle); flex-shrink: 0;
-    }
-    .agent-chat-av {
-      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
-      background: var(--accent); display: flex; align-items: center;
-      justify-content: center; font-size: .75rem; font-weight: 800; color:#fff;
-    }
-    .agent-chat-name { font-size: .875rem; font-weight: 700; }
-    .agent-chat-sub {
-      font-size: .7rem; color: var(--text-muted);
-      display: flex; align-items: center; gap: .3rem; margin-top: .1rem;
-    }
-    .agent-online { width:6px; height:6px; border-radius:50%; background:#4ade80; box-shadow:0 0 6px rgba(74,222,128,.6); flex-shrink:0; }
-    .agent-close-btn {
-      margin-left: auto; width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(255,255,255,.06); border: 1px solid var(--border);
-      color: var(--text-muted); font-size: .7rem;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0; font-family: inherit;
-      transition: background .2s, color .2s;
-    }
-    .agent-close-btn:hover { background: rgba(217,119,87,.15); color: var(--accent); }
-    /* Messages */
-    .agent-messages {
-      flex: 1; overflow-y: auto; padding: .9rem;
-      display: flex; flex-direction: column; gap: .625rem;
-      min-height: 180px; max-height: 230px;
-      scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
-    }
-    .agent-msg {
-      max-width: 88%; padding: .55rem .825rem;
-      border-radius: 12px; font-size: .825rem; line-height: 1.55;
-    }
-    .agent-msg.bot {
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      color: var(--text); border-bottom-left-radius: 4px; align-self: flex-start;
-    }
-    .agent-msg.user {
-      background: var(--accent); color: #fff;
-      border-bottom-right-radius: 4px; align-self: flex-end;
-    }
-    /* Typing dots */
-    .agent-typing {
-      display: flex; gap: 4px; align-items: center; padding: .6rem .825rem;
-      background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 12px; border-bottom-left-radius: 4px;
-      align-self: flex-start; width: fit-content;
-    }
-    .agent-typing span {
-      width: 6px; height: 6px; border-radius: 50%; background: var(--text-muted);
-      animation: typeDot 1.2s ease-in-out infinite;
-    }
-    .agent-typing span:nth-child(2) { animation-delay: .2s; }
-    .agent-typing span:nth-child(3) { animation-delay: .4s; }
-    @keyframes typeDot {
-      0%,60%,100% { transform: translateY(0);    opacity: .4; }
-      30%          { transform: translateY(-5px); opacity: 1;  }
-    }
-    /* Quick replies */
-    .agent-qr {
-      display: flex; flex-wrap: wrap; gap: .375rem;
-      padding: .6rem .9rem; border-top: 1px solid var(--border); flex-shrink: 0;
-    }
-    .agent-qr-btn {
-      font-size: .7rem; font-weight: 500; padding: .28rem .65rem;
-      border-radius: 100px; background: rgba(196,112,78,.08);
-      border: 1px solid rgba(196,112,78,.22); color: var(--accent);
-      cursor: pointer; font-family: inherit; white-space: nowrap;
-      transition: background .18s, border-color .18s;
-    }
-    .agent-qr-btn:hover { background: rgba(196,112,78,.18); border-color: rgba(196,112,78,.4); }
-    /* Input row */
-    .agent-input-row {
-      display: flex; gap: .5rem; padding: .7rem .9rem;
-      border-top: 1px solid var(--border); flex-shrink: 0;
-    }
-    .agent-input {
-      flex: 1; background: var(--bg-subtle); border: 1px solid var(--border);
-      border-radius: 100px; padding: .45rem .875rem;
-      color: var(--text); font-size: .8rem; font-family: inherit; outline: none;
-      transition: border-color .2s;
-    }
-    .agent-input:focus { border-color: rgba(196,112,78,.45); }
-    .agent-input::placeholder { color: var(--text-muted); }
-    .agent-send-btn {
-      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-      background: var(--accent); color: #fff; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, transform .15s;
-    }
-    .agent-send-btn:hover { background: var(--accent-hover); transform: scale(1.1); }
-    [data-theme="light"] .agent-chat { box-shadow: 0 16px 50px rgba(0,0,0,.16); }
-    @media (max-width: 540px) {
-      .agent-widget { bottom: .75rem; right: .75rem; }
-      .agent-char { width: 56px; height: 66px; }
-      /* Hide the nudge bubble on mobile — it covers hero CTAs.
-         The character alone is enough signal. */
-      .agent-nudge { display: none !important; }
-      .agent-chat {
-        width: calc(100vw - 1.5rem);
-        max-width: 340px;
-        right: 0; bottom: 76px;
-      }
-    }
 
   </style>
 </head>
@@ -1518,11 +1344,10 @@
 
 <!-- ─── NAV ─── -->
 <nav id="nav">
-  <a href="#home" class="nav-logo">GS<span>.</span></a>
+  <a href="#home" class="nav-logo">Gurpreet Singh<span>.</span></a>
   <ul class="nav-links">
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#process">Process</a></li>
     <li><a href="#contact" class="btn-nav">Let's Talk</a></li>
   </ul>
   <div class="nav-right">
@@ -1537,7 +1362,6 @@
 <ul class="mobile-menu" id="mob">
   <li><a href="#work" class="mob-link">Work</a></li>
   <li><a href="#about" class="mob-link">About</a></li>
-  <li><a href="#process" class="mob-link">Process</a></li>
   <li><a href="#contact" class="mob-link">Contact</a></li>
 </ul>
 
@@ -1558,7 +1382,7 @@
   <div class="hero-inner">
     <div class="hero-badge"><span class="pulse-dot"></span>Open to full-time roles</div>
     <h1 class="hero-title">
-      Hi, I'm <span class="glitch-em" data-text="Gurpreet Singh" style="--gd:0s">Gurpreet Singh</span><br>
+      <span class="glitch-em" data-text="Gurpreet Singh" style="--gd:0s">Gurpreet Singh</span><br>
       I <span class="verb-tag">design</span>, <span class="verb-tag">ride</span>,<br>
       <span class="verb-tag">paint</span> &amp; <span class="verb-tag">write</span>.
     </h1>
@@ -1918,36 +1742,6 @@
   </div>
 </section>
 
-<!-- ─── PROCESS ─── -->
-<section id="process" style="border-top: 1px solid var(--border);">
-  <div class="inner">
-    <div class="proc-head">
-      <span class="label r">How I Work</span>
-      <h2 class="sec-title r d1">Structured thinking.<br><em class="glitch-em" data-text="Fast execution." style="--gd:1.8s">Fast execution.</em></h2>
-      <p class="sec-desc r d2">Research first, always. Every decision is traceable to a user need or a business outcome — never just a preference.</p>
-    </div>
-
-    <div class="proc-list r d3">
-      <div class="proc-item">
-        <span class="proc-item-num">01</span>
-        <p class="proc-item-text">I research until the <em>constraint</em> is clear, not until the solution is obvious — the right answer rarely comes from the first frame.</p>
-      </div>
-      <div class="proc-item">
-        <span class="proc-item-num">02</span>
-        <p class="proc-item-text">I frame the <em>problem before I touch a tool</em> — sharp problem statements and stress-tested assumptions save more time than any shortcut.</p>
-      </div>
-      <div class="proc-item">
-        <span class="proc-item-num">03</span>
-        <p class="proc-item-text">I prototype early and test with <em>real users at every stage</em> — creative energy goes to decisions that require taste, not busywork.</p>
-      </div>
-      <div class="proc-item">
-        <span class="proc-item-num">04</span>
-        <p class="proc-item-text">I write specs my engineers <em>don't need to ask questions about</em>, and stay in the loop through build — nothing gets lost in handoff.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ─── TOOLS ─── -->
 <section class="tools-bg">
   <div class="inner">
@@ -2135,7 +1929,6 @@
     <ul class="foot-links">
       <li><a href="#work">Work</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#process">Process</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="foot-avail">
@@ -2744,321 +2537,8 @@
 
 </script>
 
-<!-- ─── AGENT WIDGET ─── -->
-<div id="agent-widget" class="agent-widget" aria-live="polite">
-
-  <!-- Chat window -->
-  <div class="agent-chat" id="agent-chat" role="dialog" aria-label="Chat with GS's assistant">
-    <div class="agent-chat-header">
-      <div class="agent-chat-av">GS</div>
-      <div>
-        <div class="agent-chat-name">GS's Assistant</div>
-        <div class="agent-chat-sub">
-          <span class="agent-online"></span>Ask me anything
-        </div>
-      </div>
-      <button class="agent-close-btn" id="agent-close" aria-label="Close chat">✕</button>
-    </div>
-    <div class="agent-messages" id="agent-messages"></div>
-    <div class="agent-qr" id="agent-qr">
-      <button class="agent-qr-btn">Are you available?</button>
-      <button class="agent-qr-btn">What's your specialty?</button>
-      <button class="agent-qr-btn">What's your process?</button>
-      <button class="agent-qr-btn">How to contact you?</button>
-    </div>
-    <div class="agent-input-row">
-      <input class="agent-input" id="agent-input" type="text" placeholder="Ask me anything…" autocomplete="off" />
-      <button class="agent-send-btn" id="agent-send" aria-label="Send message">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Nudge bubble -->
-  <div class="agent-nudge hidden" id="agent-nudge">👋 Ask me about GS's work!</div>
-
-  <!-- Character -->
-  <div class="agent-char-wrap" id="agent-trigger" role="button" tabindex="0" aria-label="Open chat with GS's assistant">
-    <svg class="agent-char" viewBox="0 0 80 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Ground shadow -->
-      <ellipse cx="40" cy="94" rx="18" ry="3.5" fill="rgba(0,0,0,0.32)"/>
-
-      <!-- LEGS — dark wool trousers -->
-      <rect x="25" y="59" width="12" height="27" rx="4" fill="#18161e"/>
-      <rect x="43" y="59" width="12" height="27" rx="4" fill="#18161e"/>
-      <!-- Crease line -->
-      <line x1="31" y1="61" x2="31" y2="85" stroke="#0e0c14" stroke-width="1"/>
-      <line x1="49" y1="61" x2="49" y2="85" stroke="#0e0c14" stroke-width="1"/>
-
-      <!-- SHOES — oxford brogue -->
-      <ellipse cx="31" cy="87" rx="11" ry="4.5" fill="#0c0a10"/>
-      <ellipse cx="49" cy="87" rx="11" ry="4.5" fill="#0c0a10"/>
-      <!-- Toe cap shine -->
-      <ellipse cx="28" cy="85.5" rx="5" ry="2" fill="rgba(255,255,255,0.07)"/>
-      <ellipse cx="46" cy="85.5" rx="5" ry="2" fill="rgba(255,255,255,0.07)"/>
-
-      <!-- SUIT JACKET — dark charcoal -->
-      <rect x="16" y="37" width="48" height="26" rx="6" fill="#252230"/>
-
-      <!-- LAPELS -->
-      <path d="M40 37 L24 37 L20 50 L33 53 L40 44Z" fill="#1c1a2a"/>
-      <path d="M40 37 L56 37 L60 50 L47 53 L40 44Z" fill="#1c1a2a"/>
-
-      <!-- WAISTCOAT strip -->
-      <rect x="32" y="38" width="16" height="22" rx="1.5" fill="#18162a"/>
-      <!-- Waistcoat buttons -->
-      <circle cx="40" cy="44" r="1.2" fill="#2a2840"/>
-      <circle cx="40" cy="50" r="1.2" fill="#2a2840"/>
-      <circle cx="40" cy="56" r="1.2" fill="#2a2840"/>
-
-      <!-- SHIRT COLLAR — crisp white -->
-      <path d="M36 37 L33 43" stroke="#ddd9d4" stroke-width="4" stroke-linecap="round"/>
-      <path d="M44 37 L47 43" stroke="#ddd9d4" stroke-width="4" stroke-linecap="round"/>
-
-      <!-- TIE — dark crimson -->
-      <path d="M38.5 42 L40 62 L41.5 42Z" fill="#721010"/>
-
-      <!-- LEFT ARM — hangs naturally -->
-      <line x1="19" y1="42" x2="11" y2="63" stroke="#252230" stroke-width="13" stroke-linecap="round"/>
-      <circle cx="10" cy="65" r="6.5" fill="#d4b896"/>
-
-      <!-- RIGHT ARM — waving (shoulder pivot at 61,42) -->
-      <g class="agent-wave-arm" style="transform-origin: 61px 42px">
-        <line x1="61" y1="42" x2="73" y2="24" stroke="#252230" stroke-width="13" stroke-linecap="round"/>
-        <circle cx="74" cy="22" r="7" fill="#d4b896"/>
-      </g>
-
-      <!-- NECK -->
-      <rect x="35" y="30" width="10" height="10" rx="4" fill="#d4b896"/>
-
-      <!-- HEAD -->
-      <circle cx="40" cy="20" r="18" fill="#d4b896"/>
-
-      <!-- FLAT CAP (Peaky Blinders newsboy cap) — drawn on top of head -->
-      <!-- Dome -->
-      <path d="M21 16 Q22 3 40 3 Q58 3 59 16 Q50 13 40 13 Q30 13 21 16Z" fill="#1e1c2a"/>
-      <!-- Wide flat brim — extends beyond head on both sides -->
-      <rect x="12" y="14" width="56" height="5.5" rx="2" fill="#141220"/>
-      <!-- Band line -->
-      <line x1="21" y1="16" x2="59" y2="16" stroke="#2a2840" stroke-width="1.5"/>
-      <!-- Top button -->
-      <circle cx="40" cy="4.5" r="2.2" fill="#141220"/>
-
-      <!-- FACE FEATURES — drawn last so they render above cap -->
-      <!-- Strong brows (pulled slightly inward — Shelby intensity) -->
-      <path d="M27 20 Q31 18 36 19.5" stroke="#2a1810" stroke-width="2.8" stroke-linecap="round"/>
-      <path d="M44 19.5 Q49 18 53 20" stroke="#2a1810" stroke-width="2.8" stroke-linecap="round"/>
-
-      <!-- Eyes — steel blue-grey (Cillian Murphy look) -->
-      <ellipse cx="33" cy="23.5" rx="4.5" ry="3.5" fill="#f0ebe6"/>
-      <ellipse cx="47" cy="23.5" rx="4.5" ry="3.5" fill="#f0ebe6"/>
-      <!-- Iris -->
-      <circle cx="33.5" cy="23.5" r="2.8" fill="#5c7a9a"/>
-      <circle cx="47.5" cy="23.5" r="2.8" fill="#5c7a9a"/>
-      <!-- Pupil -->
-      <circle cx="33.5" cy="23.5" r="1.6" fill="#141012"/>
-      <circle cx="47.5" cy="23.5" r="1.6" fill="#141012"/>
-      <!-- Catch light -->
-      <circle cx="34.5" cy="22.2" r="0.9" fill="white"/>
-      <circle cx="48.5" cy="22.2" r="0.9" fill="white"/>
-
-      <!-- Nose — subtle -->
-      <path d="M38.5 26.5 Q40 30 41.5 26.5" stroke="#b89470" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-      <!-- Mouth — classic Shelby smirk (slight, one-sided) -->
-      <path d="M34 32 Q37.5 33.5 42 31" stroke="#8a4a2a" stroke-width="1.9" fill="none" stroke-linecap="round"/>
-
-      <!-- Cheekbone shadow -->
-      <path d="M22.5 24 Q22 32 28.5 35" stroke="rgba(140,90,50,0.2)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <path d="M57.5 24 Q58 32 51.5 35" stroke="rgba(140,90,50,0.2)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-
-      <!-- 5 o'clock shadow -->
-      <ellipse cx="40" cy="33.5" rx="9" ry="3.5" fill="rgba(40,20,8,0.16)"/>
-    </svg>
-  </div>
-
-</div>
-
 <script>
-  // ── AGENT CHAT WIDGET
-  (function () {
-    const trigger  = document.getElementById('agent-trigger');
-    const chat     = document.getElementById('agent-chat');
-    const closeBtn = document.getElementById('agent-close');
-    const nudge    = document.getElementById('agent-nudge');
-    const messages = document.getElementById('agent-messages');
-    const input    = document.getElementById('agent-input');
-    const sendBtn  = document.getElementById('agent-send');
-
-    let isOpen  = false;
-    let greeted = false;
-
-    // ── Knowledge base — sourced from Gurpreet Singh's resume
-    const KB = [
-      // Greeting / intro
-      { keys: ['hello','hi','hey','sup','what can you do','who are you'],
-        ans:  "Hey! 👋 I'm GS's assistant. Ask me anything about his experience, skills, current role, education, or how to get in touch!" },
-
-      // Education — placed high to intercept "background", "qualifications" etc. before experience entry
-      { keys: ['education','degree','study','qualif','academic','background','iit','university','college','certif','course','studied','schooling'],
-        ans:  "Education highlights: 🎓 Design Thinking & Innovation — IIT Delhi (2024), BSc Psychology — JGU (pursuing), Polytechnic Diploma in Computer Science — GTBPI Delhi (2012). Also holds certifications from IDF (Interaction Design Foundation) and Google." },
-
-      // About / identity
-      { keys: ['about','tell me about','who is','who are','introduce'],
-        ans:  "Gurpreet Singh is a Digital Product Designer based in Gurugram, India 🇮🇳 with 10+ years of experience across fintech, B2B SaaS, and consumer apps. He's currently Senior Manager of Product Design at Home Credit India." },
-
-      // Current role
-      { keys: ['current role','current job','currently working','home credit','what does he do now','where does he work'],
-        ans:  "Gurpreet is currently Senior Manager — Product Design at Home Credit India (Gurugram), a role he's held since July 2021. He leads end-to-end product design for lending journeys, drives AI-driven optimisations, and manages usability research & hiring." },
-
-      // Impact / metrics
-      { keys: ['impact','result','metric','outcome','achievement','improvement','drop-off','conversion','adoption'],
-        ans:  "Some highlights from GS's work: 30% reduction in loan journey drop-off (AI-driven flow rework), 40% drop in login drop-off, +15% VAS adoption, +30% RFQ adoption at BuildSupply, and design system rollout that cut delivery time by ~60%." },
-
-      // Experience / years
-      { keys: ['experience','years','how long','career','history','timeline','work history'],
-        ans:  "Gurpreet has 10+ years of experience in product design. Career timeline: HCL Infosystem (2015–16) → Appster (2016–18) → BuildSupply (2018–21) → Home Credit India (2021–present). Design-focused since Feb 2016." },
-
-      // Previous companies
-      { keys: ['buildsupply','appster','hcl','previous','past company','past role','past job','worked before'],
-        ans:  "Before Home Credit, GS was UX/UI Designer at BuildSupply (2018–2021), building a full B2B e-commerce ecosystem for buyers & sellers. Prior to that, he was at Appster (2016–2018) doing mobile and web product design, and started at HCL Infosystem as a Technical Support Analyst (2015–2016)." },
-
-      // Design systems
-      { keys: ['design system','component','token','library','figma library','ds'],
-        ans:  "Design systems are a core specialisation. At Home Credit, GS revamped the DS for compliance. At BuildSupply, he built one from scratch — covering color tokens, type scale, and a 200+ component library. End-to-end, from design to dev handoff." },
-
-      // Skills / specialisation
-      { keys: ['skill','speciali','best at','focus','strong','good at','expertise','what can he'],
-        ans:  "Core skills: User Research, Information Architecture, Wireframing, Interaction Design, Visual Design, WCAG Accessibility, Design Systems, and Component-Based Design. He's also strong in Stakeholder Workshops, Mentoring, and Data-Informed Decision making." },
-
-      // Tools / software
-      { keys: ['tool','figma','software','stack','use for design','program','app'],
-        ans:  "GS works across Figma, Miro, Maze (usability testing), Mixpanel and Hotjar (analytics), Notion, and ProtoPie. He has enough HTML/CSS fluency to collaborate tightly with dev teams." },
-
-      // Process / workflow
-      { keys: ['process','workflow','how do you work','approach','method','phase','how he works'],
-        ans:  "GS's process is research-led and iterative: Discover (user research, heuristics) → Define (IA, problem framing) → Design (wireframes, prototypes, testing) → Deliver (dev handoff, QA, metrics). He runs stakeholder workshops to align early and avoid costly pivots." },
-
-
-      // Industry / domain
-      { keys: ['industry','domain','fintech','finance','b2b','saas','lending','consumer','sector'],
-        ans:  "Gurpreet has worked across fintech (Home Credit — consumer lending), B2B SaaS (BuildSupply — construction procurement), and consumer mobile apps (Appster). Strong in regulated, data-heavy product environments." },
-
-      // Accessibility
-      { keys: ['accessibility','wcag','a11y','inclusive','disability'],
-        ans:  "WCAG Accessibility is part of GS's core skillset — he's applied it during Home Credit's design system revamp for compliance, ensuring components meet contrast and interaction standards." },
-
-      // Research
-      { keys: ['research','user research','usability','testing','interview','study'],
-        ans:  "User research is foundational to GS's process. At Home Credit he conducts usability studies and stakeholder workshops. At BuildSupply he used data and research to validate RFQ flows and SaaS features like Approval Flow and Role/Permissions." },
-
-      // Mentoring / leadership
-      { keys: ['mentor','lead','manage','team','leadership','junior','hire','hiring'],
-        ans:  "In his current role at Home Credit, GS handles hiring and mentoring of designers — he's as invested in growing the team as he is in the work itself." },
-
-      // Hobbies / personal
-      { keys: ['hobby','hobbies','interest','personal','outside work','fun','motorcycle','harmonica','music','read'],
-        ans:  "Outside of design, Gurpreet is into long-distance motorcycling 🏍️, plays the harmonica 🎵, and reads non-fiction. Not your average designer." },
-
-      // Contact / reach
-      { keys: ['contact','email','reach','get in touch','message','talk','connect','linkedin','phone'],
-        ans:  "You can reach Gurpreet at 📧 gssandhu1990@gmail.com or connect on LinkedIn at linkedin.com/in/sandhuuxdesigner — or just drop a message using the contact form on this page!" },
-
-      // Location
-      { keys: ['location','based','where','gurugram','india','remote','timezone'],
-        ans:  "GS is based in Gurugram, India 🇮🇳. He's worked on distributed teams and is comfortable with remote collaboration across time zones." },
-
-      // Availability / hire
-      { keys: ['available','hire','open','freelance','taking on','new project','work with','collaborate','opportunity'],
-        ans:  "Interested in working with GS? Fill out the contact form on this page and he'll get back to you. Best to share your project context so he can respond thoughtfully!" },
-
-      // Rate / cost
-      { keys: ['rate','price','cost','charge','budget','fee','how much'],
-        ans:  "Rates depend on project scope, timeline, and engagement type. Fill out the contact form with your brief and GS will get back to you with the right info!" },
-
-      // AI in design
-      { keys: ['ai','artificial intelligence','machine learning','automation','chatgpt'],
-        ans:  "GS integrates AI into his workflow — from research synthesis to generating design variants and writing documentation. At Home Credit he led AI-driven loan journey optimisation that cut drop-off by 30%." },
-    ];
-
-    function findAnswer(q) {
-      const lower = q.toLowerCase();
-      for (const e of KB) {
-        if (e.keys.some(k => lower.includes(k))) return e.ans;
-      }
-      return "Hmm, that one's a bit outside what I know! Your best bet is to reach out to GS directly — 📧 gssandhu1990@gmail.com or use the contact form below. He's pretty responsive. 📬";
-    }
-
-    function addMsg(text, who) {
-      const el = document.createElement('div');
-      el.className = 'agent-msg ' + who;
-      el.textContent = text;
-      messages.appendChild(el);
-      messages.scrollTop = messages.scrollHeight;
-    }
-
-    function showTyping() {
-      const el = document.createElement('div');
-      el.className = 'agent-typing'; el.id = 'agent-dots';
-      el.innerHTML = '<span></span><span></span><span></span>';
-      messages.appendChild(el);
-      messages.scrollTop = messages.scrollHeight;
-      return el;
-    }
-
-    function botReply(q) {
-      const dots = showTyping();
-      const delay = 750 + Math.random() * 450;
-      setTimeout(() => { dots.remove(); addMsg(findAnswer(q), 'bot'); }, delay);
-    }
-
-    function openChat() {
-      isOpen = true;
-      chat.classList.add('open');
-      nudge.classList.add('hidden');
-      if (!greeted) {
-        greeted = true;
-        setTimeout(() => addMsg("Hey there! 👋 I'm GS's assistant. Ask me about his experience, current role, skills, education, past projects, or how to get in touch!", 'bot'), 300);
-      }
-      setTimeout(() => input.focus(), 360);
-    }
-
-    function closeChat() {
-      isOpen = false;
-      chat.classList.remove('open');
-    }
-
-    function sendMessage(text) {
-      const t = text.trim();
-      if (!t) return;
-      addMsg(t, 'user');
-      input.value = '';
-      botReply(t);
-    }
-
-    trigger.addEventListener('click', () => isOpen ? closeChat() : openChat());
-    trigger.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); isOpen ? closeChat() : openChat(); } });
-    closeBtn.addEventListener('click', closeChat);
-    nudge.addEventListener('click', openChat);
-    sendBtn.addEventListener('click', () => sendMessage(input.value));
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(input.value); });
-
-    document.querySelectorAll('.agent-qr-btn').forEach(btn => {
-      btn.addEventListener('click', () => { if (!isOpen) openChat(); sendMessage(btn.textContent); });
-    });
-
-    // Show nudge after 3.5s if chat not yet opened
-    setTimeout(() => { if (!greeted) nudge.classList.remove('hidden'); }, 3500);
-
-    // Respect reduced motion
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.querySelectorAll('.agent-wave-arm, .agent-char-wrap').forEach(el => {
-        el.style.animationPlayState = 'paused';
-      });
-    }
-  })();
-
-  // ── Back to top ──────────────────────────────────────────────────────────
+  // ── Back to top
   (() => {
     const btn = document.getElementById('back-to-top');
     if (!btn) return;
