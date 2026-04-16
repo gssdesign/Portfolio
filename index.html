@@ -588,7 +588,137 @@
 
     /* ─── CONTACT ─── */
     .contact-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,7vw,8rem); align-items: start; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,7vw,8rem); align-items: center; }
+
+    /* ─── ARCADE ─── */
+    .arcade-wrap { display: flex; justify-content: center; align-items: center; }
+    .arcade {
+      width: 180px;
+      display: flex; flex-direction: column; align-items: center;
+      filter: drop-shadow(0 32px 64px rgba(0,0,0,0.55));
+    }
+    .arcade .top {
+      width: 160px; height: 28px;
+      background: linear-gradient(180deg, #2a2a3a 0%, #1e1e2e 100%);
+      border-radius: 12px 12px 0 0;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-bottom: none;
+    }
+    .arcade .top-screen {
+      width: 160px; height: 10px;
+      background: linear-gradient(90deg, #111120 0%, #1a1a2e 50%, #111120 100%);
+      border-left: 1.5px solid rgba(255,255,255,0.08);
+      border-right: 1.5px solid rgba(255,255,255,0.08);
+    }
+    .arcade .screen {
+      width: 160px; height: 130px;
+      background: #050510;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-top: none; border-bottom: none;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .arcade .screen::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 4px);
+      pointer-events: none;
+    }
+    .arcade .glass {
+      width: 130px; height: 110px;
+      background: radial-gradient(ellipse at 30% 30%, rgba(184,78,24,0.18) 0%, rgba(0,0,0,0.6) 70%);
+      border: 1px solid rgba(184,78,24,0.3);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .arcade .glass span {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .arcade .glass span i:first-child {
+      font-style: normal;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent);
+      animation: arcadeBlink 1.4s step-end infinite;
+    }
+    .arcade .glass span i:last-child {
+      display: block; width: 40px; height: 1px;
+      background: rgba(184,78,24,0.4);
+    }
+    @keyframes arcadeBlink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+    .arcade .bot-screen {
+      width: 160px; height: 56px;
+      background: linear-gradient(180deg, #1a1a2c 0%, #141420 100%);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-top: none; border-bottom: none;
+      display: flex; align-items: center; justify-content: space-around;
+      padding: 0 18px;
+    }
+    .arcade .joystick {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .arcade .joystick span:first-child {
+      width: 14px; height: 24px;
+      background: linear-gradient(180deg, #3a3a4a, #1e1e2e);
+      border-radius: 3px 3px 2px 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .arcade .joystick span:last-child {
+      width: 22px; height: 7px;
+      background: #111120; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .arcade .buttons {
+      display: flex; gap: 8px; align-items: center;
+    }
+    .arcade .buttons span:first-child {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #e8652a, #8b3a10);
+      box-shadow: 0 0 8px rgba(232,101,42,0.5);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .arcade .buttons span:last-child {
+      width: 11px; height: 11px; border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #5a5aaa, #2a2a5a);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .arcade .bot {
+      width: 160px; height: 72px;
+      background: linear-gradient(180deg, #141420 0%, #0e0e1a 100%);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-top: none;
+      border-radius: 0 0 16px 16px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px;
+    }
+    .arcade .box {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .arcade .coins .slot {
+      width: 20px; height: 4px;
+      background: #080810; border-radius: 2px;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
+    }
+    .arcade .button {
+      width: 22px; height: 8px;
+      background: linear-gradient(180deg, #3a3a4a, #1a1a2a);
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .arcade .draw {
+      width: 80px; height: 3px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 2px;
+    }
+    /* glow pulse on the whole machine */
+    .arcade { animation: arcadeGlow 3s ease-in-out infinite; }
+    @keyframes arcadeGlow {
+      0%,100% { filter: drop-shadow(0 32px 64px rgba(0,0,0,0.55)) drop-shadow(0 0 20px rgba(184,78,24,0.1)); }
+      50%      { filter: drop-shadow(0 32px 64px rgba(0,0,0,0.55)) drop-shadow(0 0 40px rgba(184,78,24,0.25)); }
+    }
     .contact-info { display: flex; flex-direction: column; gap: 2.5rem; }
     .contact-links { display: flex; flex-direction: column; gap: 0.875rem; }
     .c-link {
@@ -1934,58 +2064,26 @@
         </div>
       </div>
 
-      <form class="form r d2" id="contactForm" novalidate>
-        <div class="f-row">
-          <div class="f-group" id="grp-fname">
-            <label class="f-label" for="fname">First Name</label>
-            <input id="fname" type="text" class="f-input" placeholder="Jane" autocomplete="given-name">
-            <span class="f-error" id="err-fname">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-              First name is required
-            </span>
+      <div class="arcade-wrap r d2">
+        <div class="arcade">
+          <div class="top"></div>
+          <div class="top-screen"></div>
+          <div class="screen">
+            <div class="glass"><span><i>START</i><i></i></span></div>
           </div>
-          <div class="f-group">
-            <label class="f-label" for="lname">Last Name <span style="color:var(--text-muted);font-weight:400;font-size:0.75rem;">(optional)</span></label>
-            <input id="lname" type="text" class="f-input" placeholder="Doe" autocomplete="family-name">
+          <div class="bot-screen">
+            <div class="joystick"><span></span><span></span></div>
+            <div class="buttons"><span></span><span></span></div>
+          </div>
+          <div class="bot">
+            <div class="box">
+              <div class="coins"><div class="slot"></div></div>
+              <div class="button"></div>
+            </div>
+            <div class="draw"></div>
           </div>
         </div>
-        <div class="f-group" id="grp-email">
-          <label class="f-label" for="email">Email</label>
-          <input id="email" type="email" class="f-input" placeholder="your@email.com" autocomplete="email">
-          <span class="f-error" id="err-email">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            Enter a valid email address
-          </span>
-        </div>
-        <div class="f-group" id="grp-ptype">
-          <label class="f-label" for="ptype">Project Type</label>
-          <select id="ptype" class="f-select">
-            <option value="" disabled selected>Select a project type</option>
-            <option>Product Design</option>
-            <option>Design System</option>
-            <option>UX Research</option>
-            <option>Mobile App</option>
-            <option>Web Design</option>
-            <option>Other</option>
-          </select>
-          <span class="f-error" id="err-ptype">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            Please select a project type
-          </span>
-        </div>
-        <div class="f-group" id="grp-msg">
-          <label class="f-label" for="msg">Message</label>
-          <textarea id="msg" class="f-textarea" placeholder="Tell me about your project: scope, timeline, goals..."></textarea>
-          <span class="f-error" id="err-msg">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-            A message is required
-          </span>
-        </div>
-        <button type="submit" class="btn-primary" id="submitBtn" style="width:100%;justify-content:center;">
-          Send Message
-          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </form>
+      </div>
     </div>
   </div>
 </section>
