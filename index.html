@@ -237,52 +237,6 @@
       border-color: var(--border-hover); background: rgba(255,255,255,0.04);
       transform: translateY(-2px);
     }
-    [data-theme="light"] .btn-secondary:hover {
-      background: rgba(0,0,0,0.04);
-    }
-
-    /* ─── HERO INTEREST LINE ─── */
-    .hero-interests {
-      font-size: clamp(1.125rem, 2.8vw, 1.75rem);
-      color: var(--text-secondary); font-weight: 400;
-      line-height: 1.5; margin-bottom: 2.5rem;
-      opacity: 0; transform: translateY(24px);
-      animation: up 0.75s 0.5s ease forwards;
-    }
-    .interest-word {
-      color: var(--text); font-weight: 600;
-      cursor: default; position: relative;
-      text-decoration-line: underline;
-      text-decoration-style: dashed;
-      text-decoration-color: var(--accent);
-      text-underline-offset: 5px;
-      transition: color 0.2s;
-    }
-    .interest-word:hover { color: var(--accent); }
-
-    .hero-resume {
-      opacity: 0; transform: translateY(24px);
-      animation: up 0.75s 0.65s ease forwards;
-    }
-
-    /* ─── INTEREST IMAGE PREVIEW ─── */
-    .interest-preview {
-      position: fixed; width: 240px; height: 165px;
-      border-radius: 14px; overflow: hidden;
-      pointer-events: none; opacity: 0;
-      transform: scale(0.9) translateY(10px);
-      transition: opacity 0.22s cubic-bezier(0.4,0,0.2,1),
-                  transform 0.22s cubic-bezier(0.4,0,0.2,1);
-      z-index: 10001;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.45), 0 0 0 1px var(--border);
-      will-change: transform, opacity;
-    }
-    .interest-preview.ip-visible {
-      opacity: 1; transform: scale(1) translateY(0);
-    }
-    .interest-preview img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
 
     .hero-stats {
       display: flex; gap: 0; flex-wrap: wrap;
@@ -1429,20 +1383,20 @@
       Digital Product<br>
       <em class="verb-tag">Designer.</em>
     </h1>
-    <p class="hero-interests">
-      I <span class="interest-word" data-img="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=480&q=80">Design</span>,
-      <span class="interest-word" data-img="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=480&q=80">Ride</span>,
-      <span class="interest-word" data-img="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=480&q=80">Paint</span>
-      and <span class="interest-word" data-img="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=480&q=80">Write</span>.
+    <p class="hero-sub">
+      10+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
     </p>
-    <a href="Gurpreet_Singh_Resume.pdf" class="btn-secondary hero-resume" download="Gurpreet_Singh_Resume.pdf">
-      Download Resume
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 7l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-
-    <!-- Interest image preview (follows cursor) -->
-    <div class="interest-preview" id="interest-preview" aria-hidden="true">
-      <img src="" alt="" id="interest-preview-img" loading="lazy">
+    <div class="hero-actions">
+      <a href="#work" class="btn-primary" id="hero-cta">
+        <span class="btn-label">
+          View My Work
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </a>
+      <a href="Gurpreet_Singh_Resume.pdf" class="btn-secondary" download="Gurpreet_Singh_Resume.pdf">
+        Download Resume
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v7M4 7l3 3 3-3M2 11h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
     </div>
     <div class="hero-stats">
       <div class="stat">
@@ -1729,6 +1683,10 @@
         <p class="about-bio r d2">
           I'm a self-taught designer driven by curiosity and a passion for building better user experiences. Over time, I've developed my skills in UX/UI and product design through workshops, reading, and real-world projects. I enjoy looking at the bigger picture and love taking products from initial ideas all the way through to development.
         </p>
+        <p class="about-bio r d2">
+          I've built products for <strong>startups, scale-ups, and enterprises</strong> — from zero-to-one launches to full design system overhauls. I work best at the messy intersection of user insight, business constraint, and technical reality.
+        </p>
+
         <div class="r d3">
           <p class="skills-label">Core Skills</p>
           <div class="skills-grid">
@@ -2744,60 +2702,6 @@
   window.addEventListener('resize', resize);
   resize();
   draw();
-})();
-</script>
-
-<!-- ─── INTEREST WORD PREVIEW ─── -->
-<script>
-(function () {
-  const preview  = document.getElementById('interest-preview');
-  const img      = document.getElementById('interest-preview-img');
-  const words    = document.querySelectorAll('.interest-word');
-  if (!preview || !img || !words.length) return;
-
-  let rafId = null;
-  let tx = 0, ty = 0; // target position
-
-  function positionPreview(cx, cy) {
-    const pw = preview.offsetWidth  || 240;
-    const ph = preview.offsetHeight || 165;
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const gap = 18;
-
-    let x = cx + gap;
-    let y = cy - ph / 2;
-
-    // Flip left if overflows right
-    if (x + pw > vw - 10) x = cx - pw - gap;
-    // Clamp vertical
-    y = Math.max(10, Math.min(y, vh - ph - 10));
-
-    preview.style.left = x + 'px';
-    preview.style.top  = y + 'px';
-  }
-
-  words.forEach(word => {
-    word.addEventListener('mouseenter', e => {
-      if (img.src !== word.dataset.img) {
-        img.src = word.dataset.img;
-      }
-      positionPreview(e.clientX, e.clientY);
-      preview.classList.add('ip-visible');
-    });
-
-    word.addEventListener('mousemove', e => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        positionPreview(e.clientX, e.clientY);
-      });
-    });
-
-    word.addEventListener('mouseleave', () => {
-      preview.classList.remove('ip-visible');
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    });
-  });
 })();
 </script>
 
