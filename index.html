@@ -588,10 +588,12 @@
 
     /* ─── CONTACT ─── */
     .contact-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,7vw,8rem); align-items: center; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,7vw,8rem); align-items: center; justify-items: center; }
 
     /* ─── ARCADE (exact original) ─── */
-    .arcade-wrap { display: flex; justify-content: center; align-items: center; }
+    .arcade-wrap {
+      display: flex; justify-content: center; align-items: flex-start;
+    }
 
     /* Scope the position:absolute trick to .arcade only */
     .arcade *::before,
@@ -616,6 +618,7 @@
       width: 36vmin;
       height: 75vmin;
       position: relative;
+      zoom: 0.58;
     }
     .arcade * {
       position: absolute;
