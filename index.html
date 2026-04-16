@@ -539,20 +539,24 @@
 
     /* ─── TOOLS ─── */
     .tools-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
-    .tools-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 1rem; margin-top: 3rem; }
+    .tools-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-top: 3rem; }
     .tool {
       background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 1.5rem 1rem;
-      display: flex; flex-direction: column; align-items: center; gap: 0.75rem;
+      border-radius: var(--r); padding: 1.75rem 1rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
       text-align: center; transition: all 0.25s; cursor: default;
     }
     .tool:hover {
-      border-color: rgba(232,101,42,0.38); transform: translateY(-4px);
-      background: rgba(232,101,42,0.04);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+      border-color: rgba(184,78,24,0.4); transform: translateY(-4px);
+      background: rgba(184,78,24,0.04);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.25);
     }
-    .tool-ico { font-size: 2rem; line-height: 1; }
-    .tool-name { font-size: 0.8125rem; font-weight: 500; color: var(--text-secondary); }
+    .tool-ico {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tool-ico svg { width: 100%; height: 100%; }
+    .tool-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.01em; }
 
     /* ─── TESTIMONIALS ─── */
     .testi-head { text-align: center; max-width: 520px; margin: 0 auto; }
@@ -702,7 +706,7 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width:1100px) {
-      .tools-grid { grid-template-columns: repeat(4,1fr); }
+      .tools-grid { grid-template-columns: repeat(4,1fr); } /* already 4-col */
     }
     @media (max-width:900px) {
       .about-grid { grid-template-columns: 1fr; }
@@ -1384,7 +1388,7 @@
       <em class="verb-tag">Designer.</em>
     </h1>
     <p class="hero-sub">
-      10+ years turning messy, complex problems into products people genuinely love — through research, strategy, and obsessive craft.
+      10+ years turning messy, complex problems into products people genuinely love. Through research, strategy, and obsessive craft.
     </p>
     <div class="hero-actions">
       <a href="#work" class="btn-primary" id="hero-cta">
@@ -1445,7 +1449,6 @@
         <span class="label r">Selected Work</span>
         <h2 class="sec-title r d1">Work that <em class="glitch-em" data-text="solves," style="--gd:0.5s">solves,</em><br>converts, and scales.</h2>
       </div>
-      <p class="sec-desc r d2">From enterprise SaaS to consumer apps — every project driven by real user problems and measured outcomes.</p>
     </div>
     <div class="work-grid">
 
@@ -1473,7 +1476,7 @@
             <span class="tag">Product Design</span>
             <span class="tag">Design System</span>
           </div>
-          <h3 class="card-title">Loan Journey Redesign — 30% drop-off reduction</h3>
+          <h3 class="card-title">Loan Journey Redesign: 30% drop-off reduction</h3>
           <p class="card-desc">Led the end-to-end redesign of a complex analytics platform, reducing task completion time by 40% while building a scalable design system with 200+ components.</p>
           <div class="card-meta">
             <div><span class="cm-lbl">Role</span><span class="cm-val">Lead Product Designer</span></div>
@@ -1504,8 +1507,8 @@
         </div>
         <div class="card-body">
           <div class="card-tags"><span class="tag">E-Commerce</span><span class="tag">Conversion Optimisation</span></div>
-          <h3 class="card-title">Checkout Redesign — 28% lift in 60 days</h3>
-          <p class="card-desc">Removed friction from a major retailer's checkout funnel — driving a 28% jump in completion rate and 15% revenue uplift within two months of launch.</p>
+          <h3 class="card-title">Checkout Redesign: 28% lift in 60 days</h3>
+          <p class="card-desc">Removed friction from a major retailer's checkout funnel, driving a 28% jump in completion rate and 15% revenue uplift within two months of launch.</p>
           <div class="card-meta">
             <div><span class="cm-lbl">Role</span><span class="cm-val">Senior Product Designer</span></div>
             <div><span class="cm-lbl">Timeline</span><span class="cm-val">6 weeks</span></div>
@@ -1542,7 +1545,7 @@
         </div>
         <div class="card-body">
           <div class="card-tags"><span class="tag">SaaS</span><span class="tag">B2B Platform</span><span class="tag">Design System</span></div>
-          <h3 class="card-title">B2B Project Management Platform — From zero to Series B</h3>
+          <h3 class="card-title">B2B Project Management Platform: From zero to Series B</h3>
           <p class="card-desc">Built the entire design system and product UX from the ground up for a PM SaaS that scaled to 10,000 paying teams and raised a $15M Series B round.</p>
           <div class="card-meta">
             <div><span class="cm-lbl">Role</span><span class="cm-val">Founding Designer</span></div>
@@ -1568,7 +1571,7 @@
       <div class="ds-header">
         <span class="label r">Design Systems</span>
         <h2 class="sec-title r d1">From fragmentation<br>to <em class="glitch-em" data-text="foundation." style="--gd:1.2s">foundation.</em></h2>
-        <p class="sec-desc r d2">At Home Credit India and BuildSupply I identified fragmentation, established token architecture, built 200+ production components, and drove adoption across engineering and product squads — delivering a 60% improvement in design-to-dev velocity.</p>
+        <p class="sec-desc r d2">At Home Credit India and BuildSupply I identified fragmentation, established token architecture, built 200+ production components, and drove adoption across engineering and product squads, delivering a 60% improvement in design-to-dev velocity.</p>
         <div class="ds-companies r d2">
           <span class="ds-company-tag"><span class="ct-dot"></span>Home Credit India · 2021–Present</span>
           <span class="ds-company-tag"><span class="ct-dot"></span>BuildSupply · 2018–2021</span>
@@ -1648,10 +1651,6 @@
         <div class="ds-m-num">60<sup>%</sup></div>
         <div class="ds-m-label">Faster eng. delivery</div>
       </div>
-      <div class="ds-metric">
-        <div class="ds-m-text">6 squads</div>
-        <div class="ds-m-label">Cross-team adoption</div>
-      </div>
     </div>
 
   </div>
@@ -1681,7 +1680,7 @@
         </div>
 
         <p class="about-bio r d2">
-          I'm a self-taught designer driven by curiosity and a passion for building better user experiences. Over time, I've developed my skills in UX/UI and product design through workshops, reading, and real-world projects. I enjoy looking at the bigger picture and love taking products from initial ideas all the way through to development.
+          I'm a self-taught designer driven by curiosity and a passion for building better user experiences.
         </p>
         <p class="about-bio r d2">
           I've built products for <strong>startups, scale-ups, and enterprises</strong> — from zero-to-one launches to full design system overhauls. I work best at the messy intersection of user insight, business constraint, and technical reality.
@@ -1707,7 +1706,7 @@
             <div class="exp-card">
               <div class="exp-ico">🏢</div>
               <div>
-                <div class="exp-role">Senior Manager — Product Design</div>
+                <div class="exp-role">Senior Manager, Product Design</div>
                 <div class="exp-place">Home Credit India · Full-time</div>
               </div>
               <div class="exp-yr">2021 – Present</div>
@@ -1746,18 +1745,101 @@
       </div>
     </div>
     <div class="tools-grid">
-      <div class="tool r"><div class="tool-ico">🎨</div><div class="tool-name">Figma</div></div>
-      <div class="tool r d1"><div class="tool-ico">⚡</div><div class="tool-name">Framer</div></div>
-      <div class="tool r d2"><div class="tool-ico">📐</div><div class="tool-name">Sketch</div></div>
-      <div class="tool r d3"><div class="tool-ico">🔬</div><div class="tool-name">Maze</div></div>
-      <div class="tool r d4"><div class="tool-ico">📊</div><div class="tool-name">Mixpanel</div></div>
-      <div class="tool r d5"><div class="tool-ico">🤝</div><div class="tool-name">Miro</div></div>
-      <div class="tool r"><div class="tool-ico">📝</div><div class="tool-name">Notion</div></div>
-      <div class="tool r d1"><div class="tool-ico">🔍</div><div class="tool-name">Hotjar</div></div>
-      <div class="tool r d2"><div class="tool-ico">💻</div><div class="tool-name">HTML/CSS</div></div>
-      <div class="tool r d3"><div class="tool-ico">🎭</div><div class="tool-name">Principle</div></div>
-      <div class="tool r d4"><div class="tool-ico">🌊</div><div class="tool-name">Zeplin</div></div>
-      <div class="tool r d5"><div class="tool-ico">📱</div><div class="tool-name">ProtoPie</div></div>
+
+      <!-- Figma -->
+      <div class="tool r">
+        <div class="tool-ico">
+          <svg viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE"/>
+            <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 0 1-19 0z" fill="#0ACF83"/>
+            <path d="M19 0v19h9.5a9.5 9.5 0 0 0 0-19H19z" fill="#FF7262"/>
+            <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E"/>
+            <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF"/>
+          </svg>
+        </div>
+        <div class="tool-name">Figma</div>
+      </div>
+
+      <!-- Framer -->
+      <div class="tool r d1">
+        <div class="tool-ico">
+          <svg viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0h32v16H16L0 0z" fill="#0055FF"/>
+            <path d="M0 16h16l16 16H16v16L0 32V16z" fill="#0055FF"/>
+          </svg>
+        </div>
+        <div class="tool-name">Framer</div>
+      </div>
+
+      <!-- Claude -->
+      <div class="tool r d2">
+        <div class="tool-ico">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#CC785C"/>
+            <path d="M30.5 14.5C28.2 12.2 25.3 11 22 11c-3.3 0-6.2 1.3-8.5 3.5C11.3 16.8 10 19.7 10 23s1.3 6.2 3.5 8.5C15.8 33.7 18.7 35 22 35c3.3 0 6.2-1.3 8.5-3.5" stroke="white" stroke-width="2.8" stroke-linecap="round"/>
+            <circle cx="31.5" cy="22" r="2" fill="white"/>
+          </svg>
+        </div>
+        <div class="tool-name">Claude</div>
+      </div>
+
+      <!-- Maze -->
+      <div class="tool r d3">
+        <div class="tool-ico">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#FF4F00"/>
+            <path d="M9 31V16l7 10 6-10 6 10 7-10v15" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <div class="tool-name">Maze</div>
+      </div>
+
+      <!-- Google Analytics -->
+      <div class="tool r d4">
+        <div class="tool-ico">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#F9AB00"/>
+            <rect x="10" y="20" width="7" height="14" rx="3.5" fill="white"/>
+            <rect x="20" y="13" width="7" height="21" rx="3.5" fill="white" opacity="0.85"/>
+            <rect x="30" y="8" width="7" height="26" rx="3.5" fill="white" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="tool-name">Google Analytics</div>
+      </div>
+
+      <!-- Miro -->
+      <div class="tool r d5">
+        <div class="tool-ico">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#FFD02F"/>
+            <path d="M14 12h4l4 12 4-12h4l-6.5 20H20L14 12z" fill="#050038"/>
+          </svg>
+        </div>
+        <div class="tool-name">Miro</div>
+      </div>
+
+      <!-- After Effects -->
+      <div class="tool r">
+        <div class="tool-ico">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#1E0040"/>
+            <text x="6" y="30" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="20" fill="#9999FF">Ae</text>
+          </svg>
+        </div>
+        <div class="tool-name">After Effects</div>
+      </div>
+
+      <!-- Illustrator -->
+      <div class="tool r d1">
+        <div class="tool-ico">
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#330000"/>
+            <text x="5" y="30" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="20" fill="#FF9A00">Ai</text>
+          </svg>
+        </div>
+        <div class="tool-name">Illustrator</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1798,7 +1880,7 @@
           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
         </div>
         <div class="quote-mark">"</div>
-        <p class="testi-text">His ability to support design concepts with comprehensive, well-prepared documentation made him stand out — he clearly communicates the "why" behind every decision.</p>
+        <p class="testi-text">His ability to support design concepts with comprehensive, well-prepared documentation made him stand out; he clearly communicates the "why" behind every decision.</p>
         <div class="testi-author">
           <div class="testi-av">JG</div>
           <div>
@@ -1839,7 +1921,7 @@
         <div>
           <span class="label r">Get in Touch</span>
           <h2 class="sec-title r d1">Open to new roles.<br>Let's <em class="glitch-em" data-text="talk." style="--gd:1.5s">talk.</em></h2>
-          <p class="sec-desc r d2">Currently open to Senior / Lead Product Designer roles. Whether it's a full-time opportunity or a sharp conversation about design — I'm here.</p>
+          <p class="sec-desc r d2">Currently open to Senior / Lead Product Designer roles. Whether it's a full-time opportunity or a sharp conversation about design. I'm here.</p>
         </div>
         <div class="contact-links r d2">
           <a href="mailto:gssandhu1990@gmail.com" class="c-link">
@@ -1896,7 +1978,7 @@
         </div>
         <div class="f-group" id="grp-msg">
           <label class="f-label" for="msg">Message</label>
-          <textarea id="msg" class="f-textarea" placeholder="Tell me about your project — scope, timeline, goals..."></textarea>
+          <textarea id="msg" class="f-textarea" placeholder="Tell me about your project: scope, timeline, goals..."></textarea>
           <span class="f-error" id="err-msg">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
             A message is required
