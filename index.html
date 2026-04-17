@@ -215,11 +215,60 @@
 
     .hero-sub {
       font-size: clamp(1.0625rem, 2.2vw, 1.375rem);
-      color: var(--text-secondary); max-width: 580px;
-      line-height: 1.65; font-weight: 400;
-      margin-bottom: 3rem;
+      color: var(--text-secondary); max-width: 600px;
+      line-height: 1.55; font-weight: 400;
+      margin-bottom: 1.25rem;
       opacity: 0; transform: translateY(24px);
       animation: up 0.75s 0.5s ease forwards;
+    }
+    .hero-sub em {
+      font-family: 'Instrument Serif', Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: -0.005em;
+    }
+
+    /* Experience + domains meta row */
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem 0.75rem;
+      margin-bottom: 2.75rem;
+      opacity: 0; transform: translateY(20px);
+      animation: up 0.75s 0.65s ease forwards;
+    }
+    .hero-meta-years {
+      display: inline-flex; align-items: center;
+      padding: 0.35rem 0.7rem;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.03em;
+      color: var(--accent);
+      background: rgba(184, 78, 24, 0.08);
+      border: 1px solid rgba(184, 78, 24, 0.25);
+      border-radius: 100px;
+      text-transform: uppercase;
+    }
+    .hero-meta-line {
+      display: inline-flex; align-items: center;
+      gap: 0.55rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+    .hero-meta-domain {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .hero-meta-dot {
+      width: 3px; height: 3px; border-radius: 50%;
+      background: var(--text-muted); opacity: 0.55;
+      flex-shrink: 0;
+    }
+    @media (max-width: 540px) {
+      .hero-meta { gap: 0.5rem 0.6rem; }
+      .hero-meta-line { font-size: 0.75rem; gap: 0.4rem; }
     }
 
     .hero-actions {
@@ -1852,8 +1901,18 @@
         <em class="verb-tag glitch-em" data-text="Designer." style="--gd:1.8s">Designer.</em>
       </h1>
       <p class="hero-sub">
-        I design products that simplify complexity and drive growth.<br>10+ years across fintech, eCommerce &amp; SaaS.
+        I design products that <em>simplify complexity</em> and drive <em>growth.</em>
       </p>
+      <div class="hero-meta">
+        <span class="hero-meta-years">10+ Years</span>
+        <span class="hero-meta-line">
+          <span class="hero-meta-domain">Fintech</span>
+          <span class="hero-meta-dot"></span>
+          <span class="hero-meta-domain">eCommerce</span>
+          <span class="hero-meta-dot"></span>
+          <span class="hero-meta-domain">SaaS</span>
+        </span>
+      </div>
       <div class="hero-actions">
         <a href="#work" class="btn-primary" id="hero-cta">
           <span class="btn-label">
