@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coming soon · Gurpreet Singh</title>
+<meta name="description" content="This case study is being written. Check back shortly or get in touch for a preview.">
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23b84e18'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' font-weight='700' text-anchor='middle' fill='%23fff'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="error.css">
+<style>
+  /* Coming-soon page-specific accents */
+  .err-code svg.construction { color: var(--accent); }
+  .cs-progress {
+    max-width: 320px; margin: 0 auto 2rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    background: var(--bg-subtle);
+  }
+  .cs-progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.75rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+  .cs-progress-bar {
+    height: 4px; background: var(--border); border-radius: 4px;
+    overflow: hidden; position: relative;
+  }
+  .cs-progress-fill {
+    position: absolute; left: 0; top: 0; height: 100%;
+    width: 65%; background: var(--accent); border-radius: 4px;
+    animation: csFill 2.5s ease-out forwards;
+  }
+  @keyframes csFill {
+    from { width: 0%; }
+    to   { width: 65%; }
+  }
+</style>
+</head>
+<body>
+  <nav class="err-nav">
+    <a href="/" class="err-brand">Gurpreet Singh<span>.</span></a>
+    <button class="err-theme" id="theme-btn" aria-label="Toggle theme">
+      <svg class="sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </nav>
+
+  <main class="err-main">
+    <div class="err-grid" aria-hidden="true"></div>
+
+    <div class="err-content">
+      <div class="err-code" aria-hidden="true">
+        <svg class="construction" width="120" height="120" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="52" stroke="currentColor" stroke-width="3" opacity="0.3"/>
+          <path d="M60 22v38l22 14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <span class="err-label">Work in progress</span>
+      <h1 class="err-title">This case study is <em>in the oven.</em></h1>
+      <p class="err-sub">Writing thoughtful case studies takes time — I'm crafting each one with the depth it deserves. Want early access? Drop me a line and I'll share the draft.</p>
+
+      <div class="cs-progress" aria-label="Estimated progress">
+        <div class="cs-progress-label">
+          <span>Writing progress</span>
+          <span>65%</span>
+        </div>
+        <div class="cs-progress-bar">
+          <div class="cs-progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="err-actions">
+        <a href="/#contact" class="btn-primary">
+          Request early preview
+          <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M9 4l3.5 3.5L9 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="/#work" class="btn-secondary">See other work →</a>
+      </div>
+
+      <div class="err-links">
+        <span class="err-links-label">Meanwhile</span>
+        <a href="/#about">About me</a>
+        <span class="err-dot"></span>
+        <a href="Gurpreet_Singh_Resume.pdf" download>Resume</a>
+        <span class="err-dot"></span>
+        <a href="mailto:gssandhu1990@gmail.com">Email</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="err-foot">
+    <span>Check back soon · Updated regularly</span>
+    <span class="err-code-small">WIP</span>
+  </footer>
+
+  <script src="error.js" defer></script>
+</body>
+</html>

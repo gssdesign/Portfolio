@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline · Gurpreet Singh</title>
+<meta name="description" content="You appear to be offline. Check your connection and try again.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23b84e18'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='18' font-weight='700' text-anchor='middle' fill='%23fff'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="error.css">
+</head>
+<body>
+  <nav class="err-nav">
+    <a href="/" class="err-brand">Gurpreet Singh<span>.</span></a>
+    <button class="err-theme" id="theme-btn" aria-label="Toggle theme">
+      <svg class="sun"  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </nav>
+
+  <main class="err-main">
+    <div class="err-grid" aria-hidden="true"></div>
+
+    <div class="err-content">
+      <div class="err-code" aria-hidden="true">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+          <path d="M60 90a6 6 0 110 12 6 6 0 010-12zM20 55a56 56 0 0180 0M35 67a40 40 0 0150 0M48 78a24 24 0 0124 0" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+          <line x1="15" y1="15" x2="105" y2="105" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <span class="err-label">Offline</span>
+      <h1 class="err-title">No connection <em>detected.</em></h1>
+      <p class="err-sub">Your device appears to be offline. Check your Wi-Fi or cellular data and try again.</p>
+
+      <div class="err-actions">
+        <button onclick="location.reload()" class="btn-primary">
+          <svg width="14" height="14" viewBox="0 0 15 15" fill="none"><path d="M13 7.5a5.5 5.5 0 1 1-1.6-3.9M13 2v3.5h-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Retry
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="err-foot">
+    <span id="conn-status">Status: <strong>Offline</strong></span>
+    <span class="err-code-small">—</span>
+  </footer>
+
+  <script src="error.js" defer></script>
+  <script>
+    /* live connection status */
+    (function () {
+      var s = document.getElementById('conn-status');
+      function update() {
+        if (navigator.onLine) {
+          s.innerHTML = 'Status: <strong style="color:#22c55e;">Back online</strong> · <a href="/">Go home →</a>';
+        } else {
+          s.innerHTML = 'Status: <strong>Offline</strong>';
+        }
+      }
+      window.addEventListener('online',  update);
+      window.addEventListener('offline', update);
+      update();
+    })();
+  </script>
+</body>
+</html>
