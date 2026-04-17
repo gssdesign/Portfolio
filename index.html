@@ -18,6 +18,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Draggable.min.js" defer></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -179,6 +181,7 @@
 
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
+      align-self: flex-start;
       background: rgba(184,78,24,0.1); border: 1px solid rgba(184,78,24,0.25);
       color: var(--accent); padding: 0.375rem 0.875rem;
       border-radius: 100px; font-size: 0.8125rem; font-weight: 500;
@@ -267,8 +270,8 @@
       box-shadow: 0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.04);
     }
     .stat {
-      flex: 1; min-width: 120px;
-      padding: 1.5rem 1.75rem;
+      flex: 1; min-width: 0;
+      padding: 1.25rem 1.5rem;
       border-right: 1px solid var(--border);
       position: relative;
     }
@@ -279,7 +282,7 @@
       color: var(--text);
     }
     .stat-num sup { font-size: 0.5em; color: var(--accent); vertical-align: super; }
-    .stat-label { font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.5rem; letter-spacing: 0.01em; }
+    .stat-label { font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.5rem; letter-spacing: 0.01em; white-space: nowrap; }
 
     @keyframes up { to { opacity:1; transform:translateY(0); } }
     @keyframes fadeIn { to { opacity:0.7; } }
@@ -579,17 +582,51 @@
     .tool-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.01em; line-height: 1.3; }
     .tool-desc { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.4; }
 
-    /* ─── TESTIMONIALS ─── */
+    /* ─── TESTIMONIALS CAROUSEL ─── */
     .testi-head { text-align: center; max-width: 520px; margin: 0 auto; }
-    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem; margin-top: 4rem; }
-    .testi-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--r); padding: 2rem;
-      display: flex; flex-direction: column; gap: 1.5rem;
-      transition: transform 0.28s, border-color 0.25s;
+
+    .carousel-scene {
+      width: 100%;
+      height: 340px;
+      perspective: 1100px;
+      position: relative;
+      margin-top: 4rem;
+      user-select: none;
     }
-    .testi-card:hover { transform: translateY(-6px); border-color: var(--border-hover); }
-    .quote-mark { font-family: 'Instrument Serif',serif; font-size: 3.5rem; line-height: 1; color: var(--accent); }
+    .carousel-ring {
+      width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      position: absolute; left: 0; top: 0;
+    }
+    .testi-panel {
+      position: absolute;
+      width: clamp(280px, 38vw, 460px);
+      left: 50%;
+      margin-left: calc(clamp(280px, 38vw, 460px) / -2);
+      top: 0; height: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 2rem;
+      display: flex; flex-direction: column; gap: 1.25rem;
+      backface-visibility: hidden;
+      box-sizing: border-box;
+    }
+    .carousel-dragger {
+      position: absolute; inset: 0;
+      cursor: grab; z-index: 10;
+    }
+    .carousel-dragger:active { cursor: grabbing; }
+    .carousel-hint {
+      text-align: center; margin-top: 1.5rem;
+      font-size: 0.75rem; color: var(--text-muted);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .carousel-hint svg { opacity: 0.5; }
+
+    .quote-mark { font-family: 'Instrument Serif',serif; font-size: 3.5rem; line-height: 1; color: var(--accent); margin-bottom: -0.5rem; }
+    .testi-stars { display: flex; gap: 2px; color: var(--accent); }
     .testi-text { font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.75; flex: 1; }
     .testi-author { display: flex; align-items: center; gap: 0.875rem; }
     .testi-av {
@@ -600,7 +637,7 @@
     .testi-name { font-size: 0.9375rem; font-weight: 600; margin-bottom: 0.2rem; }
     .testi-role { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.4; }
     .testi-li-link {
-      display: inline-block; margin-top: 1rem;
+      display: inline-block;
       font-size: 0.75rem; color: var(--accent); text-decoration: none;
       font-weight: 600; letter-spacing: 0.02em;
       transition: opacity 0.2s;
@@ -1122,7 +1159,8 @@
       .about-grid { grid-template-columns: 1fr; }
       .avatar-wrap { max-width: 340px; }
       .avatar-chip { right: -0.5rem; bottom: -1rem; }
-      .testi-grid { grid-template-columns: 1fr; }
+      .carousel-scene { height: 400px; }
+      .testi-panel { padding: 1.5rem; }
       .contact-grid { grid-template-columns: 1fr; }
       .arcade-wrap { max-height: 340px; }
     }
@@ -1359,16 +1397,25 @@
     .hero-grid {
       position: absolute; inset: 0; pointer-events: none; z-index: 0;
       background-image:
-        linear-gradient(rgba(184,78,24,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(184,78,24,0.04) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 30%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, black 30%, transparent 100%);
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 28px,
+          rgba(240,237,232,0.03) 28px,
+          rgba(240,237,232,0.03) 29px
+        );
+      mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 20%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 20%, transparent 100%);
     }
     [data-theme="light"] .hero-grid {
       background-image:
-        linear-gradient(rgba(156,70,36,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(156,70,36,0.06) 1px, transparent 1px);
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 28px,
+          rgba(100,60,30,0.07) 28px,
+          rgba(100,60,30,0.07) 29px
+        );
     }
     /* ── Glitch — shared keyframes & reusable .glitch-em class ── */
     .hero-title { position: relative; }
@@ -1694,7 +1741,12 @@
       .hero-card-col { grid-column: 1; grid-row: 2; justify-content: center; margin-top: 2rem; }
       .hero-card { width: clamp(160px, 45vw, 260px); }
     }
-    @media (max-width: 480px) { .hero-card-col { display: none; } }
+    @media (max-width: 480px) {
+      .hero-card-col { display: none; }
+      .carousel-scene { height: 460px; }
+      .testi-panel { padding: 1.25rem; gap: 1rem; }
+      .testi-text { font-size: 0.875rem; }
+    }
     .hero-inner { z-index: 1; }
 
 
@@ -1777,12 +1829,12 @@
           <div class="stat-label">Products Designed</div>
         </div>
         <div class="stat">
-          <div class="stat-num">2Cr<sup>+</sup></div>
+          <div class="stat-num">30mn<sup>+</sup></div>
           <div class="stat-label">Users Impacted</div>
         </div>
         <div class="stat">
           <div class="stat-num" data-target="3" data-suffix="x">3<sup>x</sup></div>
-          <div class="stat-label">Avg. Conversion Uplift</div>
+          <div class="stat-label">Conversion Uplift</div>
         </div>
       </div>
     </div>
@@ -2136,25 +2188,26 @@
         <div class="tool-desc">UI design & systems</div>
       </div>
 
-      <!-- Framer -->
+      <!-- Power BI -->
       <div class="tool r d1">
         <div class="tool-ico">
-          <svg viewBox="0 0 32 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 0h32v16H16L0 0z" fill="#0055FF"/>
-            <path d="M0 16h16l16 16H16v16L0 32V16z" fill="#0055FF"/>
+          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="44" height="44" rx="10" fill="#F2C811"/>
+            <rect x="9" y="10" width="6" height="25" rx="2" fill="#333333"/>
+            <rect x="18" y="16" width="6" height="19" rx="2" fill="#444444"/>
+            <rect x="27" y="21" width="6" height="14" rx="2" fill="#555555"/>
           </svg>
         </div>
-        <div class="tool-name">Framer</div>
-        <div class="tool-desc">Interactive prototypes</div>
+        <div class="tool-name">Power BI</div>
+        <div class="tool-desc">Data visualisation</div>
       </div>
 
       <!-- Claude -->
       <div class="tool r d2">
         <div class="tool-ico">
-          <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="44" height="44" rx="10" fill="#CC785C"/>
-            <path d="M30.5 14.5C28.2 12.2 25.3 11 22 11c-3.3 0-6.2 1.3-8.5 3.5C11.3 16.8 10 19.7 10 23s1.3 6.2 3.5 8.5C15.8 33.7 18.7 35 22 35c3.3 0 6.2-1.3 8.5-3.5" stroke="white" stroke-width="2.8" stroke-linecap="round"/>
-            <circle cx="31.5" cy="22" r="2" fill="white"/>
+          <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
+            <rect width="46" height="46" rx="10" fill="#D97757"/>
+            <path d="M15.9 30.5c-.4-1.1-.2-2.3.5-3.2l.1-.2 7.6-11.1c.5-.7 1.3-1.1 2.1-1.1.9 0 1.7.4 2.1 1.2l4.3 7.8c.4.8.4 1.7 0 2.5l-2.6 4.7c-.4.8-1.2 1.2-2.1 1.2h-9.8c-.9 0-1.8-.7-2.2-1.8z" fill="white"/>
           </svg>
         </div>
         <div class="tool-name">Claude</div>
@@ -2165,8 +2218,8 @@
       <div class="tool r d3">
         <div class="tool-ico">
           <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="44" height="44" rx="10" fill="#FF4F00"/>
-            <path d="M9 31V16l7 10 6-10 6 10 7-10v15" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <rect width="44" height="44" rx="10" fill="#1F1F1F"/>
+            <path d="M8 30V14l6.5 9.5L22 14l7.5 9.5L36 14v16" stroke="#FF4F00" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
         </div>
         <div class="tool-name">Maze</div>
@@ -2177,10 +2230,10 @@
       <div class="tool r d4">
         <div class="tool-ico">
           <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="44" height="44" rx="10" fill="#F9AB00"/>
-            <rect x="10" y="20" width="7" height="14" rx="3.5" fill="white"/>
-            <rect x="20" y="13" width="7" height="21" rx="3.5" fill="white" opacity="0.85"/>
-            <rect x="30" y="8" width="7" height="26" rx="3.5" fill="white" opacity="0.7"/>
+            <rect width="44" height="44" rx="10" fill="#fff"/>
+            <rect x="9" y="22" width="7" height="13" rx="3.5" fill="#F9AB00"/>
+            <rect x="18.5" y="15" width="7" height="20" rx="3.5" fill="#E37400"/>
+            <rect x="28" y="9" width="7" height="26" rx="3.5" fill="#E37400" opacity="0.75"/>
           </svg>
         </div>
         <div class="tool-name">Google Analytics</div>
@@ -2192,7 +2245,7 @@
         <div class="tool-ico">
           <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="44" height="44" rx="10" fill="#FFD02F"/>
-            <path d="M14 12h4l4 12 4-12h4l-6.5 20H20L14 12z" fill="#050038"/>
+            <path d="M27.8 12h-3.6l3.4 5.8-3.6-5.8h-3.4l3.4 5.8-3.6-5.8H17l5.8 10L17 32h3.4l3.6-5.8L20.6 32H24l3.6-5.8L24.2 32h3.6L33 22z" fill="#050038"/>
           </svg>
         </div>
         <div class="tool-name">Miro</div>
@@ -2203,8 +2256,9 @@
       <div class="tool r">
         <div class="tool-ico">
           <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="44" height="44" rx="10" fill="#1E0040"/>
-            <text x="6" y="30" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="20" fill="#9999FF">Ae</text>
+            <rect width="44" height="44" rx="10" fill="#00005B"/>
+            <path d="M10 31l7.5-18h2.5L27.5 31h-3l-1.8-4.5h-7.8L13 31h-3zm5.8-7h5.9l-2.95-7.4L15.8 24z" fill="#9999FF"/>
+            <path d="M29 31V13h3v7.2c.8-1 1.9-1.6 3.2-1.6 2.8 0 4.8 2.3 4.8 6.2 0 3.9-2 6.3-5 6.3-1.3 0-2.4-.6-3.1-1.6L31.7 31H29zm3-5.8c0 2.4 1.1 3.8 2.8 3.8 1.7 0 2.7-1.5 2.7-3.8 0-2.3-1-3.7-2.7-3.7-1.7 0-2.8 1.4-2.8 3.7z" fill="#9999FF"/>
           </svg>
         </div>
         <div class="tool-name">After Effects</div>
@@ -2215,8 +2269,9 @@
       <div class="tool r d1">
         <div class="tool-ico">
           <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="44" height="44" rx="10" fill="#330000"/>
-            <text x="5" y="30" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="20" fill="#FF9A00">Ai</text>
+            <rect width="44" height="44" rx="10" fill="#310000"/>
+            <path d="M13 31l7.2-18h2.6L30.2 31h-3l-1.7-4.5h-7.5L16.4 31H13zm5.6-7h5.6l-2.8-7.3L18.6 24z" fill="#FF9A00"/>
+            <path d="M32 15.5a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6zM30.6 31V18.6h2.8V31h-2.8z" fill="#FF9A00"/>
           </svg>
         </div>
         <div class="tool-name">Illustrator</div>
@@ -2234,65 +2289,76 @@
       <span class="label r">Testimonials</span>
       <h2 class="sec-title r d1">What colleagues <em class="glitch-em" data-text="say." style="--gd:0.3s">say.</em></h2>
     </div>
-    <div class="testi-grid">
-      <div class="testi-card r">
-        <div class="testi-stars">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="quote-mark">"</div>
-        <p class="testi-text">Gurpreet takes complex UX challenges and delivers elegant, intuitive solutions. He was instrumental in shaping our shared design system and always brought clear thinking and solid rationale to every design decision.</p>
-        <div class="testi-author">
-          <div class="testi-av">DS</div>
-          <div>
-            <div class="testi-name">David Scarborough</div>
-            <div class="testi-role">UX Consultant · Digital Banking Professional</div>
+    <div class="carousel-scene">
+      <div class="carousel-ring" id="testi-ring">
+
+        <!-- Panel 1 -->
+        <div class="testi-panel">
+          <div class="testi-stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
-        </div>
-        <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
-      </div>
-      <div class="testi-card r d1">
-        <div class="testi-stars">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="quote-mark">"</div>
-        <p class="testi-text">His ability to support design concepts with comprehensive, well-prepared documentation made him stand out; he clearly communicates the "why" behind every decision.</p>
-        <div class="testi-author">
-          <div class="testi-av">JG</div>
-          <div>
-            <div class="testi-name">Jan Glaser</div>
-            <div class="testi-role">UX Designer · EmbedIT</div>
+          <div class="quote-mark">"</div>
+          <p class="testi-text">Gurpreet takes complex UX challenges and delivers elegant, intuitive solutions. He was instrumental in shaping our shared design system and always brought clear thinking and solid rationale to every design decision.</p>
+          <div class="testi-author">
+            <div class="testi-av">DS</div>
+            <div>
+              <div class="testi-name">David Scarborough</div>
+              <div class="testi-role">UX Consultant · Digital Banking Professional</div>
+            </div>
           </div>
+          <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
         </div>
-        <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
-      </div>
-      <div class="testi-card r d2">
-        <div class="testi-stars">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="quote-mark">"</div>
-        <p class="testi-text">Gurpreet's mockups are always crystal clear and production-ready. His handoffs are thorough, his specs are precise, and his design thinking is always rooted in real user needs. A must-have designer!</p>
-        <div class="testi-author">
-          <div class="testi-av">BR</div>
-          <div>
-            <div class="testi-name">Bharat Rawat</div>
-            <div class="testi-role">Senior Design Lead · HSBC PayMe</div>
+
+        <!-- Panel 2 -->
+        <div class="testi-panel">
+          <div class="testi-stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           </div>
+          <div class="quote-mark">"</div>
+          <p class="testi-text">His ability to support design concepts with comprehensive, well-prepared documentation made him stand out; he clearly communicates the "why" behind every decision.</p>
+          <div class="testi-author">
+            <div class="testi-av">JG</div>
+            <div>
+              <div class="testi-name">Jan Glaser</div>
+              <div class="testi-role">UX Designer · EmbedIT</div>
+            </div>
+          </div>
+          <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
         </div>
-        <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
-      </div>
-    </div>
+
+        <!-- Panel 3 -->
+        <div class="testi-panel">
+          <div class="testi-stars">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="quote-mark">"</div>
+          <p class="testi-text">Gurpreet's mockups are always crystal clear and production-ready. His handoffs are thorough, his specs are precise, and his design thinking is always rooted in real user needs. A must-have designer!</p>
+          <div class="testi-author">
+            <div class="testi-av">BR</div>
+            <div>
+              <div class="testi-name">Bharat Rawat</div>
+              <div class="testi-role">Senior Design Lead · HSBC PayMe</div>
+            </div>
+          </div>
+          <a href="https://www.linkedin.com/in/sandhuuxdesigner/" target="_blank" rel="noopener noreferrer" class="testi-li-link">View on LinkedIn →</a>
+        </div>
+
+      </div><!-- /.carousel-ring -->
+      <div class="carousel-dragger" id="testi-dragger"></div>
+    </div><!-- /.carousel-scene -->
+    <p class="carousel-hint">⟵ Drag to explore ⟶</p>
   </div>
 </section>
 
@@ -2304,7 +2370,6 @@
         <div>
           <span class="label r">Get in Touch</span>
           <h2 class="sec-title r d1">Open to new roles.<br>Let's <em class="glitch-em" data-text="talk." style="--gd:1.5s">talk.</em></h2>
-          <p class="sec-desc r d2">Currently open to Senior / Lead Product Designer roles. Whether it's a full-time opportunity or a sharp conversation about design -- I'm here.</p>
         </div>
 
         <div class="contact-avail r d2" style="display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.18);border-radius:var(--r-sm);">
@@ -2519,11 +2584,13 @@
 
   // ── Parallax on hero glow
   const heroGlow = document.querySelector('.hero-glow');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY < window.innerHeight) {
-      heroGlow.style.transform = `translateY(${window.scrollY * 0.25}px)`;
-    }
-  }, { passive: true });
+  if (heroGlow) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < window.innerHeight) {
+        heroGlow.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+      }
+    }, { passive: true });
+  }
 
 
   // ════════════════════════════════════════════════════════════
@@ -3071,6 +3138,107 @@
   window.addEventListener('resize', resize);
   resize();
   draw();
+})();
+</script>
+
+<!-- ─── GSAP 3D Testimonial Carousel ─── -->
+<script>
+(function () {
+  'use strict';
+
+  function initCarousel() {
+    if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') {
+      // GSAP not yet loaded — retry shortly
+      setTimeout(initCarousel, 100);
+      return;
+    }
+
+    gsap.registerPlugin(Draggable);
+
+    var ring     = document.getElementById('testi-ring');
+    var dragger  = document.getElementById('testi-dragger');
+    if (!ring || !dragger) return;
+
+    var panels   = ring.querySelectorAll('.testi-panel');
+    var count    = panels.length;            // 3
+    var step     = 360 / count;             // 120°
+    var radius   = 520;                      // px — ring depth
+    var ringRotY = { val: 0 };              // current ring rotation (degrees)
+
+    /* ── Position panels on the ring ─────────────────────────── */
+    panels.forEach(function (panel, i) {
+      gsap.set(panel, {
+        rotateY      : i * step,
+        transformOrigin: '50% 50% ' + radius + 'px',
+        z            : -radius,
+        backfaceVisibility: 'hidden',
+      });
+    });
+
+    /* Face panel 0 toward viewer */
+    gsap.set(ring, { rotationY: 0 });
+
+    /* ── Animate panels in ─────────────────────────────────────── */
+    gsap.from(panels, {
+      autoAlpha : 0,
+      scale     : 0.88,
+      duration  : 0.7,
+      ease      : 'power2.out',
+      stagger   : 0.12,
+    });
+
+    /* ── Draggable ─────────────────────────────────────────────── */
+    var snapAngles = Array.from({ length: count }, function (_, i) { return -i * step; });
+
+    /* Track live rotation so rapid re-drags read the actual current value */
+    function getLiveRotY() {
+      return gsap.getProperty(ring, 'rotationY');
+    }
+
+    var isDragging = false;
+    var dragStartRotY = 0;
+
+    Draggable.create(dragger, {
+      type      : 'x',
+      inertia   : false,
+      onPress   : function () {
+        isDragging = false;
+        dragStartRotY = getLiveRotY();
+        gsap.killTweensOf(ring);          // cancel any in-progress snap
+      },
+      onDrag    : function () {
+        isDragging = true;
+        var delta = this.x * 0.18;        // sensitivity
+        gsap.set(ring, { rotationY: dragStartRotY + delta });
+      },
+      onRelease : function () {
+        var current = getLiveRotY();
+        /* find nearest panel snap */
+        var closest = snapAngles.reduce(function (best, angle) {
+          var wrapped = angle + Math.round((current - angle) / 360) * 360;
+          return Math.abs(wrapped - current) < Math.abs(best - current) ? wrapped : best;
+        }, snapAngles[0] + Math.round((current - snapAngles[0]) / 360) * 360);
+
+        gsap.to(ring, {
+          rotationY : closest,
+          duration  : 0.55,
+          ease      : 'power3.out',
+        });
+      },
+    });
+
+    /* ── Suppress click when user was dragging ─ */
+    dragger.addEventListener('click', function (e) {
+      if (isDragging) { e.stopPropagation(); isDragging = false; }
+    });
+  }
+
+  /* Start after DOM is ready */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousel);
+  } else {
+    initCarousel();
+  }
 })();
 </script>
 
