@@ -235,7 +235,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin-bottom: 2.75rem;
+      margin-bottom: 2rem;
       opacity: 0; transform: translateY(20px);
       animation: up 0.75s 0.65s ease forwards;
     }
@@ -263,8 +263,50 @@
       display: flex; gap: 1rem; flex-wrap: wrap;
       margin-top: 2rem;
       opacity: 0; transform: translateY(24px);
-      animation: up 0.75s 0.65s ease forwards;
+      animation: up 0.75s 0.8s ease forwards;
     }
+
+    /* ── Scroll indicator ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0;
+      animation: up 1s 1.4s ease forwards;
+      transition: opacity 0.4s ease;
+      z-index: 2;
+    }
+    .scroll-hint.hidden { opacity: 0 !important; }
+    .scroll-hint-label {
+      font-size: 0.625rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-muted);
+      font-weight: 500;
+    }
+    .scroll-hint-mouse {
+      width: 22px; height: 34px;
+      border: 1.5px solid rgba(240,237,232,0.25);
+      border-radius: 11px;
+      display: flex; justify-content: center;
+      padding-top: 5px;
+    }
+    [data-theme="light"] .scroll-hint-mouse {
+      border-color: rgba(29,26,21,0.2);
+    }
+    .scroll-hint-dot {
+      width: 3px; height: 7px;
+      background: var(--accent);
+      border-radius: 3px;
+      animation: scrollDot 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollDot {
+      0%   { transform: translateY(0); opacity: 1; }
+      60%  { transform: translateY(10px); opacity: 0; }
+      61%  { transform: translateY(0); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @media (max-width: 768px) { .scroll-hint { display: none; } }
 
     .btn-primary {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -1944,6 +1986,15 @@
     </div>
 
   </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
+    <span class="scroll-hint-label">Scroll</span>
+    <div class="scroll-hint-mouse">
+      <div class="scroll-hint-dot"></div>
+    </div>
+  </div>
+
 </section>
 
 <!-- ─── MARQUEE ─── -->
@@ -2635,6 +2686,14 @@
       if (window.scrollY < window.innerHeight) {
         heroGlow.style.transform = `translateY(${window.scrollY * 0.25}px)`;
       }
+    }, { passive: true });
+  }
+
+  // Hide scroll indicator once user starts scrolling
+  const scrollHint = document.getElementById('scroll-hint');
+  if (scrollHint) {
+    window.addEventListener('scroll', () => {
+      scrollHint.classList.toggle('hidden', window.scrollY > 60);
     }, { passive: true });
   }
 
