@@ -3114,10 +3114,10 @@
     const rows = Math.ceil(canvas.height / CELL);
     const now  = Date.now();
 
-    /* faint permanent grid lines */
+    /* permanent grid lines */
     ctx.save();
-    ctx.strokeStyle = accentRGBA(0.06);
-    ctx.lineWidth   = 0.5;
+    ctx.strokeStyle = accentRGBA(0.18);
+    ctx.lineWidth   = 0.75;
     for (let c = 0; c <= cols; c++) {
       ctx.beginPath();
       ctx.moveTo(c * CELL, 0);
