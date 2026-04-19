@@ -265,6 +265,7 @@
         'Pattern was reused as the foundation for later B2B admin surfaces at BuildSupply',
       ],
       learnings: 'Access control is deceptively hard: it looks like a form, but it\'s really a data model. Getting the model right (role × scope × user) was 80% of the work — the UI practically fell out once that was clean. I now always model the object graph before opening Figma.',
+      link: 'https://medium.com/design-bootcamp/roles-permissions-9c3319583150',
     },
     {
       title: 'B2B Project Management <em>Platform</em>',
@@ -370,7 +371,14 @@
       <div class="mb-full modal-reflection">
         <div class="mb-title">06 · Reflection</div>
         <div class="mb-text">${p.learnings}</div>
-      </div>`;
+      </div>
+
+      ${p.link ? `<div class="mb-full" style="padding-top:.5rem">
+        <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="modal-read-link">
+          Read full case study on Medium
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true"><path d="M2 11L11 2M11 2H5M11 2V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </a>
+      </div>` : ''}`;
 
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
@@ -391,12 +399,8 @@
     }
   }
 
-  // Attach click to each card. Cards with an external href (non-"#") behave
-  // as real links — they open their URL in a new tab instead of the modal.
+  // Attach click to each card
   document.querySelectorAll('.card').forEach((card, i) => {
-    const href = card.getAttribute('href') || '';
-    const isExternal = href && href !== '#' && !href.startsWith('#');
-    if (isExternal) return; /* native anchor behavior */
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click',   e => { e.preventDefault(); lastFocused = card; openModal(i); });

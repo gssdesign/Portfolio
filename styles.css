@@ -1565,6 +1565,15 @@
 
     [data-theme="light"] .modal-tldr { background:rgba(184,78,24,.08); }
     [data-theme="light"] .modal-reflection { background:rgba(0,0,0,.022); }
+    .modal-read-link {
+      display:inline-flex; align-items:center; gap:.45rem;
+      padding:.65rem 1.1rem;
+      font:600 .875rem/1 'Inter',system-ui,sans-serif;
+      color:var(--accent); border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+      border-radius:8px; text-decoration:none;
+      transition:background .18s,color .18s;
+    }
+    .modal-read-link:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
     .modal-close {
       position:absolute; top:1.125rem; right:1.5rem; z-index:10;
       width:36px; height:36px; border-radius:50%;
