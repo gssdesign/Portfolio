@@ -1574,6 +1574,93 @@
       transition:background .18s,color .18s;
     }
     .modal-read-link:hover { background:color-mix(in srgb,var(--accent) 12%,transparent); }
+
+    /* ── Research: numbered timeline steps ── */
+    .mb-steps { display:flex; flex-direction:column; gap:0; }
+    .mb-step { display:flex; gap:1rem; align-items:flex-start; }
+    .mb-step-track { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:36px; }
+    .mb-step-n {
+      width:36px; height:36px; border-radius:50%;
+      display:grid; place-items:center;
+      font:700 11px/1 ui-monospace,Menlo,monospace; letter-spacing:.04em;
+      color:var(--accent); border:1.5px solid color-mix(in srgb,var(--accent) 45%,transparent);
+      background:color-mix(in srgb,var(--accent) 8%,transparent);
+      flex-shrink:0;
+    }
+    .mb-step-line { flex:1; width:1.5px; min-height:20px; background:var(--border); margin:4px 0 4px; }
+    .mb-step-text { font-size:.9375rem; line-height:1.65; color:var(--text-secondary); padding-top:.55rem; padding-bottom:1.25rem; }
+
+    /* ── Insights: callout cards ── */
+    .mb-insight-cards { display:grid; grid-template-columns:1fr; gap:.75rem; }
+    .mb-insight-card {
+      display:flex; gap:.85rem; align-items:flex-start;
+      padding:.9rem 1.1rem;
+      background:color-mix(in srgb,var(--accent) 6%,transparent);
+      border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);
+      border-left:3px solid var(--accent);
+      border-radius:0 8px 8px 0;
+    }
+    .mb-insight-icon { color:var(--accent); flex-shrink:0; margin-top:.15rem; }
+    .mb-insight-card p { margin:0; font-size:.9375rem; line-height:1.65; color:var(--text-secondary); }
+
+    /* ── Approach: step flow ── */
+    .mb-flow { display:flex; flex-direction:column; gap:0; }
+    .mb-flow-step { display:flex; gap:1rem; align-items:flex-start; }
+    .mb-flow-track { display:flex; flex-direction:column; align-items:center; flex-shrink:0; width:28px; }
+    .mb-flow-n {
+      width:28px; height:28px; border-radius:6px;
+      display:grid; place-items:center;
+      font:700 12px/1 'Inter',system-ui,sans-serif;
+      color:var(--bg); background:var(--accent); flex-shrink:0;
+    }
+    .mb-flow-line { flex:1; width:1.5px; min-height:16px; background:color-mix(in srgb,var(--accent) 35%,transparent); margin:4px 0 4px; }
+    .mb-flow-text { font-size:.9375rem; line-height:1.65; color:var(--text-secondary); padding-top:.3rem; padding-bottom:1.1rem; }
+
+    /* ── Outcomes: check cards ── */
+    .mb-outcome-grid { display:grid; grid-template-columns:1fr; gap:.6rem; }
+    .mb-outcome-item {
+      display:flex; gap:.75rem; align-items:flex-start;
+      padding:.75rem .9rem;
+      background:rgba(34,197,94,.06);
+      border:1px solid rgba(34,197,94,.18);
+      border-radius:8px;
+    }
+    .mb-outcome-check { color:#22c55e; flex-shrink:0; margin-top:.15rem; }
+    .mb-outcome-item span { font-size:.9375rem; line-height:1.6; color:var(--text-secondary); }
+
+    /* ── Project visual: hierarchy diagram ── */
+    .mb-visual-label {
+      font:700 10px/1 ui-monospace,Menlo,monospace; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--text-muted);
+      margin-bottom:1rem;
+    }
+    .mb-hierarchy { display:flex; flex-direction:column; align-items:flex-start; gap:0; padding:.25rem 0; }
+    .mb-hier-node {
+      display:flex; gap:1rem; align-items:center;
+      width:100%; padding:1rem 1.25rem;
+      border:1px solid var(--border); border-radius:10px;
+      background:var(--bg-card);
+    }
+    .mb-hier-top { border-color:rgba(217,119,87,.4); background:color-mix(in srgb,var(--accent) 6%,var(--bg-card)); }
+    .mb-hier-mid { border-color:rgba(26,111,212,.35); background:rgba(26,111,212,.05); }
+    .mb-hier-bot { border-color:rgba(34,197,94,.3); background:rgba(34,197,94,.04); }
+    .mb-hier-icon { font-size:1.5rem; flex-shrink:0; line-height:1; }
+    .mb-hier-tier {
+      font:700 10px/1 ui-monospace,Menlo,monospace; letter-spacing:.08em;
+      text-transform:uppercase; color:var(--text-muted); margin-bottom:.3rem;
+    }
+    .mb-hier-name { font:600 .9375rem/1.2 'Inter',system-ui,sans-serif; color:var(--text); margin-bottom:.3rem; }
+    .mb-hier-desc { font-size:.8125rem; line-height:1.5; color:var(--text-muted); }
+    .mb-hier-arrow {
+      display:flex; flex-direction:column; align-items:center; gap:.25rem;
+      padding:.25rem 0; color:var(--border);
+    }
+    .mb-hier-arrow span { font:500 10px/1 ui-monospace,Menlo,monospace; color:var(--text-muted); letter-spacing:.04em; }
+
+    [data-theme="light"] .mb-hier-node { background:rgba(0,0,0,.025); }
+    [data-theme="light"] .mb-hier-top { background:color-mix(in srgb,var(--accent) 8%,transparent); }
+    [data-theme="light"] .mb-insight-card { background:color-mix(in srgb,var(--accent) 5%,transparent); }
+    [data-theme="light"] .mb-outcome-item { background:rgba(34,197,94,.05); }
     .modal-close {
       position:absolute; top:1.125rem; right:1.5rem; z-index:10;
       width:36px; height:36px; border-radius:50%;

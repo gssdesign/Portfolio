@@ -266,6 +266,41 @@
       ],
       learnings: 'Access control is deceptively hard: it looks like a form, but it\'s really a data model. Getting the model right (role × scope × user) was 80% of the work — the UI practically fell out once that was clean. I now always model the object graph before opening Figma.',
       link: 'https://medium.com/design-bootcamp/roles-permissions-9c3319583150',
+      visual: `<div class="mb-visual-label">Permission Hierarchy</div>
+        <div class="mb-hierarchy">
+          <div class="mb-hier-node mb-hier-top">
+            <div class="mb-hier-icon">⬡</div>
+            <div class="mb-hier-content">
+              <div class="mb-hier-tier">Tier 1 · Global</div>
+              <div class="mb-hier-name">Organisation Role</div>
+              <div class="mb-hier-desc">Admin · Manager · Viewer — applies across all projects</div>
+            </div>
+          </div>
+          <div class="mb-hier-arrow">
+            <svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M-3 26l4 5 4-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>inherits down</span>
+          </div>
+          <div class="mb-hier-node mb-hier-mid">
+            <div class="mb-hier-icon">◈</div>
+            <div class="mb-hier-content">
+              <div class="mb-hier-tier">Tier 2 · Project</div>
+              <div class="mb-hier-name">Project-scoped Override</div>
+              <div class="mb-hier-desc">Same user, different permissions per project</div>
+            </div>
+          </div>
+          <div class="mb-hier-arrow">
+            <svg width="2" height="32" viewBox="0 0 2 32"><line x1="1" y1="0" x2="1" y2="28" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3"/><path d="M-3 26l4 5 4-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span>inherits down</span>
+          </div>
+          <div class="mb-hier-node mb-hier-bot">
+            <div class="mb-hier-icon">◎</div>
+            <div class="mb-hier-content">
+              <div class="mb-hier-tier">Tier 3 · User</div>
+              <div class="mb-hier-name">Per-user Exception</div>
+              <div class="mb-hier-desc">Fine-grained control without affecting others in the same role</div>
+            </div>
+          </div>
+        </div>`,
     },
     {
       title: 'B2B Project Management <em>Platform</em>',
@@ -341,30 +376,66 @@
         <p>${p.tldr}</p>
       </div>
 
+      ${p.visual ? `<div class="mb-full mb-visual">${p.visual}</div>` : ''}
+
       <div class="mb-full">
         <div class="mb-title">01 · Context &amp; Problem</div>
         <div class="mb-text">${p.problem}</div>
       </div>
 
-      <div>
+      <div class="mb-full">
         <div class="mb-title">02 · Research</div>
-        <ul class="mb-list">${p.research.map(s => `<li>${s}</li>`).join('')}</ul>
+        <div class="mb-steps">
+          ${p.research.map((s, i) => `
+            <div class="mb-step">
+              <div class="mb-step-track">
+                <div class="mb-step-n">${String(i + 1).padStart(2, '0')}</div>
+                ${i < p.research.length - 1 ? '<div class="mb-step-line"></div>' : ''}
+              </div>
+              <div class="mb-step-text">${s}</div>
+            </div>`).join('')}
+        </div>
       </div>
 
-      <div>
+      <div class="mb-full">
         <div class="mb-title">03 · Insights</div>
-        <ul class="mb-list mb-insight-list">${p.insights.map(s => `<li>${s}</li>`).join('')}</ul>
+        <div class="mb-insight-cards">
+          ${p.insights.map(s => `
+            <div class="mb-insight-card">
+              <svg class="mb-insight-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="6" r="3.5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M6 11h4M6.5 13h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+              <p>${s}</p>
+            </div>`).join('')}
+        </div>
       </div>
 
       <div class="mb-full">
         <div class="mb-title">04 · Approach &amp; Decisions</div>
-        <ul class="mb-list">${p.approach.map(s => `<li>${s}</li>`).join('')}</ul>
+        <div class="mb-flow">
+          ${p.approach.map((s, i) => `
+            <div class="mb-flow-step">
+              <div class="mb-flow-track">
+                <div class="mb-flow-n">${i + 1}</div>
+                ${i < p.approach.length - 1 ? '<div class="mb-flow-line"></div>' : ''}
+              </div>
+              <div class="mb-flow-text">${s}</div>
+            </div>`).join('')}
+        </div>
       </div>
 
-      <div class="modal-outcome">
+      <div class="modal-outcome mb-full">
         <div class="mb-title">05 · Outcomes</div>
-        <div class="outcome-grid">
-          ${p.outcomes.map(s => `<div style="display:flex;gap:.625rem;font-size:.9375rem;color:var(--text-secondary);line-height:1.65"><span style="color:var(--accent);flex-shrink:0">→</span>${s}</div>`).join('')}
+        <div class="mb-outcome-grid">
+          ${p.outcomes.map(s => `
+            <div class="mb-outcome-item">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="mb-outcome-check">
+                <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.3"/>
+                <path d="M5 8l2.5 2.5L11 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>${s}</span>
+            </div>`).join('')}
         </div>
       </div>
 
