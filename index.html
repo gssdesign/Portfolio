@@ -60,7 +60,7 @@
 <main id="main">
 
 <!-- ─── HERO ─── -->
-<section class="hero" id="home">
+<section class="hero" id="home" data-ds-label="Hero · Above-the-fold" data-ds-spacing="padding: clamp(nav+1rem, 6vh, 5rem)">
   <div class="hero-glow"></div>
   <div class="hero-grid" aria-hidden="true"></div>
 
@@ -155,7 +155,7 @@
 </div>
 
 <!-- ─── WORK ─── -->
-<section id="work">
+<section id="work" data-ds-label="Work · Selected case studies" data-ds-spacing="section rhythm: 8px baseline">
   <div class="inner">
     <div class="work-head">
       <div>
@@ -203,31 +203,58 @@
       </a>
 
       <!-- Card 2 -->
-      <a href="#" class="card r d2" aria-label="Case study: E-Commerce Checkout">
+      <a href="https://medium.com/design-bootcamp/roles-permissions-9c3319583150" target="_blank" rel="noopener noreferrer" class="card r d2" aria-label="Case study: Roles & Permissions for B2B SaaS">
         <div class="card-img">
           <div class="card-img-inner g3">
             <div class="card-deco">
-              <svg width="60%" height="60%" viewBox="0 0 320 220" fill="none" opacity="0.2">
+              <svg width="62%" height="62%" viewBox="0 0 320 220" fill="none" opacity="0.22">
+                <!-- Permission matrix: rows = roles, cols = permissions -->
                 <rect x="20" y="20" width="280" height="180" rx="8" stroke="#d97757" stroke-width="2"/>
-                <rect x="40" y="50" width="180" height="14" rx="4" fill="#d97757" opacity="0.7"/>
-                <rect x="40" y="76" width="120" height="10" rx="4" fill="#d97757" opacity="0.4"/>
-                <rect x="40" y="110" width="240" height="32" rx="6" fill="#d97757" opacity="0.5"/>
-                <rect x="40" y="155" width="100" height="28" rx="6" fill="#d97757" opacity="0.8"/>
+                <!-- Header row -->
+                <rect x="40" y="44" width="60" height="8" rx="3" fill="#d97757" opacity="0.75"/>
+                <rect x="120" y="44" width="30" height="8" rx="3" fill="#d97757" opacity="0.45"/>
+                <rect x="160" y="44" width="30" height="8" rx="3" fill="#d97757" opacity="0.45"/>
+                <rect x="200" y="44" width="30" height="8" rx="3" fill="#d97757" opacity="0.45"/>
+                <rect x="240" y="44" width="30" height="8" rx="3" fill="#d97757" opacity="0.45"/>
+                <!-- Row 1 -->
+                <rect x="40" y="74" width="70" height="6" rx="3" fill="#d97757" opacity="0.55"/>
+                <circle cx="135" cy="77" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="175" cy="77" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="215" cy="77" r="5" fill="#d97757" opacity="0.25"/>
+                <circle cx="255" cy="77" r="5" fill="#d97757" opacity="0.25"/>
+                <!-- Row 2 -->
+                <rect x="40" y="104" width="70" height="6" rx="3" fill="#d97757" opacity="0.55"/>
+                <circle cx="135" cy="107" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="175" cy="107" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="215" cy="107" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="255" cy="107" r="5" fill="#d97757" opacity="0.25"/>
+                <!-- Row 3 -->
+                <rect x="40" y="134" width="70" height="6" rx="3" fill="#d97757" opacity="0.55"/>
+                <circle cx="135" cy="137" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="175" cy="137" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="215" cy="137" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="255" cy="137" r="5" fill="#d97757" opacity="0.85"/>
+                <!-- Row 4 -->
+                <rect x="40" y="164" width="70" height="6" rx="3" fill="#d97757" opacity="0.45"/>
+                <circle cx="135" cy="167" r="5" fill="#d97757" opacity="0.25"/>
+                <circle cx="175" cy="167" r="5" fill="#d97757" opacity="0.85"/>
+                <circle cx="215" cy="167" r="5" fill="#d97757" opacity="0.25"/>
+                <circle cx="255" cy="167" r="5" fill="#d97757" opacity="0.85"/>
               </svg>
             </div>
           </div>
           <div class="card-overlay"></div>
         </div>
         <div class="card-body">
-          <div class="card-tags"><span class="tag">E-Commerce</span><span class="tag">Conversion Optimisation</span></div>
-          <h3 class="card-title">Checkout Redesign: 28% lift in 60 days</h3>
-          <p class="card-desc">Removed friction from a major retailer's checkout funnel, driving a 28% jump in completion rate and 15% revenue uplift within two months of launch.</p>
+          <div class="card-tags"><span class="tag">B2B SaaS</span><span class="tag">UX Research</span><span class="tag">Information Architecture</span></div>
+          <h3 class="card-title">Roles &amp; Permissions: A flexible hierarchy for B2B SaaS</h3>
+          <p class="card-desc">Redesigned the access control system for a construction-lifecycle SaaS, introducing a three-tier permission hierarchy (global, project, user), connected role-to-permission workflows, and a card-based layout that scaled across every customer's org structure.</p>
           <div class="card-meta">
-            <div><span class="cm-lbl">Role</span><span class="cm-val">Senior Product Designer</span></div>
-            <div><span class="cm-lbl">Timeline</span><span class="cm-val">6 weeks</span></div>
+            <div><span class="cm-lbl">Role</span><span class="cm-val">Product/UX Designer</span></div>
+            <div><span class="cm-lbl">Timeline</span><span class="cm-val">2 months</span></div>
           </div>
           <div class="card-foot">
-            <span class="card-co">Retail Brand · 2022</span>
+            <span class="card-co">BuildSupply · 2019</span>
             <div class="arrow-btn"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
           </div>
         </div>
@@ -276,7 +303,7 @@
 </section>
 
 <!-- ─── DESIGN SYSTEMS ─── -->
-<section class="ds-section" id="design-systems">
+<section class="ds-section" id="design-systems" data-ds-label="Design Systems · Tokens → Components" data-ds-spacing="3-tier: primitives → semantic → components">
   <div class="inner">
 
     <!-- Header + Illustration -->
@@ -370,7 +397,7 @@
 </section>
 
 <!-- ─── ABOUT ─── -->
-<section class="about-bg" id="about">
+<section class="about-bg" id="about" data-ds-label="About · Designer story" data-ds-spacing="2-col grid · clamp gutters">
   <div class="inner">
     <div class="about-grid">
 
@@ -446,7 +473,7 @@
 </section>
 
 <!-- ─── TOOLS ─── -->
-<section class="tools-bg">
+<section class="tools-bg" data-ds-label="Toolkit · Design stack" data-ds-spacing="8-col responsive grid">
   <div class="inner">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:0;">
       <div>
@@ -543,7 +570,7 @@
 </section>
 
 <!-- ─── TESTIMONIALS ─── -->
-<section style="border-top: 1px solid var(--border);">
+<section style="border-top: 1px solid var(--border);" data-ds-label="Testimonials · Social proof" data-ds-spacing="carousel · 7s auto-advance">
   <div class="inner">
     <div class="testi-head">
       <span class="label r">Testimonials</span>
@@ -616,7 +643,7 @@
 </section>
 
 <!-- ─── CONTACT ─── -->
-<section class="contact-bg" id="contact">
+<section class="contact-bg" id="contact" data-ds-label="Contact · CTA + Easter egg" data-ds-spacing="2-col · arcade right">
   <div class="inner">
     <div class="contact-grid">
       <div class="contact-info">
@@ -679,6 +706,24 @@
     <span class="btn-label">Resume</span>
   </a>
 </div>
+
+<!-- ─── DESIGNER MODE TOGGLE + LEGEND ─── -->
+<button id="designer-mode-btn" type="button" aria-pressed="false" aria-label="Toggle Designer mode (shortcut: D)" title="Designer mode — press D">
+  <span class="dm-key" aria-hidden="true">D</span>
+  <span class="dm-txt">Designer mode</span>
+</button>
+<aside id="designer-mode-legend" aria-hidden="true" hidden>
+  <div class="dm-legend-head">
+    <strong>Designer mode · ON</strong>
+    <button type="button" id="designer-mode-close" aria-label="Close designer mode">✕</button>
+  </div>
+  <ul class="dm-legend-list">
+    <li><span class="dm-swatch" style="background:#78c8ff"></span>Section outlines &amp; labels</li>
+    <li><span class="dm-swatch dm-swatch--grid"></span>8px baseline grid</li>
+    <li><span class="dm-swatch" style="background:var(--accent)"></span>Spacing &amp; token chips</li>
+  </ul>
+  <p class="dm-legend-foot">Revealing the system behind this page. Press <kbd>D</kbd> or <kbd>Esc</kbd> to exit.</p>
+</aside>
 
 <!-- ─── BACK TO TOP ─── -->
 <button id="back-to-top" aria-label="Back to top" title="Back to top">

@@ -1936,4 +1936,195 @@
     .hero-inner { z-index: 1; }
 
 
+/* ─────────────────────────────────────────────
+   DESIGNER MODE — easter egg: reveal the system
+   ───────────────────────────────────────────── */
+#designer-mode-btn {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 5.5rem);
+  z-index: 90;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem .8rem .55rem .55rem;
+  font: 600 12px/1 'Inter', system-ui, sans-serif;
+  letter-spacing: .01em;
+  color: var(--text-secondary, #cfcbc2);
+  background: color-mix(in srgb, var(--bg-card, #141416) 88%, transparent);
+  border: 1px solid var(--border, rgba(255,255,255,.1));
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.25);
+  transition: transform .18s ease, color .18s ease, border-color .18s ease, background .18s ease;
+}
+#designer-mode-btn:hover { color: var(--text, #fff); border-color: color-mix(in srgb, #78c8ff 50%, var(--border)); }
+#designer-mode-btn .dm-key {
+  display: inline-grid; place-items: center;
+  width: 20px; height: 20px;
+  font: 700 10px/1 ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  color: #78c8ff;
+  background: rgba(120,200,255,.12);
+  border: 1px solid rgba(120,200,255,.35);
+  border-radius: 5px;
+}
+[data-designer="on"] #designer-mode-btn {
+  color: #78c8ff;
+  border-color: rgba(120,200,255,.55);
+  background: rgba(120,200,255,.08);
+}
+@media (max-width: 640px) {
+  #designer-mode-btn .dm-txt { display: none; }
+  #designer-mode-btn { padding: .5rem; }
+}
+
+/* Legend panel */
+#designer-mode-legend {
+  position: fixed;
+  right: 1.25rem;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 9rem);
+  z-index: 91;
+  width: min(280px, calc(100vw - 2rem));
+  padding: .9rem 1rem 1rem;
+  font: 12px/1.5 'Inter', system-ui, sans-serif;
+  color: var(--text, #fff);
+  background: color-mix(in srgb, var(--bg-card, #141416) 94%, transparent);
+  border: 1px solid rgba(120,200,255,.35);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.4);
+}
+#designer-mode-legend[hidden] { display: none; }
+.dm-legend-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: .6rem;
+}
+.dm-legend-head strong {
+  font: 700 11px/1 ui-monospace, Menlo, monospace;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: #78c8ff;
+}
+#designer-mode-close {
+  background: none; border: 0; padding: 2px 6px;
+  color: var(--text-muted, #aaa); cursor: pointer;
+  font-size: 14px; line-height: 1;
+}
+#designer-mode-close:hover { color: var(--text, #fff); }
+.dm-legend-list {
+  list-style: none; padding: 0; margin: 0 0 .6rem;
+  display: grid; gap: .4rem;
+}
+.dm-legend-list li { display: flex; align-items: center; gap: .55rem; color: var(--text-secondary, #cfcbc2); }
+.dm-swatch {
+  width: 14px; height: 14px; border-radius: 3px;
+  border: 1px solid rgba(255,255,255,.15);
+  flex-shrink: 0;
+}
+.dm-swatch--grid {
+  background-image:
+    linear-gradient(rgba(120,200,255,.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,200,255,.6) 1px, transparent 1px);
+  background-size: 4px 4px;
+}
+.dm-legend-foot {
+  margin: 0; padding-top: .55rem;
+  border-top: 1px solid var(--border, rgba(255,255,255,.08));
+  color: var(--text-muted, #888); font-size: 11px;
+}
+.dm-legend-foot kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  font: 600 10px/1 ui-monospace, Menlo, monospace;
+  color: #78c8ff;
+  background: rgba(120,200,255,.1);
+  border: 1px solid rgba(120,200,255,.3);
+  border-radius: 3px;
+}
+
+/* ── ACTIVE STATE: reveal the grid + section labels ── */
+[data-designer="on"]::before {
+  content: "";
+  position: fixed; inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(120,200,255,.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120,200,255,.06) 1px, transparent 1px);
+  background-size: 100% 8px, 8px 100%;
+  mix-blend-mode: screen;
+}
+[data-theme="light"][data-designer="on"]::before {
+  background-image:
+    linear-gradient(rgba(26,111,212,.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,111,212,.08) 1px, transparent 1px);
+  mix-blend-mode: multiply;
+}
+
+[data-designer="on"] section[data-ds-label] {
+  position: relative;
+  outline: 1px dashed rgba(120,200,255,.45);
+  outline-offset: -1px;
+}
+[data-theme="light"][data-designer="on"] section[data-ds-label] {
+  outline-color: rgba(26,111,212,.5);
+}
+[data-designer="on"] section[data-ds-label]::before {
+  content: attr(data-ds-label);
+  position: absolute;
+  top: 8px; left: 8px;
+  z-index: 70;
+  padding: 3px 7px;
+  font: 600 10px/1.2 ui-monospace, Menlo, monospace;
+  letter-spacing: .04em;
+  color: #78c8ff;
+  background: rgba(8,12,20,.88);
+  border: 1px solid rgba(120,200,255,.45);
+  border-radius: 4px;
+  pointer-events: none;
+}
+[data-designer="on"] section[data-ds-label][data-ds-spacing]::after {
+  content: attr(data-ds-spacing);
+  position: absolute;
+  top: 8px; right: 8px;
+  z-index: 70;
+  padding: 3px 7px;
+  font: 500 10px/1.2 ui-monospace, Menlo, monospace;
+  color: var(--accent, #d97757);
+  background: rgba(8,12,20,.82);
+  border: 1px solid color-mix(in srgb, var(--accent, #d97757) 45%, transparent);
+  border-radius: 4px;
+  pointer-events: none;
+  max-width: 45%;
+  text-align: right;
+}
+[data-theme="light"][data-designer="on"] section[data-ds-label]::before,
+[data-theme="light"][data-designer="on"] section[data-ds-label][data-ds-spacing]::after {
+  background: rgba(255,255,255,.94);
+}
+/* Push hero labels below the fixed nav so they're visible */
+[data-designer="on"] .hero[data-ds-label]::before,
+[data-designer="on"] .hero[data-ds-label][data-ds-spacing]::after {
+  top: calc(var(--nav-h, 64px) + 8px);
+}
+
+/* Highlight key components with token chips */
+[data-designer="on"] .btn-primary,
+[data-designer="on"] .btn-secondary,
+[data-designer="on"] .card,
+[data-designer="on"] .tool,
+[data-designer="on"] .exp-card,
+[data-designer="on"] .ds-metric,
+[data-designer="on"] .testi-slide.is-active {
+  position: relative;
+  outline: 1px dashed rgba(217,119,87,.45);
+  outline-offset: 2px;
+}
+
+/* Reduced-motion users still get the overlay — it's static, no animation */
+@media (prefers-reduced-motion: reduce) {
+  #designer-mode-btn { transition: none; }
+}
 

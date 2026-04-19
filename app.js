@@ -227,44 +227,44 @@
       learnings: 'The hardest part wasn\'t the design. It was convincing stakeholders to cut their "pet modules". I underestimated how political feature-reduction would be. Next time, I\'d bring execs into research readouts earlier so the hard decisions feel shared, not imposed.',
     },
     {
-      title: 'E-Commerce Checkout <em>Redesign</em>',
-      company: 'Retail Brand · 2022',
-      tags: ['E-Commerce', 'Conversion Optimisation', 'A/B Testing'],
+      title: 'Roles &amp; <em>Permissions</em>',
+      company: 'BuildSupply · 2019',
+      tags: ['B2B SaaS', 'UX Research', 'Information Architecture'],
       grad: 'g3',
-      role: 'Senior Product Designer',
-      team: '1 PM · 4 Engineers · 1 Data Analyst',
-      timeline: '6 weeks',
-      tldr: 'Flattened a 4-step checkout into a single progressive page, lifting completion 28% and adding an estimated $2.4M in annualised revenue.',
+      role: 'Product/UX Designer',
+      team: '1 PM · 2 Engineers · 1 Customer-success Lead',
+      timeline: '2 months',
+      tldr: 'Rebuilt the access-control system for a construction-lifecycle SaaS: introduced a 3-tier permission hierarchy (global / project / user) and connected role creation with permission assignment in a single flow.',
       metrics: [
-        { v: '28%', l: 'Lift in completion' },
-        { v: '15%', l: 'Revenue uplift'     },
-        { v: '6wk', l: 'Design to launch'   },
+        { v: '3',    l: 'Permission tiers'       },
+        { v: '1',    l: 'Unified role+perm flow' },
+        { v: '∞',    l: 'Org structures supported' },
       ],
-      problem: 'The checkout funnel had a 71% abandonment rate with users dropping off at address and payment steps. Every percentage-point of improvement represented millions in recovered revenue, making this one of the highest-stakes design problems I\'ve tackled.',
+      problem: 'The legacy system forced every customer into the same flat role model. Two users with the same role couldn\'t hold different permissions, role creation was disconnected from permission assignment, and the flow couldn\'t represent real construction org hierarchies that span clerks, project managers, and board members.',
       research: [
-        'Analysed 2,000+ FullStory session recordings to pinpoint exact drop-off triggers',
-        'Ran an exit-intent survey capturing 1,200 responses from abandoners',
-        'Audited the flow against Baymard Institute\'s 170 checkout UX guidelines',
-        'Pulled 90-day funnel analytics segmented by mobile vs desktop',
+        'Stakeholder interviews across 4 customer segments with very different org structures',
+        'Teardown of role & permission patterns in Jira, Asana, Slack, and AWS IAM',
+        'Audited the existing flow against 6 live customer tenants to map real edge cases',
+        'Co-design sessions with customer-success to capture support-ticket themes',
       ],
       insights: [
-        '62% of abandoners cited "too many steps". The real blocker was step 2 asking for info users didn\'t have on hand.',
-        'Mobile users bounced 2.3× more than desktop at the address step due to keyboard-thrash.',
-        'Returning customers were being forced through the full flow, a massive missed opportunity.',
+        'The real unit of access isn\'t a role — it\'s a (role × scope) pair. A manager on Project A may be a viewer on Project B.',
+        'Admins wanted to *start from* a role template and then tweak individual permissions, not rebuild from scratch.',
+        'Department-level segregation mattered as much as project-level — missing that was the root of most permission bugs.',
       ],
       approach: [
-        'Collapsed 4 steps into one progressive page with smart defaults and auto-fill',
-        'Replaced generic "invalid" errors with specific, field-level inline copy',
-        'Built a "resume later" SMS flow specifically for mobile abandoners',
-        'A/B tested 4 variants against 50K users each over 3 weeks; let data pick the winner',
+        'Designed a 3-tier hierarchy: global roles → project-scoped overrides → per-user exceptions',
+        'Unified role creation and permission assignment into a single, card-based layout',
+        'Added department segregation and a filter/search layer so large tenants stayed usable at scale',
+        'Prototyped in Figma and validated with 3 customer admins before engineering handoff',
       ],
       outcomes: [
-        '28% increase in checkout completion rate',
-        '15% uplift in revenue attributed to the new flow',
-        'Mobile checkout completion improved by 38%',
-        'Checkout-related support tickets dropped by 45%',
+        'Shipped a flexible model that scaled across every customer\'s org structure',
+        'Role setup time dropped sharply — admins could clone-and-tweak instead of rebuilding',
+        'Eliminated the entire class of "users stuck with wrong permissions" support tickets',
+        'Pattern was reused as the foundation for later B2B admin surfaces at BuildSupply',
       ],
-      learnings: 'We almost shipped a variant with an animated progress bar that "felt right" in moderated testing. A/B data showed it *hurt* conversion by 1.2%. Gut and data disagreed; data won. A good reminder that usability testing and conversion testing answer very different questions.',
+      learnings: 'Access control is deceptively hard: it looks like a form, but it\'s really a data model. Getting the model right (role × scope × user) was 80% of the work — the UI practically fell out once that was clean. I now always model the object graph before opening Figma.',
     },
     {
       title: 'B2B Project Management <em>Platform</em>',
@@ -391,8 +391,12 @@
     }
   }
 
-  // Attach click to each card
+  // Attach click to each card. Cards with an external href (non-"#") behave
+  // as real links — they open their URL in a new tab instead of the modal.
   document.querySelectorAll('.card').forEach((card, i) => {
+    const href = card.getAttribute('href') || '';
+    const isExternal = href && href !== '#' && !href.startsWith('#');
+    if (isExternal) return; /* native anchor behavior */
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
     card.addEventListener('click',   e => { e.preventDefault(); lastFocused = card; openModal(i); });
@@ -732,5 +736,53 @@
     document.addEventListener('DOMContentLoaded', initTestimonials);
   } else {
     initTestimonials();
+  }
+})();
+
+/* ─── DESIGNER MODE — reveal the system ─── */
+(function () {
+  function initDesignerMode() {
+    const btn = document.getElementById('designer-mode-btn');
+    const legend = document.getElementById('designer-mode-legend');
+    const closeBtn = document.getElementById('designer-mode-close');
+    if (!btn) return;
+
+    const root = document.documentElement;
+    const STORAGE_KEY = 'designer-mode';
+
+    function setState(on) {
+      root.dataset.designer = on ? 'on' : 'off';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (legend) {
+        legend.hidden = !on;
+        legend.setAttribute('aria-hidden', on ? 'false' : 'true');
+      }
+      try { localStorage.setItem(STORAGE_KEY, on ? '1' : '0'); } catch (e) {}
+    }
+
+    function toggle() { setState(root.dataset.designer !== 'on'); }
+
+    /* Restore */
+    let initial = false;
+    try { initial = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
+    setState(initial);
+
+    btn.addEventListener('click', toggle);
+    if (closeBtn) closeBtn.addEventListener('click', () => setState(false));
+
+    /* Keyboard: D to toggle, Esc to exit */
+    document.addEventListener('keydown', (e) => {
+      const tag = (e.target && e.target.tagName) || '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target?.isContentEditable) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === 'd' || e.key === 'D') { e.preventDefault(); toggle(); }
+      else if (e.key === 'Escape' && root.dataset.designer === 'on') { setState(false); }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDesignerMode);
+  } else {
+    initDesignerMode();
   }
 })();
