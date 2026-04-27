@@ -187,44 +187,95 @@
   // ── 4. PROJECT MODAL ──────────────────────────────────────
   const PROJECTS = [
     {
-      title: 'Enterprise Analytics <em>Dashboard</em>',
+      title: 'GMA Loan Journey <em>Usability Study</em>',
       company: 'Home Credit India · 2023',
-      tags: ['UX Strategy', 'Product Design', 'Design System'],
+      tags: ['UX Research', 'Fintech', 'Mobile'],
       grad: 'g1',
-      role: 'Lead Product Designer',
-      team: '1 PM · 3 Engineers · 1 Researcher',
-      timeline: '16 weeks',
-      tldr: 'Rebuilt a legacy analytics dashboard into a modular, role-aware workspace, cutting task time by 40% and launching a 200+ component design system in parallel.',
+      role: 'Lead UX Researcher · India Design Team',
+      team: '1 UX Researcher · 1 PM · India Design Team',
+      timeline: 'Moderated study · 5 sessions',
+      tldr: 'Led end-to-end moderated usability testing on the GMA mobile app loan journey — uncovering 13 critical friction points across 5 tasks — driving targeted redesigns aimed at a 10% improvement in journey completion.',
       metrics: [
-        { v: '40%',  l: 'Faster task completion' },
-        { v: '200+', l: 'Design components'      },
-        { v: '50K+', l: 'Active users'           },
+        { v: '13',  l: 'Critical friction points'  },
+        { v: '5/5', l: 'Users confused by product wording' },
+        { v: '10%', l: 'Target journey completion uplift'  },
       ],
-      problem: 'The legacy dashboard was built in 2015 and had grown into an unmaintainable maze of features. Users were spending 3× longer than needed to extract insights, and the design team had no shared component system to work from.',
+      problem: 'The GMA app\'s loan journey — from Playstore download to DDM setup — had never been tested with real users. Internal teams assumed the flow was self-explanatory, but field data suggested high drop-off and long completion times. The India Design Team ran a full moderated usability study to find exactly where users were failing and why.',
       research: [
-        '24 contextual interviews across 3 user segments (analysts, managers, execs)',
-        'Heuristic audit of 32 legacy screens against Nielsen\'s 10 usability principles',
-        'Competitive teardown of 6 analytics tools including Tableau, Looker and Metabase',
-        'Session-recording review of 400+ real user journeys to trace friction points',
+        '5 moderated usability sessions with participants aged 25–30, mix of loan-aware and first-time applicants',
+        '5 core tasks per session: download GMA from Playstore, create account, apply for ₹90K personal loan, set up DDM, find running loan details',
+        'Rainbow Chart Analysis to categorise and tally observed behaviours across all participants',
+        'Session recordings reviewed alongside live observation notes and post-task qualitative feedback',
       ],
       insights: [
-        'Analysts lived in 3 specific screens ~90% of the time. The rest was noise on their daily path.',
-        'Managers didn\'t need more data; they needed alerts when data *moved*.',
-        'Power users had built private Excel workarounds because saved views weren\'t searchable.',
+        'Playstore failure (5/5): Every single user downloaded the old CAPP app — GMA\'s name and icon weren\'t distinct enough to differentiate it from the legacy app.',
+        'Product naming barrier (5/5): "Select loan product" and "Flexi Loan" terminology was understood by zero participants — financial jargon created an immediate comprehension wall.',
+        'KYC path confusion (5/5): All users chose "Offline KYC" assuming the online card option was a section heading, not a clickable action — a labelling failure with serious compliance risk.',
+        'DDM end date blocker (5/5): Every user was confused by an end date defaulting to "2099" — they questioned whether it was a system error and hesitated to complete the setup.',
+        'PIN setup failure (4/5): Hidden PIN criteria only appeared on the first failed attempt — users had no way to know the rules before trying.',
+        'Home screen blindness: Key loan CTAs were invisible in the visual noise of popups and banners — the primary conversion path went unseen.',
       ],
       approach: [
-        'Split the product into "Explore" vs "Monitor" modes, mapped to the two dominant JTBDs',
-        'Chose a token-first design system so engineering could migrate file-by-file with no big-bang rewrite',
-        'Prototyped 3 navigation models and validated weekly in Maze (n=12 per round)',
-        'Designed alerts as a standalone surface rather than bolting them onto the existing nav',
+        'Recommended Playstore listing update with clear GMA vs CAPP differentiation — distinct icon, name, and description',
+        'Replaced "Select loan product" with plain-language copy; Flexi Loan explanation simplified to a single-sentence benefit statement',
+        'Redesigned KYC selection UI — Online option made visually primary (card); Offline option demoted to secondary text link',
+        'Changed DDM end date default to the actual loan end date; added tooltip explaining the field',
+        'Surfaced PIN criteria inline at input rather than revealing on first failure only',
+        'Restructured home screen hierarchy to eliminate popup-driven blindness around the primary loan CTA',
       ],
       outcomes: [
-        '40% reduction in average task completion time',
-        'NPS jumped from 22 → 61 within two quarters post-launch',
-        'Design system adopted across 4 separate product teams',
-        'New user onboarding time cut in half',
+        'Identified and documented 13 actionable friction points across the full GMA loan journey',
+        'All critical findings accepted by PM and engineering for prioritisation in the next sprint',
+        'Redesign targets a 10% improvement in journey completion rate and time-to-complete',
+        'Research output became the baseline usability benchmark for the GMA loan team',
+        'Rainbow Chart analysis framework adopted as the standard template for future moderated studies at Home Credit India',
       ],
-      learnings: 'The hardest part wasn\'t the design. It was convincing stakeholders to cut their "pet modules". I underestimated how political feature-reduction would be. Next time, I\'d bring execs into research readouts earlier so the hard decisions feel shared, not imposed.',
+      learnings: 'The biggest revelation was how many "obvious" UX failures had gone unnoticed by the internal team. Nobody had ever watched a real user try to download the app — and when they did, every single user got it wrong. Five moderated sessions surfaced issues that months of internal review had missed entirely. The ROI on shifting from assumption to observation was immediate.',
+      visual: `<div class="mb-visual-label">Loan Journey · Pain Point Map</div>
+        <div class="mb-journey-steps">
+          <div class="mb-journey-step mb-j-critical">
+            <div class="mb-j-stage">Playstore</div>
+            <div class="mb-j-bar"><span style="width:100%"></span></div>
+            <div class="mb-j-stat">5 / 5</div>
+            <div class="mb-j-note">Downloaded wrong app (CAPP instead of GMA)</div>
+          </div>
+          <div class="mb-journey-step mb-j-high">
+            <div class="mb-j-stage">Onboarding</div>
+            <div class="mb-j-bar"><span style="width:80%"></span></div>
+            <div class="mb-j-stat">4 / 5</div>
+            <div class="mb-j-note">Tapped Skip instead of Login</div>
+          </div>
+          <div class="mb-journey-step mb-j-high">
+            <div class="mb-j-stage">PIN Setup</div>
+            <div class="mb-j-bar"><span style="width:80%"></span></div>
+            <div class="mb-j-stat">4 / 5</div>
+            <div class="mb-j-note">Hidden PIN criteria blocked completion</div>
+          </div>
+          <div class="mb-journey-step mb-j-critical">
+            <div class="mb-j-stage">Loan Product</div>
+            <div class="mb-j-bar"><span style="width:100%"></span></div>
+            <div class="mb-j-stat">5 / 5</div>
+            <div class="mb-j-note">"Select loan product" &amp; Flexi Loan — zero comprehension</div>
+          </div>
+          <div class="mb-journey-step mb-j-critical">
+            <div class="mb-j-stage">Address KYC</div>
+            <div class="mb-j-bar"><span style="width:100%"></span></div>
+            <div class="mb-j-stat">5 / 5</div>
+            <div class="mb-j-note">Online KYC card mistaken for a section heading</div>
+          </div>
+          <div class="mb-journey-step mb-j-high">
+            <div class="mb-j-stage">VAS / Safe Pay</div>
+            <div class="mb-j-bar"><span style="width:80%"></span></div>
+            <div class="mb-j-stat">4 / 5</div>
+            <div class="mb-j-note">Feature not understood, users hesitated to continue</div>
+          </div>
+          <div class="mb-journey-step mb-j-critical">
+            <div class="mb-j-stage">DDM Setup</div>
+            <div class="mb-j-bar"><span style="width:100%"></span></div>
+            <div class="mb-j-stat">5 / 5</div>
+            <div class="mb-j-note">End date "2099" looked like a system error</div>
+          </div>
+        </div>`,
     },
     {
       title: 'Roles &amp; <em>Permissions</em>',
