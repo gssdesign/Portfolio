@@ -81,8 +81,8 @@
   const co = new IntersectionObserver(entries => {
     if (entries[0].isIntersecting && !counted) {
       counted = true;
-      document.querySelectorAll('.stat-num[data-target]').forEach(el => {
-        countUp(el, +el.dataset.target, el.dataset.suffix);
+      document.querySelectorAll('.stat-num[data-target]').forEach((el, i) => {
+        setTimeout(() => countUp(el, +el.dataset.target, el.dataset.suffix), i * 140);
       });
     }
   }, { threshold: 0.6 });
@@ -236,43 +236,43 @@
       imageAlt: 'GMA ACL Journey Usability Testing Report cover — India Design Team',
       visual: `<div class="mb-visual-label">Loan Journey · Pain Point Map</div>
         <div class="mb-journey-steps">
-          <div class="mb-journey-step mb-j-critical">
+          <div class="mb-journey-step mb-j-critical" style="--i:0">
             <div class="mb-j-stage">Playstore</div>
             <div class="mb-j-bar"><span style="width:100%"></span></div>
             <div class="mb-j-stat">5 / 5</div>
             <div class="mb-j-note">Downloaded wrong app (CAPP instead of GMA)</div>
           </div>
-          <div class="mb-journey-step mb-j-high">
+          <div class="mb-journey-step mb-j-high" style="--i:1">
             <div class="mb-j-stage">Onboarding</div>
             <div class="mb-j-bar"><span style="width:80%"></span></div>
             <div class="mb-j-stat">4 / 5</div>
             <div class="mb-j-note">Tapped Skip instead of Login</div>
           </div>
-          <div class="mb-journey-step mb-j-high">
+          <div class="mb-journey-step mb-j-high" style="--i:2">
             <div class="mb-j-stage">PIN Setup</div>
             <div class="mb-j-bar"><span style="width:80%"></span></div>
             <div class="mb-j-stat">4 / 5</div>
             <div class="mb-j-note">Hidden PIN criteria blocked completion</div>
           </div>
-          <div class="mb-journey-step mb-j-critical">
+          <div class="mb-journey-step mb-j-critical" style="--i:3">
             <div class="mb-j-stage">Loan Product</div>
             <div class="mb-j-bar"><span style="width:100%"></span></div>
             <div class="mb-j-stat">5 / 5</div>
             <div class="mb-j-note">"Select loan product" &amp; Flexi Loan — zero comprehension</div>
           </div>
-          <div class="mb-journey-step mb-j-critical">
+          <div class="mb-journey-step mb-j-critical" style="--i:4">
             <div class="mb-j-stage">Address KYC</div>
             <div class="mb-j-bar"><span style="width:100%"></span></div>
             <div class="mb-j-stat">5 / 5</div>
             <div class="mb-j-note">Online KYC card mistaken for a section heading</div>
           </div>
-          <div class="mb-journey-step mb-j-high">
+          <div class="mb-journey-step mb-j-high" style="--i:5">
             <div class="mb-j-stage">VAS / Safe Pay</div>
             <div class="mb-j-bar"><span style="width:80%"></span></div>
             <div class="mb-j-stat">4 / 5</div>
             <div class="mb-j-note">Feature not understood, users hesitated to continue</div>
           </div>
-          <div class="mb-journey-step mb-j-critical">
+          <div class="mb-journey-step mb-j-critical" style="--i:6">
             <div class="mb-j-stage">DDM Setup</div>
             <div class="mb-j-bar"><span style="width:100%"></span></div>
             <div class="mb-j-stat">5 / 5</div>

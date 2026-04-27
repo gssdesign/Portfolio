@@ -24,7 +24,7 @@
 </head>
 <body>
 
-<a href="#home" class="skip-link">Skip to content</a>
+<a href="#main" class="skip-link">Skip to content</a>
 
 <!-- ─── INTERACTIVE GRID CANVAS ─── -->
 <canvas id="grid-canvas" aria-hidden="true"></canvas>
@@ -166,7 +166,7 @@
     <div class="work-grid">
 
       <!-- Card 1 — GMA Loan Journey Usability Study -->
-      <a href="#" class="card wide r" aria-label="Case study: GMA Loan Journey Usability Study">
+      <a href="#" class="card wide r" aria-label="Case study: GMA Loan Journey Usability Study" aria-haspopup="dialog">
         <div class="card-img">
           <div class="card-img-inner card-img-photo">
             <img src="case-study-acl-journey.png" alt="GMA ACL Journey Usability Testing Report cover — India Design Team" loading="lazy" decoding="async">
@@ -193,7 +193,7 @@
       </a>
 
       <!-- Card 2 -->
-      <a href="#" class="card r d2" aria-label="Case study: Roles & Permissions for B2B SaaS">
+      <a href="#" class="card r d2" aria-label="Case study: Roles & Permissions for B2B SaaS" aria-haspopup="dialog">
         <div class="card-img">
           <div class="card-img-inner card-img-photo">
             <img src="case-study-roles.png" alt="BuildSupply Roles & Permissions UI screens" loading="lazy" decoding="async">
@@ -216,7 +216,7 @@
       </a>
 
       <!-- Card 3 — Application Form Multi-country Study -->
-      <a href="#" class="card r d1" aria-label="Case study: Application Form Redesign — Multi-country Usability Study">
+      <a href="#" class="card r d1" aria-label="Case study: Application Form Redesign — Multi-country Usability Study" aria-haspopup="dialog">
         <div class="card-img">
           <div class="card-img-inner card-img-photo">
             <img src="case-study-app-form.png" alt="Application form old vs new version comparison across 4 countries" loading="lazy" decoding="async">
@@ -243,9 +243,9 @@
 
     <!-- View More Case Studies -->
     <div class="work-more r d2">
-      <a href="https://medium.com/@gssandhu1990" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+      <a href="https://medium.com/@gssandhu1990" target="_blank" rel="noopener noreferrer" class="btn-secondary" aria-label="View more case studies on Medium (opens in new tab)">
         View More Case Studies
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="btn-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
     </div>
 
@@ -354,7 +354,7 @@
       <div class="avatar-wrap r">
         <div class="avatar">
           <div class="avatar-inner">
-            <img src="painting.jpg" alt="Gurpreet Singh — Senior Product Designer">
+            <img src="painting.jpg" alt="Gurpreet Singh — Senior Product Designer" width="600" height="800">
           </div>
         </div>
         <div class="avatar-chip">
@@ -391,7 +391,7 @@
           <p class="skills-label">Experience</p>
           <div class="exp-list">
             <div class="exp-card">
-              <div class="exp-ico">🏢</div>
+              <div class="exp-ico" aria-hidden="true">🏢</div>
               <div>
                 <div class="exp-role">Senior Manager, Product Design</div>
                 <div class="exp-place">Home Credit India · Full-time</div>
@@ -399,7 +399,7 @@
               <div class="exp-yr">2021 – Present</div>
             </div>
             <div class="exp-card">
-              <div class="exp-ico">🚀</div>
+              <div class="exp-ico" aria-hidden="true">🚀</div>
               <div>
                 <div class="exp-role">UX/UI Designer</div>
                 <div class="exp-place">BuildSupply · Full-time</div>
@@ -407,7 +407,7 @@
               <div class="exp-yr">2018 – 2021</div>
             </div>
             <div class="exp-card">
-              <div class="exp-ico">🎨</div>
+              <div class="exp-ico" aria-hidden="true">🎨</div>
               <div>
                 <div class="exp-role">UX/UI Designer</div>
                 <div class="exp-place">Appster · Full-time</div>
@@ -535,7 +535,7 @@
       <span class="label r">Testimonials</span>
       <h2 class="sec-title r d1">What colleagues <em class="glitch-em" data-text="say." style="--gd:0.3s">say.</em></h2>
     </div>
-    <div class="testi-stage r d2" id="testi-stage">
+    <div class="testi-stage r d2" id="testi-stage" aria-live="polite" aria-atomic="true">
 
       <div class="testi-slide is-active" data-slide="0">
         <blockquote class="testi-quote">Gurpreet brings a <em>user-centered approach</em> to everything he designs. His keen eye for detail, combined with a deep understanding of user psychology, results in intuitive experiences that genuinely make a difference.</blockquote>
@@ -658,17 +658,17 @@
 
         <div class="contact-links r d2">
           <a href="mailto:gssandhu1990@gmail.com" class="c-link">
-            <span class="c-ico">✉️</span>
+            <span class="c-ico" aria-hidden="true">✉️</span>
             <div class="c-text"><div class="c-label">Email</div><div class="c-val">gssandhu1990@gmail.com</div></div>
             <span class="c-arr">→</span>
           </a>
           <a href="https://linkedin.com/in/sandhuuxdesigner" target="_blank" rel="noopener noreferrer" class="c-link">
-            <span class="c-ico">💼</span>
+            <span class="c-ico" aria-hidden="true">💼</span>
             <div class="c-text"><div class="c-label">LinkedIn</div><div class="c-val">linkedin.com/in/sandhuuxdesigner</div></div>
             <span class="c-arr">→</span>
           </a>
           <a href="Gurpreet_Singh_Resume.pdf" class="c-link" download="Gurpreet_Singh_Resume.pdf">
-            <span class="c-ico">📄</span>
+            <span class="c-ico" aria-hidden="true">📄</span>
             <div class="c-text"><div class="c-label">Resume</div><div class="c-val">Download PDF</div></div>
             <span class="c-arr">↓</span>
           </a>
@@ -730,12 +730,16 @@
     <div class="foot-avail">
       <span class="foot-avail-dot"></span>Open to full-time roles
     </div>
+    <div class="foot-social">
+      <a href="https://linkedin.com/in/sandhuuxdesigner" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn</a>
+      <a href="https://medium.com/@gssandhu1990" target="_blank" rel="noopener noreferrer" aria-label="Medium articles">Medium</a>
+    </div>
     <div class="foot-copy">Designed & built by Gurpreet Singh &middot; 2026</div>
   </div>
 </footer>
 
 <!-- ─── PROJECT MODAL ─── -->
-<div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-label="Project case study">
+<div class="modal-bg" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal-scrim" id="modal-scrim"></div>
   <div class="modal-sheet">
     <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
