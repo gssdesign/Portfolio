@@ -303,44 +303,88 @@
         </div>`,
     },
     {
-      title: 'B2B Project Management <em>Platform</em>',
-      company: 'SaaS Startup · 2021',
-      tags: ['SaaS', 'B2B Platform', 'Design System', '0 → 1'],
+      title: 'Application Form <em>Redesign</em>',
+      company: 'Home Credit India · 2023',
+      tags: ['UX Research', 'Fintech', 'Multi-market'],
       grad: 'g4',
-      role: 'Founding Designer',
-      team: 'Solo → grew team to 4 designers',
-      timeline: '18 months',
-      tldr: 'Shaped a B2B project-management tool from zero to 10K paying teams and a $15M Series B. Built the product, brand, and design system from scratch.',
+      role: 'Lead UX Researcher · India Design Team',
+      team: 'India · Indonesia · Philippines · Vietnam design teams',
+      timeline: 'Multi-country study',
+      tldr: 'Led a 4-country moderated usability study comparing old vs. new loan application form flows. The new direct-entry form cut completion time by 50% and miss-click rate by 59% in India, and became the globally recommended approach.',
       metrics: [
-        { v: '10K',  l: 'Paying teams'    },
-        { v: '$15M', l: 'Series B raised' },
-        { v: '0→1',  l: 'Full product build' },
+        { v: '50%',  l: 'Faster in India'       },
+        { v: '59%',  l: 'Fewer miss-clicks (IN)' },
+        { v: '4',    l: 'Markets tested'         },
       ],
-      problem: 'The founders had a strong technical vision but no design direction. Joining as the founding designer, I shaped the product, brand, and design system from an empty Figma file, with everything to build and nothing to constrain it.',
+      problem: 'The existing application form used an accordion-style flow that forced users to navigate back and forth, causing high drop-off rates. Home Credit operated across multiple markets, each with different user behaviours — a single study needed to validate whether a new direct-entry flow would work globally, and who should make the final design call.',
       research: [
-        '30 customer-discovery interviews with PMs using Jira, Asana and Monday',
-        'Competitive teardown of 8 direct and 4 adjacent tools across feature and pricing dimensions',
-        'Shadowed 6 teams for half-days to watch actual daily workflows, not the idealised ones',
-        'Ran a "buy a feature" exercise with 40 beta users to prioritise the roadmap',
+        'Moderated usability testing across India, Indonesia, Philippines, and Vietnam',
+        '10–20 participants per country, age 25–45, mix of male & female, prospect and existing customers',
+        'Maze testing to measure miss-click rate and task completion time for both form versions',
+        'Qualitative interviews capturing ease-of-use, confidence, and understanding of progress indicators',
       ],
       insights: [
-        'Teams didn\'t want "another Jira". They wanted the same flexibility without the setup tax.',
-        'The #1 pain wasn\'t features; it was *onboarding other people onto the tool*.',
-        'Most users touched only ~20% of features. The MVP could be aggressively slim if that 20% was flawless.',
+        'India: New form required fewer taps, less chance of drop-offs — users found required info visible upfront and easy to edit.',
+        'Indonesia & India strongly preferred the new version (80% and 64% respectively); Philippines was neutral (50/50); Vietnam leaned new but noted both had merits.',
+        'Progress bar preference split by market: India users strongly preferred the familiar linear "Step 1 of 4" pattern; Vietnam preferred circular. No universal winner — India design team recommendation carried.',
       ],
       approach: [
-        'Scoped the MVP to 4 object types (task · project · person · doc); ruthlessly cut everything else',
-        'Designed the invite flow as the *core feature*, not a footer link',
-        'Built the design system atomic-first so new surfaces didn\'t slow the team down later',
-        'Partnered with marketing on the landing page so the product story was consistent end-to-end',
+        'Designed two prototypes: old accordion-style vs. new direct-entry form with upfront information page',
+        'Coordinated research execution across 4 country teams with a shared methodology and Maze test setup',
+        'India team led synthesis, consolidated findings from all 4 country reports into a single actionable summary',
+        'Proposed adding an information page before data capture — showing required fields upfront — to reduce back-and-forth across all markets',
       ],
       outcomes: [
-        'Product grew from 0 to 10,000 paying teams in 18 months',
-        'Raised a $15M Series B with product design as a key differentiator',
-        'Design system reduced UI build time by 60% for engineering',
-        'Won "Product of the Day" on Product Hunt at launch',
+        'India: Completion time dropped from 70.8s → 35s (50% faster)',
+        'India: Miss-click rate fell from 12.70% → 5.25% (59% improvement)',
+        'New direct-entry form recommended globally as the preferred approach',
+        'All 4 country teams aligned on adding a pre-form information page to further reduce drop-offs',
+        'India design team decision: linear progress bar with enhanced thickness for familiarity and visibility',
       ],
-      learnings: 'Being founding designer means wearing six hats, and I tried to wear them all at once for too long. I should have hired a second designer six months earlier; by the time I did, I was the bottleneck on everything. In early startups: first hire > first feature.',
+      learnings: 'Multi-market research rarely gives clean consensus — and that\'s the point. When data is divided (as it was with the progress bar), the team closest to their users should own the call. Framing the India team as the decision-maker, rather than waiting for global consensus, unblocked the project and produced a better outcome for our users.',
+      visual: `<div class="mb-visual-label">New Form Preference by Country</div>
+        <div class="mb-country-chart">
+          <div class="mb-country-row">
+            <span class="mb-country-flag">🇮🇳</span>
+            <span class="mb-country-name">India</span>
+            <div class="mb-country-bar-wrap">
+              <div class="mb-country-bar" style="width:64%"><span>64%</span></div>
+            </div>
+          </div>
+          <div class="mb-country-row">
+            <span class="mb-country-flag">🇮🇩</span>
+            <span class="mb-country-name">Indonesia</span>
+            <div class="mb-country-bar-wrap">
+              <div class="mb-country-bar" style="width:80%"><span>80%</span></div>
+            </div>
+          </div>
+          <div class="mb-country-row">
+            <span class="mb-country-flag">🇵🇭</span>
+            <span class="mb-country-name">Philippines</span>
+            <div class="mb-country-bar-wrap">
+              <div class="mb-country-bar" style="width:50%"><span>50%</span></div>
+            </div>
+          </div>
+          <div class="mb-country-row">
+            <span class="mb-country-flag">🇻🇳</span>
+            <span class="mb-country-name">Vietnam</span>
+            <div class="mb-country-bar-wrap">
+              <div class="mb-country-bar" style="width:55%"><span>~55%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-visual-label" style="margin-top:1.5rem">Completion Time: India (Old vs New)</div>
+        <div class="mb-compare-row">
+          <div class="mb-compare-item mb-compare-old">
+            <div class="mb-compare-val">70.8s</div>
+            <div class="mb-compare-lbl">Old form</div>
+          </div>
+          <svg width="32" height="20" viewBox="0 0 32 20" fill="none" aria-hidden="true"><path d="M2 10h28M22 4l8 6-8 6" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="mb-compare-item mb-compare-new">
+            <div class="mb-compare-val">35s</div>
+            <div class="mb-compare-lbl">New form · 50% faster</div>
+          </div>
+        </div>`,
     },
   ];
 
