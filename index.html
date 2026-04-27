@@ -19,7 +19,7 @@
   <meta name="twitter:description" content="10+ years of UX/UI design across fintech and B2B SaaS. Based in Gurugram, India.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,7 +39,7 @@
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="Gurpreet_Singh_Resume.pdf" download="Gurpreet_Singh_Resume.pdf" class="nav-resume">Resume<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="margin-left:.35rem"><path d="M8 2v9M4 7l4 4 4-4M3 14h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+    <li id="nav-resume-li"><a href="Gurpreet_Singh_Resume.pdf" download="Gurpreet_Singh_Resume.pdf" class="nav-resume">Resume<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true" style="margin-left:.35rem"><path d="M8 2v9M4 7l4 4 4-4M3 14h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
   </ul>
   <div class="nav-right">
     <button class="theme-btn" id="theme-toggle" aria-label="Toggle light/dark theme"></button>
@@ -240,6 +240,15 @@
       </a>
 
     </div>
+
+    <!-- View More Case Studies -->
+    <div class="work-more r d2">
+      <a href="https://medium.com/@gssandhu1990" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+        View More Case Studies
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -648,23 +657,7 @@
   </a>
 </div>
 
-<!-- ─── DESIGNER MODE TOGGLE + LEGEND ─── -->
-<button id="designer-mode-btn" type="button" aria-pressed="false" aria-label="Toggle Designer mode (shortcut: D)" title="Designer mode — press D">
-  <span class="dm-key" aria-hidden="true">D</span>
-  <span class="dm-txt">Designer mode</span>
-</button>
-<aside id="designer-mode-legend" aria-hidden="true" hidden>
-  <div class="dm-legend-head">
-    <strong>Designer mode · ON</strong>
-    <button type="button" id="designer-mode-close" aria-label="Close designer mode">✕</button>
-  </div>
-  <ul class="dm-legend-list">
-    <li><span class="dm-swatch" style="background:#78c8ff"></span>Section outlines &amp; labels</li>
-    <li><span class="dm-swatch dm-swatch--grid"></span>8px baseline grid</li>
-    <li><span class="dm-swatch" style="background:var(--accent)"></span>Spacing &amp; token chips</li>
-  </ul>
-  <p class="dm-legend-foot">Revealing the system behind this page. Press <kbd>D</kbd> or <kbd>Esc</kbd> to exit.</p>
-</aside>
+
 
 <!-- ─── BACK TO TOP ─── -->
 <button id="back-to-top" aria-label="Back to top" title="Back to top">

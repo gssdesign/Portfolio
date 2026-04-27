@@ -918,50 +918,18 @@
   }
 })();
 
-/* ─── DESIGNER MODE — reveal the system ─── */
+/* ─── NAV RESUME — hide while hero is visible ─── */
 (function () {
-  function initDesignerMode() {
-    const btn = document.getElementById('designer-mode-btn');
-    const legend = document.getElementById('designer-mode-legend');
-    const closeBtn = document.getElementById('designer-mode-close');
-    if (!btn) return;
+  const heroSection = document.getElementById('home');
+  const resumeLi    = document.getElementById('nav-resume-li');
+  if (!heroSection || !resumeLi) return;
 
-    const root = document.documentElement;
-    const STORAGE_KEY = 'designer-mode';
-
-    function setState(on) {
-      root.dataset.designer = on ? 'on' : 'off';
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      if (legend) {
-        legend.hidden = !on;
-        legend.setAttribute('aria-hidden', on ? 'false' : 'true');
-      }
-      try { localStorage.setItem(STORAGE_KEY, on ? '1' : '0'); } catch (e) {}
-    }
-
-    function toggle() { setState(root.dataset.designer !== 'on'); }
-
-    /* Restore */
-    let initial = false;
-    try { initial = localStorage.getItem(STORAGE_KEY) === '1'; } catch (e) {}
-    setState(initial);
-
-    btn.addEventListener('click', toggle);
-    if (closeBtn) closeBtn.addEventListener('click', () => setState(false));
-
-    /* Keyboard: D to toggle, Esc to exit */
-    document.addEventListener('keydown', (e) => {
-      const tag = (e.target && e.target.tagName) || '';
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target?.isContentEditable) return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      if (e.key === 'd' || e.key === 'D') { e.preventDefault(); toggle(); }
-      else if (e.key === 'Escape' && root.dataset.designer === 'on') { setState(false); }
-    });
+  function updateResumeVisibility() {
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    // Hide Resume link while any part of hero is still on screen
+    resumeLi.classList.toggle('hidden', heroBottom > 0);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDesignerMode);
-  } else {
-    initDesignerMode();
-  }
+  updateResumeVisibility();
+  window.addEventListener('scroll', updateResumeVisibility, { passive: true });
 })();
