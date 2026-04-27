@@ -860,26 +860,31 @@
     }
 
     /* ─── CONTACT ─── */
-    .contact-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
+    .contact-bg {
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border);
+      padding-top: clamp(3rem, 6vw, 5rem);
+      padding-bottom: clamp(3rem, 6vw, 5rem);
+    }
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: clamp(3rem, 7vw, 8rem);
+      gap: clamp(2rem, 5vw, 5rem);
       align-items: center;
     }
     .contact-info {
-      display: flex; flex-direction: column; gap: 2.5rem;
+      display: flex; flex-direction: column; gap: 2rem;
     }
     .contact-illus {
       display: flex; align-items: center; justify-content: center;
     }
     .contact-illus-svg {
-      width: 100%; max-width: 420px; height: auto;
+      width: 100%; max-width: 360px; max-height: 300px; height: auto;
       animation: contactFloat 4s ease-in-out infinite;
     }
     @keyframes contactFloat {
       0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-10px); }
+      50%       { transform: translateY(-8px); }
     }
     .illus-float-1 { animation: contactFloat 3.6s ease-in-out infinite; }
     .illus-float-2 { animation: contactFloat 4.8s ease-in-out infinite 0.8s; }
