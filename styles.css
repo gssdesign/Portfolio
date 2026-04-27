@@ -882,16 +882,6 @@
     .contact-illus {
       display: flex; align-items: center; justify-content: center;
     }
-    .contact-illus-svg {
-      width: 100%; max-width: 360px; max-height: 300px; height: auto;
-      animation: contactFloat 4s ease-in-out infinite;
-    }
-    @keyframes contactFloat {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-8px); }
-    }
-    .illus-float-1 { animation: contactFloat 3.6s ease-in-out infinite; }
-    .illus-float-2 { animation: contactFloat 4.8s ease-in-out infinite 0.8s; }
     @media (max-width: 768px) {
       .contact-grid { grid-template-columns: 1fr; }
       .contact-illus { display: none; }

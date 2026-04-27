@@ -35,6 +35,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="pixel-art.css">
 </head>
 <body>
 
@@ -713,100 +714,11 @@
         </div>
       </div>
 
-      <!-- Right: illustration -->
+      <!-- Right: pixel-art character -->
       <div class="contact-illus r d3" aria-hidden="true">
-        <svg viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg" class="contact-illus-svg">
-
-          <!-- Ambient glows -->
-          <ellipse cx="310" cy="80" rx="90" ry="70" fill="rgba(184,78,24,0.07)"/>
-          <ellipse cx="100" cy="270" rx="70" ry="55" fill="rgba(184,78,24,0.05)"/>
-
-          <!-- ── Main email card ── -->
-          <rect x="30" y="70" width="270" height="185" rx="16" fill="var(--bg-card,#141416)" stroke="var(--border,rgba(255,255,255,.1))" stroke-width="1.5"/>
-
-          <!-- Card top bar -->
-          <rect x="30" y="70" width="270" height="46" rx="16" fill="rgba(255,255,255,.04)"/>
-          <rect x="30" y="99" width="270" height="17" fill="rgba(255,255,255,.04)"/>
-
-          <!-- Traffic-light dots -->
-          <circle cx="55"  cy="93" r="5" fill="#FF5F57" opacity=".75"/>
-          <circle cx="71"  cy="93" r="5" fill="#FEBC2E" opacity=".75"/>
-          <circle cx="87"  cy="93" r="5" fill="#28C840" opacity=".75"/>
-
-          <!-- "New Message" label -->
-          <rect x="155" y="88" width="76" height="10" rx="5" fill="rgba(255,255,255,.12)"/>
-
-          <!-- Avatar -->
-          <circle cx="58" cy="140" r="18" fill="var(--accent,#d97757)" opacity=".9"/>
-          <text x="58" y="145" text-anchor="middle" font-size="11" font-weight="700" font-family="Inter,system-ui,sans-serif" fill="#fff">GS</text>
-
-          <!-- Sender name + role lines -->
-          <rect x="86" y="132" width="88" height="7" rx="3.5" fill="var(--text,#f0ede8)" opacity=".75"/>
-          <rect x="86" y="145" width="60" height="5"  rx="2.5" fill="var(--text-muted,#888)"   opacity=".5"/>
-
-          <!-- Availability dot -->
-          <circle cx="280" cy="140" r="5.5" fill="#4ade80"/>
-          <circle cx="280" cy="140" r="5.5" fill="#4ade80" opacity=".35">
-            <animate attributeName="r" values="5.5;9;5.5" dur="2.4s" repeatCount="indefinite"/>
-            <animate attributeName="opacity" values=".35;0;.35" dur="2.4s" repeatCount="indefinite"/>
-          </circle>
-
-          <!-- Divider -->
-          <line x1="46" y1="168" x2="284" y2="168" stroke="var(--border,rgba(255,255,255,.1))" stroke-width="1"/>
-
-          <!-- Body text lines -->
-          <rect x="46" y="182" width="218" height="6" rx="3" fill="var(--text-muted,#888)" opacity=".4"/>
-          <rect x="46" y="196" width="180" height="6" rx="3" fill="var(--text-muted,#888)" opacity=".3"/>
-          <rect x="46" y="210" width="140" height="6" rx="3" fill="var(--text-muted,#888)" opacity=".22"/>
-
-          <!-- Send button -->
-          <rect x="46" y="226" width="88" height="18" rx="9" fill="var(--accent,#d97757)"/>
-          <text x="90" y="239" text-anchor="middle" font-size="8.5" font-weight="600" font-family="Inter,system-ui,sans-serif" fill="#fff">Send message</text>
-
-          <!-- ── Reply bubble (floating top-right) ── -->
-          <g class="illus-float-1">
-            <rect x="235" y="22" width="148" height="62" rx="14" fill="rgba(184,78,24,.13)" stroke="rgba(184,78,24,.3)" stroke-width="1.2"/>
-            <!-- Bubble tail -->
-            <path d="M253 84 L244 96 L268 84Z" fill="rgba(184,78,24,.13)" stroke="rgba(184,78,24,.3)" stroke-width="1.2" stroke-linejoin="round"/>
-            <!-- Text lines inside -->
-            <rect x="252" y="37" width="80" height="6"  rx="3" fill="var(--accent,#d97757)" opacity=".55"/>
-            <rect x="252" y="50" width="60" height="5"  rx="2.5" fill="var(--text-muted,#888)" opacity=".45"/>
-            <rect x="252" y="62" width="44" height="5"  rx="2.5" fill="var(--text-muted,#888)" opacity=".35"/>
-            <!-- Double tick -->
-            <text x="356" y="77" font-size="9" fill="#4ade80" opacity=".85">✓✓</text>
-          </g>
-
-          <!-- ── Notification badge (floating right) ── -->
-          <g class="illus-float-2">
-            <rect x="320" y="168" width="68" height="36" rx="10" fill="var(--bg-card,#141416)" stroke="var(--border,rgba(255,255,255,.12))" stroke-width="1.2"/>
-            <circle cx="333" cy="186" r="7" fill="var(--accent,#d97757)" opacity=".85"/>
-            <text x="333" y="190" text-anchor="middle" font-size="8" fill="#fff">✉</text>
-            <rect x="347" y="181" width="30" height="5"  rx="2.5" fill="var(--text,#f0ede8)"      opacity=".55"/>
-            <rect x="347" y="190" width="22" height="4"  rx="2"   fill="var(--text-muted,#888)"   opacity=".4"/>
-            <!-- Unread dot -->
-            <circle cx="382" cy="172" r="5" fill="#d97757"/>
-            <text x="382" y="176" text-anchor="middle" font-size="7" font-weight="700" font-family="Inter,system-ui,sans-serif" fill="#fff">1</text>
-          </g>
-
-          <!-- ── Floating decorative dots ── -->
-          <circle cx="370" cy="130" r="4" fill="var(--accent,#d97757)" opacity=".5">
-            <animate attributeName="cy" values="130;124;130" dur="3.2s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="385" cy="230" r="3" fill="var(--accent,#d97757)" opacity=".3">
-            <animate attributeName="cy" values="230;224;230" dur="4.1s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="18"  cy="190" r="3" fill="var(--accent,#d97757)" opacity=".25">
-            <animate attributeName="cy" values="190;184;190" dur="3.8s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="14"  cy="100" r="2.5" fill="var(--accent,#d97757)" opacity=".2">
-            <animate attributeName="cy" values="100;94;100" dur="5s" repeatCount="indefinite"/>
-          </circle>
-
-          <!-- Corner sparkle accents -->
-          <text x="10"  y="58"  font-size="13" fill="var(--accent,#d97757)" opacity=".3">✦</text>
-          <text x="382" y="310" font-size="10" fill="var(--accent,#d97757)" opacity=".22">✦</text>
-
-        </svg>
+        <div class="contact-illus-pixel">
+          <div class="guybrush"></div>
+        </div>
       </div>
 
     </div>
