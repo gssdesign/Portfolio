@@ -693,6 +693,9 @@
       object-fit: contain;
       flex-shrink: 0;
     }
+    .tool-ico img {
+      border-radius: 10px; /* match rx="10" on Miro/AE/Illustrator SVG rects */
+    }
     .tool-name { font-size: 0.8125rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.01em; line-height: 1.3; }
     .tool-desc { font-size: 0.6875rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.4; }
 
