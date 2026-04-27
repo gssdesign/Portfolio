@@ -191,7 +191,7 @@
       company: 'Home Credit India · 2023',
       tags: ['UX Research', 'Fintech', 'Mobile'],
       grad: 'g1',
-      role: 'Lead UX Researcher · India Design Team',
+      role: 'Product/UX Designer',
       team: '1 UX Researcher · 1 PM · India Design Team',
       timeline: 'Moderated study · 5 sessions',
       tldr: 'Led end-to-end moderated usability testing on the GMA mobile app loan journey — uncovering 13 critical friction points across 5 tasks — driving targeted redesigns aimed at a 10% improvement in journey completion.',
@@ -363,7 +363,7 @@
       company: 'Home Credit India · 2024',
       tags: ['UX Research', 'Fintech', 'Multi-market'],
       grad: 'g4',
-      role: 'Lead UX Researcher · India Design Team',
+      role: 'Product/UX Designer',
       team: 'India · Indonesia · Philippines · Vietnam design teams',
       timeline: 'Multi-country study',
       tldr: 'Led a 4-country moderated usability study comparing old vs. new loan application form flows. The new direct-entry form cut completion time by 50% and miss-click rate by 59% in India, and became the globally recommended approach.',
@@ -460,7 +460,7 @@
     const p = PROJECTS[idx]; if (!p) return;
 
     mImg.innerHTML   = p.image
-      ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:4px;"></div>`
+      ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:10px;"></div>`
       : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%"></div>`;
     mTags.innerHTML  = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
     mTitle.innerHTML = p.title;
