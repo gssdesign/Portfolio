@@ -453,15 +453,15 @@
       .card:hover .card-img-inner { transform: scale(1.06); }
     }
 
-    /* Real-image card thumbnail — padded + contain so full image is visible */
+    /* Real-image card thumbnail */
     .card-img-photo {
       display: flex; align-items: center; justify-content: center;
-      padding: 1rem; background: #f5f4f2;
+      padding: 0; background: var(--bg-card); overflow: hidden;
     }
     .card-img-photo img {
       width: 100%; height: 100%;
-      object-fit: contain; object-position: center;
-      border-radius: 8px;
+      object-fit: cover; object-position: center top;
+      border-radius: 10px 10px 0 0;
     }
     /* Disable scale zoom for photo cards — contain already shows full image */
     @media (hover: hover) {
@@ -1753,28 +1753,38 @@
 
     /* ── Password-protected case study ── */
     .mb-locked {
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .mb-locked-card {
       display: flex; flex-direction: column; align-items: center;
-      justify-content: center; text-align: center;
-      padding: 3.5rem 2rem;
-      gap: 1rem;
+      text-align: center; gap: 1rem;
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(240,237,232,.1);
+      border-radius: 16px;
+      background: rgba(240,237,232,.03);
+      backdrop-filter: blur(8px);
+      max-width: 420px; width: 100%;
+      box-shadow: 0 0 0 1px rgba(184,78,24,.08), 0 20px 60px rgba(0,0,0,.35);
     }
     .mb-locked-icon { font-size: 2.5rem; line-height: 1; }
     .mb-locked-title {
-      font: 700 1.5rem/1.2 'Inter', system-ui, sans-serif;
+      font: 700 1.375rem/1.2 'Inter', system-ui, sans-serif;
       letter-spacing: -.02em; color: var(--text);
     }
     .mb-locked-sub {
-      font: 400 .9375rem/1.6 'Inter', system-ui, sans-serif;
-      color: var(--text-muted); max-width: 380px;
+      font: 400 .9rem/1.65 'Inter', system-ui, sans-serif;
+      color: var(--text-muted);
     }
     .mb-locked-cta {
-      margin-top: .5rem;
+      margin-top: .25rem;
       display: inline-flex; align-items: center; gap: .4rem;
       padding: .75rem 1.5rem; border-radius: 999px;
       background: var(--accent); color: #fff;
       font: 600 .9375rem/1 'Inter', system-ui, sans-serif;
       text-decoration: none;
       transition: background .2s, transform .2s;
+      box-shadow: 0 4px 18px rgba(184,78,24,.35);
     }
     .mb-locked-cta:hover { background: var(--accent-hover); transform: translateY(-2px); }
 

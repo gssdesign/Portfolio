@@ -539,18 +539,27 @@
     // ── Locked / password-protected case study ──
     if (p.locked) {
       mImg.innerHTML  = p.image
-        ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:10px;filter:blur(3px) brightness(.6);"></div>`
-        : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%;filter:blur(3px) brightness(.6)"></div>`;
+        ? `<div style="height:100%;overflow:hidden;border-radius:var(--r);position:relative;">
+             <img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:cover;object-position:center top;filter:blur(8px) brightness(.35);transform:scale(1.1);">
+             <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+               <span style="background:rgba(15,15,16,.65);backdrop-filter:blur(6px);border:1px solid rgba(240,237,232,.14);border-radius:10px;padding:.55rem 1rem;font:600 .8125rem/1 Inter,system-ui,sans-serif;color:rgba(240,237,232,.6);display:flex;align-items:center;gap:.4rem;">🔒 NDA Protected</span>
+             </div>
+           </div>`
+        : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%;filter:blur(6px) brightness(.35);border-radius:var(--r)"></div>`;
       mTags.innerHTML  = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
       mTitle.innerHTML = p.title;
       mCo.textContent  = p.company;
-      mMet.innerHTML   = '';
+      mMet.innerHTML   = p.metrics.map(m =>
+        `<div><div class="m-val" style="filter:blur(6px);user-select:none;pointer-events:none">${m.v}</div><div class="m-lbl">${m.l}</div></div>`
+      ).join('');
       mBody.innerHTML  = `
         <div class="mb-locked">
-          <div class="mb-locked-icon" aria-hidden="true">🔒</div>
-          <div class="mb-locked-title">Password Protected</div>
-          <div class="mb-locked-sub">This case study is under NDA. Reach out directly and I'll share access.</div>
-          <a href="mailto:gssandhu1990@gmail.com?subject=Access Request: EMI Calculator Case Study" class="mb-locked-cta">Request Access →</a>
+          <div class="mb-locked-card">
+            <div class="mb-locked-icon" aria-hidden="true">🔒</div>
+            <div class="mb-locked-title">Password Protected</div>
+            <div class="mb-locked-sub">This case study is under NDA. Reach out directly and I'll share access.</div>
+            <a href="mailto:gssandhu1990@gmail.com?subject=Access Request: EMI Calculator Case Study" class="mb-locked-cta">Request Access →</a>
+          </div>
         </div>`;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
