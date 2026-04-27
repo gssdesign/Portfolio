@@ -11,7 +11,7 @@
       --text-muted:   #6b6864;
       --border:       rgba(240,237,232,0.08);
       --border-hover: rgba(240,237,232,0.16);
-      --max-w:        1280px;
+      --max-w:        1100px;
       --nav-h:        68px;
       --r:            12px;
       --r-sm:         6px;
@@ -65,7 +65,7 @@
       position: fixed; top: 0; left: 0; right: 0;
       height: var(--nav-h);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      padding: 0 clamp(1.5rem, 5vw, 5rem);
       z-index: 1000;
       background: rgba(19,19,20,0.85);
       backdrop-filter: blur(20px);
@@ -134,7 +134,7 @@
     .hero {
       min-height: 100vh; position: relative; overflow: hidden; z-index: 2;
       display: flex; flex-direction: column; justify-content: center;
-      padding: calc(var(--nav-h) + clamp(1rem, 3vh, 2.5rem)) clamp(1.5rem, 5vw, 4rem) clamp(2rem, 6vh, 5rem);
+      padding: calc(var(--nav-h) + clamp(1rem, 3vh, 2.5rem)) clamp(1.5rem, 5vw, 5rem) clamp(2rem, 6vh, 5rem);
     }
     .hero-glow {
       position: absolute; inset: 0; pointer-events: none;
@@ -388,7 +388,7 @@
     .m-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 
     /* ─── SHARED SECTION ─── */
-    section { padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem); position: relative; z-index: 2; }
+    section { padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 5vw, 5rem); position: relative; z-index: 2; }
     .inner { max-width: var(--max-w); margin: 0 auto; }
 
     .label {
