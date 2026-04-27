@@ -342,6 +342,8 @@
         'India design team decision: linear progress bar with enhanced thickness for familiarity and visibility',
       ],
       learnings: 'Multi-market research rarely gives clean consensus — and that\'s the point. When data is divided (as it was with the progress bar), the team closest to their users should own the call. Framing the India team as the decision-maker, rather than waiting for global consensus, unblocked the project and produced a better outcome for our users.',
+      image: 'case-study-app-form.png',
+      imageAlt: 'Old vs New application form preference comparison across Philippines, Indonesia, India, and Vietnam',
       visual: `<div class="mb-visual-label">New Form Preference by Country</div>
         <div class="mb-country-chart">
           <div class="mb-country-row">
@@ -401,7 +403,9 @@
   function openModal(idx) {
     const p = PROJECTS[idx]; if (!p) return;
 
-    mImg.innerHTML   = `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%"></div>`;
+    mImg.innerHTML   = p.image
+      ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:4px;"></div>`
+      : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%"></div>`;
     mTags.innerHTML  = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
     mTitle.innerHTML = p.title;
     mCo.textContent  = p.company;
