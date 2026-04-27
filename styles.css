@@ -861,7 +861,10 @@
 
     /* ─── CONTACT ─── */
     .contact-bg { background: var(--bg-subtle); border-top: 1px solid var(--border); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,7vw,8rem); align-items: center; justify-items: center; }
+    .contact-centered {
+      max-width: 560px;
+      display: flex; flex-direction: column; gap: 2.5rem;
+    }
 
     /* ─── ARCADE (exact original) ─── */
     .arcade-wrap {
@@ -1370,16 +1373,8 @@
       .about-grid { grid-template-columns: 1fr; }
       .avatar-wrap { max-width: 340px; }
       .avatar-chip { right: -0.5rem; bottom: -1rem; }
-      .contact-grid { grid-template-columns: 1fr; }
-      .arcade-wrap {
-        /* 75vmin × 1.1 = 82.5vmin — fills the stacked column nicely */
-        height: clamp(260px, 82.5vmin, 420px);
-        width: 100%;
-      }
-      .arcade {
-        transform: scale(1.1);
-        transform-origin: top center;
-      }
+      .foot-avail-inner { flex-direction: column; align-items: flex-start; }
+      .foot-avail-cta { width: 100%; justify-content: center; }
     }
     @media (max-width:1024px) and (min-width:769px) {
       .work-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2014,17 +2009,58 @@
 
     /* Form focus enhancement removed — form no longer in use */
 
-    /* ─── FOOTER AVAILABILITY ─── */
-    .foot-avail {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.8125rem; color: var(--text-muted);
+    /* ─── FOOTER AVAILABILITY BANNER ─── */
+    .foot-avail-banner {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--accent) 5%, var(--bg));
+      padding: 2.25rem clamp(1.5rem,5vw,4rem);
+    }
+    .foot-avail-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+    }
+    .foot-avail-left { display: flex; flex-direction: column; gap: .55rem; }
+    .foot-avail-status {
+      display: flex; align-items: center; gap: .5rem;
     }
     .foot-avail-dot {
-      width: 7px; height: 7px; border-radius: 50%;
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
       background: #4ade80;
-      box-shadow: 0 0 8px rgba(74,222,128,0.6);
+      box-shadow: 0 0 0 0 rgba(74,222,128,0.55);
       animation: pulse 2.2s ease-in-out infinite;
     }
+    .foot-avail-badge {
+      font: 600 .75rem/1 'Inter', system-ui, sans-serif;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: #4ade80;
+    }
+    .foot-avail-heading {
+      font: 700 clamp(1.35rem,3vw,1.75rem)/1.2 'Inter', system-ui, sans-serif;
+      letter-spacing: -.02em; color: var(--text);
+    }
+    .foot-avail-sub {
+      font: 400 .9375rem/1 'Inter', system-ui, sans-serif;
+      color: var(--text-muted);
+    }
+    .foot-avail-cta {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .875rem 1.75rem;
+      background: var(--accent); color: #fff;
+      font: 600 .9375rem/1 'Inter', system-ui, sans-serif;
+      border-radius: 999px; text-decoration: none;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      white-space: nowrap;
+      box-shadow: 0 4px 18px rgba(184,78,24,.35);
+    }
+    .foot-avail-cta:hover {
+      background: var(--accent-hover, #c05a1e);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(184,78,24,.45);
+    }
+    .foot-avail-cta svg { transition: transform .2s; }
+    .foot-avail-cta:hover svg { transform: translateX(3px); }
 
     /* ── HERO HOLO CARD ── */
     .hero-card-col {
@@ -2239,16 +2275,5 @@
   }
 }
 
-/* 6. Footer social links */
-.foot-social {
-  display: flex;
-  gap: 1.5rem;
-}
-.foot-social a {
-  font-size: .875rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color .2s;
-}
-.foot-social a:hover { color: var(--accent); }
+/* 6. Footer social links — defined in main footer block above */
 
