@@ -574,6 +574,7 @@
             <a href="mailto:gssandhu1990@gmail.com?subject=Access Request: EMI Calculator Case Study" class="mb-locked-cta">Request Access →</a>
           </div>
         </div>`;
+      document.querySelector('.modal-scroll').scrollTop = 0;
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
       mClose.focus();
@@ -679,6 +680,7 @@
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-labelledby', 'modal-title');
+    document.querySelector('.modal-scroll').scrollTop = 0;
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
     setTimeout(() => mClose.focus(), 120);
