@@ -1895,10 +1895,12 @@
     }
     .glitch-em::before {
       color: rgba(255, 60, 60, 0.8);
+      opacity: 0;
       animation: glitch-before 4s var(--gd, 0s) infinite;
     }
     .glitch-em::after {
       color: rgba(60, 200, 255, 0.8);
+      opacity: 0;
       animation: glitch-after 4s calc(var(--gd, 0s) + 0.6s) infinite;
     }
     @keyframes glitch-before {
