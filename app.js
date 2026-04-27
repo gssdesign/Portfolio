@@ -232,8 +232,8 @@
       ],
       learnings: 'The biggest revelation was how many "obvious" UX failures had gone unnoticed by the internal team. Nobody had ever watched a real user try to download the app — and when they did, every single user got it wrong. Five moderated sessions surfaced issues that months of internal review had missed entirely. The ROI on shifting from assumption to observation was immediate.',
       link: 'https://medium.com/design-bootcamp/practical-guide-to-user-research-qualitative-56f3dfa5bf23',
-      image: 'case-study-acl-journey.png',
-      imageAlt: 'GMA ACL Journey Usability Testing Report cover — India Design Team',
+      image: 'GMA.webp',
+      imageAlt: 'Home Credit GMA Loan Journey — app screens on yellow background',
       visual: `<div class="mb-visual-label">Loan Journey · Pain Point Map</div>
         <div class="mb-journey-steps">
           <div class="mb-journey-step mb-j-critical" style="--i:0">
