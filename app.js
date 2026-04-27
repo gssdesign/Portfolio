@@ -568,8 +568,8 @@
     }
 
     mImg.innerHTML   = p.image
-      ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:10px;"></div>`
-      : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%"></div>`;
+      ? `<div style="height:100%;display:flex;align-items:center;justify-content:center;background:var(--bg-card);border-radius:var(--r);overflow:hidden;"><img src="${p.image}" alt="${p.imageAlt || ''}" style="max-width:100%;max-height:100%;object-fit:contain;object-position:center;border-radius:12px;display:block;"></div>`
+      : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%;border-radius:var(--r)"></div>`;
     mTags.innerHTML  = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
     mTitle.innerHTML = p.title;
     mCo.textContent  = p.company;
