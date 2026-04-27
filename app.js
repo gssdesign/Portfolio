@@ -187,6 +187,81 @@
   // ── 4. PROJECT MODAL ──────────────────────────────────────
   const PROJECTS = [
     {
+      title: 'EMI Calculator <em>Optimisation</em>',
+      company: 'Home Credit India · 2025',
+      tags: ['UX Design', 'Fintech', 'Mobile'],
+      grad: 'g2',
+      role: 'Product/UX Designer',
+      team: 'Product, Legal & Compliance',
+      timeline: 'Aug – Nov 2025',
+      tldr: 'Redesigned Home Credit India\'s EMI Calculator to eliminate drop-off and boost loan conversions. Through heuristic evaluation, a telesales call centre visit, and moderated A/B testing with 6 users, the final design drove an estimated ₹496M+ annual revenue increase.',
+      metrics: [
+        { v: '₹496M+', l: 'Est. Annual Revenue' },
+        { v: '+3%',    l: 'CTR Increase'        },
+        { v: '+5%',    l: 'VAS Adoption'        },
+      ],
+      problem: 'Home Credit India was losing a significant chunk of users on the first few steps of its EMI Calculator flow. With 18 million customers — mostly self-employed, Tier 3 & 4 city users — and ₹7.2 billion in annual loan disbursals, even a small drop-off carried massive revenue implications. The business KPI was clear: increase CTR by 3% and Value Added Services (VAS) adoption by 5%.',
+      process: [
+        'Analysed drop-off data (avg score: 46.17) to map exactly where users abandoned the flow',
+        'Ran heuristic evaluation against 8 Nielsen heuristics — surfaced 6 critical violations including inconsistent terminology ("EMI" vs "Monthly Instalment") and low VAS visibility',
+        'Visited the Telesales Call Centre to hear how agents converted hesitant users — key insight: reframing cost as "₹9/day" instead of a monthly lump sum dramatically reduced hesitation',
+        'Designed two variants — Variant A (preset EMI-tenure combos to reduce choice overload) and Variant B (tenure selection separated from EMI calculation for clearer decisions)',
+        'Ran moderated usability testing with 6 users; task: apply for a ₹1,20,000 loan for 18 months',
+        '6/6 users preferred Variant B — selecting tenure felt easier with EMI and tenure linked; Variant A\'s slider dominated attention and distracted from the loan amount',
+        'Iterated to final design: simplified VAS copy with checkmarks as trust cues, moved offer validity date near the EMI figure for contextual relevance, added a gentle nudge when VAS was skipped',
+      ],
+      outcome: [
+        'Estimated ₹496M+ annual revenue increase attributed to UX improvements',
+        'CTR increased by 3% — primary KPI hit',
+        'VAS adoption improved by 5% — secondary KPI hit',
+        'Eliminated "EMI" vs "Monthly Instalment" confusion by standardising terminology across the flow',
+        'VAS retained per compliance/legal requirement but repositioned as a trust element rather than a friction point',
+      ],
+      learnings: 'The biggest unlock wasn\'t from user testing — it was the telesales call centre visit. Agents were converting hesitant users by reframing the cost as "just ₹9/day" rather than a monthly figure. That single insight, brought into the digital experience, had an outsized impact on VAS adoption. Sometimes the best UX research happens away from a screen.',
+      locked: true,
+      image: 'case-study-emi.png',
+      imageAlt: 'EMI Calculator redesign — Flexible Personal Loan screen on green background',
+      visual: `<div class="mb-visual-label">A/B Variant Testing · 6 Users</div>
+        <div class="mb-emi-variants">
+          <div class="mb-emi-var mb-emi-var--a">
+            <div class="mb-emi-var-badge">Variant A</div>
+            <div class="mb-emi-var-title">Preset EMI combinations</div>
+            <div class="mb-emi-var-desc">Reduced choice overload by surfacing fixed EMI–tenure options</div>
+            <div class="mb-emi-var-result mb-emi-var-result--reject">0 / 6 preferred</div>
+          </div>
+          <div class="mb-emi-var mb-emi-var--b">
+            <div class="mb-emi-var-badge mb-emi-var-badge--winner">Variant B ✓</div>
+            <div class="mb-emi-var-title">Separated tenure selection</div>
+            <div class="mb-emi-var-desc">Improved decision clarity by decoupling tenure from EMI calculation</div>
+            <div class="mb-emi-var-result mb-emi-var-result--win">6 / 6 preferred</div>
+          </div>
+        </div>
+        <div class="mb-visual-label" style="margin-top:1.75rem">Key Design Decisions</div>
+        <div class="mb-emi-decisions">
+          <div class="mb-emi-decision">
+            <div class="mb-emi-dec-ico">💡</div>
+            <div class="mb-emi-dec-body">
+              <div class="mb-emi-dec-title">Price reframing</div>
+              <div class="mb-emi-dec-sub">"₹9/day only" — insight from telesales agents who used this framing to reduce VAS hesitation</div>
+            </div>
+          </div>
+          <div class="mb-emi-decision">
+            <div class="mb-emi-dec-ico">✅</div>
+            <div class="mb-emi-dec-body">
+              <div class="mb-emi-dec-title">Trust cues on VAS</div>
+              <div class="mb-emi-dec-sub">Checkmarks + simplified copy replaced dense legal text; moved checkboxes right for better scannability</div>
+            </div>
+          </div>
+          <div class="mb-emi-decision">
+            <div class="mb-emi-dec-ico">⏰</div>
+            <div class="mb-emi-dec-body">
+              <div class="mb-emi-dec-title">Contextual urgency</div>
+              <div class="mb-emi-dec-sub">Offer validity date moved adjacent to the EMI figure — making the deadline feel relevant, not alarming</div>
+            </div>
+          </div>
+        </div>`,
+    },
+    {
       title: 'GMA Loan Journey <em>Usability Study</em>',
       company: 'Home Credit India · 2023',
       tags: ['UX Research', 'Fintech', 'Mobile'],
@@ -445,81 +520,7 @@
           </div>
         </div>`,
     },
-    // ── CASE STUDY 4 ──────────────────────────────────────────────
-    {
-      title: 'EMI Calculator <em>Optimisation</em>',
-      company: 'Home Credit India · 2025',
-      tags: ['UX Design', 'Fintech', 'Mobile'],
-      grad: 'g2',
-      role: 'Product/UX Designer',
-      team: 'Product, Legal & Compliance',
-      timeline: 'Aug – Nov 2025',
-      tldr: 'Redesigned Home Credit India\'s EMI Calculator to eliminate drop-off and boost loan conversions. Through heuristic evaluation, a telesales call centre visit, and moderated A/B testing with 6 users, the final design drove an estimated ₹496M+ annual revenue increase.',
-      metrics: [
-        { v: '₹496M+', l: 'Est. Annual Revenue' },
-        { v: '+3%',    l: 'CTR Increase'        },
-        { v: '+5%',    l: 'VAS Adoption'        },
-      ],
-      problem: 'Home Credit India was losing a significant chunk of users on the first few steps of its EMI Calculator flow. With 18 million customers — mostly self-employed, Tier 3 & 4 city users — and ₹7.2 billion in annual loan disbursals, even a small drop-off carried massive revenue implications. The business KPI was clear: increase CTR by 3% and Value Added Services (VAS) adoption by 5%.',
-      process: [
-        'Analysed drop-off data (avg score: 46.17) to map exactly where users abandoned the flow',
-        'Ran heuristic evaluation against 8 Nielsen heuristics — surfaced 6 critical violations including inconsistent terminology ("EMI" vs "Monthly Instalment") and low VAS visibility',
-        'Visited the Telesales Call Centre to hear how agents converted hesitant users — key insight: reframing cost as "₹9/day" instead of a monthly lump sum dramatically reduced hesitation',
-        'Designed two variants — Variant A (preset EMI-tenure combos to reduce choice overload) and Variant B (tenure selection separated from EMI calculation for clearer decisions)',
-        'Ran moderated usability testing with 6 users; task: apply for a ₹1,20,000 loan for 18 months',
-        '6/6 users preferred Variant B — selecting tenure felt easier with EMI and tenure linked; Variant A\'s slider dominated attention and distracted from the loan amount',
-        'Iterated to final design: simplified VAS copy with checkmarks as trust cues, moved offer validity date near the EMI figure for contextual relevance, added a gentle nudge when VAS was skipped',
-      ],
-      outcome: [
-        'Estimated ₹496M+ annual revenue increase attributed to UX improvements',
-        'CTR increased by 3% — primary KPI hit',
-        'VAS adoption improved by 5% — secondary KPI hit',
-        'Eliminated "EMI" vs "Monthly Instalment" confusion by standardising terminology across the flow',
-        'VAS retained per compliance/legal requirement but repositioned as a trust element rather than a friction point',
-      ],
-      learnings: 'The biggest unlock wasn\'t from user testing — it was the telesales call centre visit. Agents were converting hesitant users by reframing the cost as "just ₹9/day" rather than a monthly figure. That single insight, brought into the digital experience, had an outsized impact on VAS adoption. Sometimes the best UX research happens away from a screen.',
-      image: null,
-      imageAlt: 'EMI Calculator redesign — before and after screens',
-      visual: `<div class="mb-visual-label">A/B Variant Testing · 6 Users</div>
-        <div class="mb-emi-variants">
-          <div class="mb-emi-var mb-emi-var--a">
-            <div class="mb-emi-var-badge">Variant A</div>
-            <div class="mb-emi-var-title">Preset EMI combinations</div>
-            <div class="mb-emi-var-desc">Reduced choice overload by surfacing fixed EMI–tenure options</div>
-            <div class="mb-emi-var-result mb-emi-var-result--reject">0 / 6 preferred</div>
-          </div>
-          <div class="mb-emi-var mb-emi-var--b">
-            <div class="mb-emi-var-badge mb-emi-var-badge--winner">Variant B ✓</div>
-            <div class="mb-emi-var-title">Separated tenure selection</div>
-            <div class="mb-emi-var-desc">Improved decision clarity by decoupling tenure from EMI calculation</div>
-            <div class="mb-emi-var-result mb-emi-var-result--win">6 / 6 preferred</div>
-          </div>
-        </div>
-        <div class="mb-visual-label" style="margin-top:1.75rem">Key Design Decisions</div>
-        <div class="mb-emi-decisions">
-          <div class="mb-emi-decision">
-            <div class="mb-emi-dec-ico">💡</div>
-            <div class="mb-emi-dec-body">
-              <div class="mb-emi-dec-title">Price reframing</div>
-              <div class="mb-emi-dec-sub">"₹9/day only" — insight from telesales agents who used this framing to reduce VAS hesitation</div>
-            </div>
-          </div>
-          <div class="mb-emi-decision">
-            <div class="mb-emi-dec-ico">✅</div>
-            <div class="mb-emi-dec-body">
-              <div class="mb-emi-dec-title">Trust cues on VAS</div>
-              <div class="mb-emi-dec-sub">Checkmarks + simplified copy replaced dense legal text; moved checkboxes right for better scannability</div>
-            </div>
-          </div>
-          <div class="mb-emi-decision">
-            <div class="mb-emi-dec-ico">⏰</div>
-            <div class="mb-emi-dec-body">
-              <div class="mb-emi-dec-title">Contextual urgency</div>
-              <div class="mb-emi-dec-sub">Offer validity date moved adjacent to the EMI figure — making the deadline feel relevant, not alarming</div>
-            </div>
-          </div>
-        </div>`,
-    },
+    // ── CASE STUDY 4 ──────────────────────────────────────────────,
   ];
 
   const modal   = document.getElementById('modal');
@@ -534,6 +535,28 @@
 
   function openModal(idx) {
     const p = PROJECTS[idx]; if (!p) return;
+
+    // ── Locked / password-protected case study ──
+    if (p.locked) {
+      mImg.innerHTML  = p.image
+        ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:cover;object-position:center;border-radius:10px;filter:blur(3px) brightness(.6);"></div>`
+        : `<div class="card-img-inner ${p.grad}" style="width:100%;height:100%;filter:blur(3px) brightness(.6)"></div>`;
+      mTags.innerHTML  = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+      mTitle.innerHTML = p.title;
+      mCo.textContent  = p.company;
+      mMet.innerHTML   = '';
+      mBody.innerHTML  = `
+        <div class="mb-locked">
+          <div class="mb-locked-icon" aria-hidden="true">🔒</div>
+          <div class="mb-locked-title">Password Protected</div>
+          <div class="mb-locked-sub">This case study is under NDA. Reach out directly and I'll share access.</div>
+          <a href="mailto:gssandhu1990@gmail.com?subject=Access Request: EMI Calculator Case Study" class="mb-locked-cta">Request Access →</a>
+        </div>`;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      mClose.focus();
+      return;
+    }
 
     mImg.innerHTML   = p.image
       ? `<div class="card-img-inner card-img-photo" style="height:100%"><img src="${p.image}" alt="${p.imageAlt || ''}" style="width:100%;height:100%;object-fit:contain;object-position:center;border-radius:10px;"></div>`
