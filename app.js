@@ -265,6 +265,8 @@
         'Pattern was reused as the foundation for later B2B admin surfaces at BuildSupply',
       ],
       learnings: 'Access control is deceptively hard: it looks like a form, but it\'s really a data model. Getting the model right (role × scope × user) was 80% of the work — the UI practically fell out once that was clean. I now always model the object graph before opening Figma.',
+      image: 'case-study-roles.png',
+      imageAlt: 'BuildSupply Roles & Permissions UI — project roles, all users, admin permissions and activity log screens',
       link: 'https://medium.com/design-bootcamp/roles-permissions-9c3319583150',
       visual: `<div class="mb-visual-label">Permission Hierarchy</div>
         <div class="mb-hierarchy">
