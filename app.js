@@ -88,6 +88,19 @@
   }, { threshold: 0.6 });
   if (statsEl) co.observe(statsEl);
 
+  // ── DS section counter
+  const dsMetricsEl = document.querySelector('.ds-metrics');
+  let dsCounted = false;
+  const dsCo = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !dsCounted) {
+      dsCounted = true;
+      document.querySelectorAll('.ds-m-num[data-target]').forEach((el, i) => {
+        setTimeout(() => countUp(el, +el.dataset.target, el.dataset.suffix), i * 140);
+      });
+    }
+  }, { threshold: 0.5 });
+  if (dsMetricsEl) dsCo.observe(dsMetricsEl);
+
   // ── Active nav link
   const sections = document.querySelectorAll('section[id]');
   const links = document.querySelectorAll('.nav-links a:not(.btn-nav)');
