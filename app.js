@@ -360,7 +360,7 @@
     },
     {
       title: 'Application Form <em>Redesign</em>',
-      company: 'Home Credit India · 2023',
+      company: 'Home Credit India · 2024',
       tags: ['UX Research', 'Fintech', 'Multi-market'],
       grad: 'g4',
       role: 'Lead UX Researcher · India Design Team',
