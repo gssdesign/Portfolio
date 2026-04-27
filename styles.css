@@ -452,25 +452,40 @@
       .card:hover .card-img-inner { transform: scale(1.06); }
     }
 
-    /* Gradient mockup backgrounds */
-    .g1 { background: linear-gradient(135deg,#1a1429 0%,#2e1f52 40%,#1a2e22 100%); }
-    .g2 { background: linear-gradient(135deg,#1a2214 0%,#2e4a1f 45%,#1a1429 100%); }
-    .g3 { background: linear-gradient(135deg,#291418 0%,#521f28 45%,#2e2914 100%); }
-    .g4 { background: linear-gradient(135deg,#141a29 0%,#1f3a52 45%,#1a2914 100%); }
+    /* Gradient mockup backgrounds — vivid enough to read against dark bg */
+    .g1 { background: linear-gradient(135deg,#2a1d4e 0%,#4a2e7a 45%,#1a3e30 100%); }
+    .g2 { background: linear-gradient(135deg,#1a3020 0%,#2e6030 45%,#2a1d4e 100%); }
+    .g3 { background: linear-gradient(135deg,#3e1820 0%,#7a2535 45%,#3e3818 100%); }
+    .g4 { background: linear-gradient(135deg,#1a2440 0%,#2a4e7a 45%,#1a3828 100%); }
+
+    /* Noise texture overlay on card images for depth */
+    .card-img-inner::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px; opacity: .55;
+    }
 
     /* Decorative SVG inside card images */
     .card-deco {
       position: absolute; inset: 0; display: flex;
       align-items: center; justify-content: center; pointer-events: none;
     }
+    /* Boost SVG illustration visibility */
+    .card-deco svg { opacity: 1 !important; filter: drop-shadow(0 0 24px rgba(217,119,87,.25)); }
 
     .card-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(184,78,24,0.22) 0%, transparent 55%);
-      opacity: 0; transition: opacity 0.3s;
+      background: linear-gradient(135deg, rgba(184,78,24,0.3) 0%, transparent 60%);
+      opacity: 0.18; transition: opacity 0.3s;
     }
     @media (hover: hover) {
       .card:hover .card-overlay { opacity: 1; }
+    }
+
+    /* Subtle top shimmer line on card image */
+    .card-img::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,.07) 0%, transparent 40%);
     }
 
     .card-body { padding: 1.75rem; }
