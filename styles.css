@@ -1755,6 +1755,7 @@
     .mb-journey-steps {
       display:flex; flex-direction:column; gap:.625rem;
       margin-top:.75rem;
+      max-width: 680px;
     }
     .mb-journey-step {
       display:grid;
