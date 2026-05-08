@@ -1041,6 +1041,136 @@
   }
 })();
 
+/* ─── ABOUT CARD TILT ─── */
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const card = document.getElementById('about-card');
+  if (!card) return;
+
+  const inner = card.querySelector('.avatar-inner');
+  const holo  = card.querySelector('.hero-card__holo');
+  const gloss = card.querySelector('.hero-card__gloss');
+
+  let bounds;
+
+  function refreshBounds() { bounds = card.getBoundingClientRect(); }
+  refreshBounds();
+  window.addEventListener('resize', refreshBounds, { passive: true });
+  card.addEventListener('mouseenter', refreshBounds);
+
+  card.addEventListener('mousemove', function (e) {
+    if (!bounds) return;
+    const x = (e.clientX - bounds.left) / bounds.width;
+    const y = (e.clientY - bounds.top)  / bounds.height;
+
+    const rx = (y - 0.5) * -18;
+    const ry = (x - 0.5) *  18;
+    const sx = (x - 0.5) * -40;
+    const sy = (y - 0.5) *  40;
+
+    inner.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    card.style.setProperty('--mx',       `${x * 100}%`);
+    card.style.setProperty('--my',       `${y * 100}%`);
+    card.style.setProperty('--bgx',      `${x * 100}%`);
+    card.style.setProperty('--bgy',      `${y * 100}%`);
+    card.style.setProperty('--hue',      `${x * 360}`);
+    card.style.setProperty('--angle',    `${130 + ry}deg`);
+    card.style.setProperty('--shadow-x', `${sx}px`);
+    card.style.setProperty('--shadow-y', `${sy}px`);
+  });
+
+  card.addEventListener('mouseleave', function () {
+    inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    card.style.removeProperty('--shadow-x');
+    card.style.removeProperty('--shadow-y');
+  });
+})();
+
+/* ─── PRIVATE VAULT ─── */
+(function () {
+  const VAULT_SESSION_KEY = 'gs_vault_unlocked';
+  const _k = atob('dGhlc2VjcmV0ZG9vcg=='); // thesecretdoor
+
+  const trigger      = document.getElementById('vault-trigger');
+  const vaultModal   = document.getElementById('vault-modal');
+  const vaultClose   = document.getElementById('vault-modal-close');
+  const vaultForm    = document.getElementById('vault-form');
+  const vaultInput   = document.getElementById('vault-input');
+  const vaultError   = document.getElementById('vault-error');
+  const vaultPanel   = document.getElementById('vault-panel');
+  const panelScrim   = document.getElementById('vault-panel-scrim');
+  const panelClose   = document.getElementById('vault-panel-close');
+
+  function openModal() {
+    vaultInput.value = '';
+    vaultError.textContent = '';
+    vaultModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => vaultInput.focus(), 50);
+  }
+
+  function closeModal() {
+    vaultModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openPanel() {
+    vaultPanel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePanel() {
+    vaultPanel.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  let clickTimer = null;
+
+  trigger.addEventListener('click', () => {
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => {
+      if (sessionStorage.getItem(VAULT_SESSION_KEY) === '1') {
+        openPanel();
+      } else {
+        openModal();
+      }
+    }, 250);
+  });
+
+  trigger.addEventListener('dblclick', () => {
+    clearTimeout(clickTimer);
+    if (sessionStorage.getItem(VAULT_SESSION_KEY) === '1') {
+      sessionStorage.removeItem(VAULT_SESSION_KEY);
+      closePanel();
+    }
+  });
+
+  vaultClose.addEventListener('click', closeModal);
+  vaultModal.addEventListener('click', e => { if (e.target === vaultModal) closeModal(); });
+
+  vaultForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (vaultInput.value.trim() === _k) {
+      sessionStorage.setItem(VAULT_SESSION_KEY, '1');
+      closeModal();
+      openPanel();
+    } else {
+      vaultError.textContent = 'Incorrect password. Try again.';
+      vaultInput.value = '';
+      vaultInput.focus();
+    }
+  });
+
+  panelClose.addEventListener('click', closePanel);
+  panelScrim.addEventListener('click', closePanel);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (vaultModal.classList.contains('open')) closeModal();
+      if (vaultPanel.classList.contains('open')) closePanel();
+    }
+  });
+})();
+
 /* ─── NAV RESUME — hide while hero is visible ─── */
 (function () {
   const heroSection = document.getElementById('home');

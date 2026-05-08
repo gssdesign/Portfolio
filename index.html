@@ -409,9 +409,11 @@
     <div class="about-grid">
 
       <div class="avatar-wrap r">
-        <div class="avatar">
+        <div class="avatar" id="about-card">
           <div class="avatar-inner">
             <img src="painting.jpg" alt="Gurpreet Singh — Senior Product Designer" width="600" height="800">
+            <div class="hero-card__holo"></div>
+            <div class="hero-card__gloss"></div>
           </div>
         </div>
         <div class="avatar-chip">
@@ -767,7 +769,7 @@
 <footer>
   <!-- Footer bar -->
   <div class="foot-inner">
-    <div class="foot-brand">GS<span>.</span>Sandhu</div>
+    <button class="foot-brand" id="vault-trigger" aria-label="Private archive">GS<span>.</span>Sandhu</button>
     <div class="foot-social">
       <a href="https://linkedin.com/in/sandhuuxdesigner" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn</a>
       <a href="https://medium.com/@gssandhu1990" target="_blank" rel="noopener noreferrer" aria-label="Medium articles">Medium</a>
@@ -794,6 +796,50 @@
   </div>
 </div>
 
+<!-- ─── PASSWORD MODAL ─── -->
+<div class="vault-modal-bg" id="vault-modal" role="dialog" aria-modal="true" aria-labelledby="vault-modal-title">
+  <div class="vault-modal-card">
+    <button class="vault-modal-close" id="vault-modal-close" aria-label="Close">✕</button>
+    <div class="vault-lock-icon" aria-hidden="true">
+      <lottie-player src="diamond-necklace.json" background="transparent" speed="1" style="width:120px;height:120px" autoplay loop></lottie-player>
+    </div>
+    <h2 class="vault-modal-title" id="vault-modal-title">So… You Found It</h2>
+    <p class="vault-modal-sub">Few make it this far. Enter the magic words.</p>
+    <form class="vault-form" id="vault-form" autocomplete="off">
+      <input class="vault-input" id="vault-input" type="password" placeholder="Password" aria-label="Password" />
+      <p class="vault-error" id="vault-error" aria-live="polite"></p>
+      <button class="vault-submit" type="submit">Unlock Secrets</button>
+    </form>
+  </div>
+</div>
+
+<!-- ─── VAULT PANEL ─── -->
+<div class="vault-panel" id="vault-panel" role="dialog" aria-modal="true" aria-label="Private archive">
+  <div class="vault-panel-scrim" id="vault-panel-scrim"></div>
+  <div class="vault-panel-drawer">
+    <div class="vault-panel-head">
+      <span class="vault-panel-title">Private Archive</span>
+      <button class="vault-panel-close" id="vault-panel-close" aria-label="Close">✕</button>
+    </div>
+    <p class="vault-panel-sub">Extra case studies — not listed publicly.</p>
+    <ul class="vault-links" id="vault-links">
+      <li><a class="vault-link-item" href="#" target="_blank" rel="noopener noreferrer">
+        <div><span class="vault-link-label">Case Study 01</span><span class="vault-link-desc">Add your link here</span></div>
+        <svg class="vault-link-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a></li>
+      <li><a class="vault-link-item" href="#" target="_blank" rel="noopener noreferrer">
+        <div><span class="vault-link-label">Case Study 02</span><span class="vault-link-desc">Add your link here</span></div>
+        <svg class="vault-link-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a></li>
+      <li><a class="vault-link-item" href="#" target="_blank" rel="noopener noreferrer">
+        <div><span class="vault-link-label">Case Study 03</span><span class="vault-link-desc">Add your link here</span></div>
+        <svg class="vault-link-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a></li>
+    </ul>
+  </div>
+</div>
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <script src="app.js?v=2" defer></script>
 
 </body>
