@@ -1199,3 +1199,81 @@
   updateResumeVisibility();
   window.addEventListener('scroll', updateResumeVisibility, { passive: true });
 })();
+
+/* ─── CLICK TRACKING ─── */
+(function () {
+  function track(event_name, params) {
+    if (typeof gtag !== 'function') return;
+    gtag('event', event_name, params);
+  }
+
+  // Case study cards
+  document.querySelectorAll('.work-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const title = card.querySelector('.card-title, h3, h2');
+      track('case_study_click', {
+        case_study: title ? title.textContent.trim() : 'unknown'
+      });
+    });
+  });
+
+  // Resume download (nav + mobile + hero)
+  document.querySelectorAll('a[download]').forEach(link => {
+    link.addEventListener('click', () => {
+      track('resume_download', { source: link.closest('.mobile-menu') ? 'mobile_menu' : link.closest('#main') ? 'hero' : 'nav' });
+    });
+  });
+
+  // Contact links (email, phone, LinkedIn)
+  document.querySelectorAll('.contact-item a, .contact-link').forEach(link => {
+    link.addEventListener('click', () => {
+      track('contact_click', { contact_type: link.href.startsWith('mailto') ? 'email' : link.href.startsWith('tel') ? 'phone' : 'linkedin' });
+    });
+  });
+
+  // Social links in footer
+  document.querySelectorAll('.foot-social a').forEach(link => {
+    link.addEventListener('click', () => {
+      track('social_click', { platform: link.textContent.trim() });
+    });
+  });
+
+  // Hero CTA — View My Work
+  const heroCta = document.getElementById('hero-cta');
+  if (heroCta) heroCta.addEventListener('click', () => track('hero_cta_click', {}));
+
+  // Vault trigger
+  const vaultTrigger = document.getElementById('vault-trigger');
+  if (vaultTrigger) vaultTrigger.addEventListener('click', () => track('vault_trigger_click', {}));
+
+  // Vault unlock success
+  document.getElementById('vault-form')?.addEventListener('submit', () => {
+    const input = document.getElementById('vault-input');
+    if (input && input.value.trim() === atob('dGhlc2VjcmV0ZG9vcg==')) {
+      track('vault_unlocked', {});
+    }
+  });
+
+  // Section visibility tracking
+  const sections = [
+    { id: 'home',    label: 'Hero' },
+    { id: 'work',    label: 'Work' },
+    { id: 'about',   label: 'About' },
+    { id: 'contact', label: 'Contact' },
+  ];
+  const seen = new Set();
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !seen.has(entry.target.id)) {
+        seen.add(entry.target.id);
+        const label = sections.find(s => s.id === entry.target.id)?.label;
+        if (label) track('section_view', { section: label });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => {
+    const el = document.getElementById(s.id);
+    if (el) sectionObserver.observe(el);
+  });
+})();
