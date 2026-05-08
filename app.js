@@ -571,7 +571,7 @@
             <div class="mb-locked-icon" aria-hidden="true">🔒</div>
             <div class="mb-locked-title">Password Protected</div>
             <div class="mb-locked-sub">This case study is under NDA. Reach out directly and I'll share access.</div>
-            <a href="mailto:gssandhu1990@gmail.com?subject=Access Request: EMI Calculator Case Study" class="mb-locked-cta">Request Access →</a>
+            <a href="#contact" class="mb-locked-cta" id="locked-contact-link">Request Access →</a>
           </div>
         </div>`;
       document.querySelector('.modal-scroll').scrollTop = 0;
@@ -707,6 +707,19 @@
 
   mClose.addEventListener('click', closeModal);
   mScrim.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', e => {
+    const link = e.target.closest('#locked-contact-link');
+    if (!link) return;
+    e.preventDefault();
+    closeModal();
+    const contact = document.getElementById('contact');
+    if (!contact) return;
+    const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 68;
+    setTimeout(() => {
+      window.scrollTo({ top: contact.getBoundingClientRect().top + window.pageYOffset - navH - 8, behavior: 'smooth' });
+    }, 320);
+  });
 
   // Focus trap within modal
   modal.addEventListener('keydown', e => {
