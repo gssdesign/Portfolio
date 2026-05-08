@@ -1422,6 +1422,7 @@
       .work-grid { grid-template-columns: 1fr; }
       .card.wide { grid-column: span 1; }
       .card.wide .card-img { aspect-ratio: 16/9; }
+      .card-desc { display: none; }
 
       .tools-grid { grid-template-columns: repeat(3,1fr); }
     }
