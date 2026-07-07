@@ -763,9 +763,8 @@
       btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
     }
 
-    // Initialise: saved → system preference → dark
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initial = getTheme() || (systemDark ? 'dark' : 'light');
+    // Initialise: saved → light
+    const initial = getTheme() || 'light';
     applyTheme(initial);
 
     btn.addEventListener('click', function () {
